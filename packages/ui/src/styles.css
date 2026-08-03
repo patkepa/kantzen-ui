@@ -1,3 +1,4 @@
-@import "./theme.css";
-@import "./primitives.css";
-@import "./ui.css";
+@import "./theme/theme.css";
+@import "./primitives/styles.css";
+@import "./components/styles.css";
+@import "./site/styles.css";

@@ -28,5 +28,5 @@ export type {
   ForceGraphPosition,
   ForceGraphSimulationNode,
   RuntimeConfig,
-} from "./force-graph-canvas.js";
+} from "./force-graph-types.js";
 export type { ForceGraphPoint, ViewTransform } from "./force-graph-geometry.js";

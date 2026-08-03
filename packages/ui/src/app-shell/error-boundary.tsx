@@ -1,7 +1,7 @@
 import { Component, Fragment } from "react";
 import type { ErrorInfo, ReactNode } from "react";
-import { Button } from "../button.js";
-import { NonIdealState } from "../layout.js";
+import { Button } from "../primitives/button.js";
+import { NonIdealState } from "../primitives/layout.js";
 
 export type ErrorBoundaryContent = ReactNode | ((error: Error) => ReactNode);
 

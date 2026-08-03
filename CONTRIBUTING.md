@@ -15,6 +15,24 @@ npm run build:playground
 
 Use `npm run dev:playground` to preview the component playground locally.
 
+## Source Organization
+
+The `packages/ui/src` tree is organized by responsibility:
+
+- `theme` and `icons` contain shared design-system infrastructure.
+- `primitives` contains low-level reusable controls and overlays.
+- `components` contains composed controls used across products.
+- `site` contains public-site sections and layouts.
+- `app-shell`, `command-palette`, `graph`, and `interactions` are bounded feature modules.
+
+Keep small, single-file components flat inside their domain. Create a dedicated
+component folder only when it owns multiple implementation, style, or test
+files. Public entry points may use barrels; implementation files should import
+the concrete module they depend on.
+
+The base `styles.css` composes theme, primitive, component, and site styles.
+Feature stylesheets do not import it and must remain independently additive.
+
 ## Pull Requests
 
 - Keep changes scoped to the affected package module or example.

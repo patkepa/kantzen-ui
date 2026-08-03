@@ -1,0 +1,158 @@
+/* ── Navigation ── */
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px 0;
+}
+
+.nav-group {
+  margin-bottom: 8px;
+}
+
+.nav-group-label {
+  padding: 10px 20px 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--sidebar-muted-foreground);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.sidebar-menu {
+  background: transparent;
+  padding: 0 8px;
+}
+
+.sidebar-menu .bp6-menu-item {
+  margin-bottom: 1px;
+  color: var(--sidebar-muted-foreground);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease,
+    font-weight 0.12s ease;
+  padding: 8px 10px 8px 12px;
+  border-radius: 0;
+  border: none;
+  border-left: 2px solid transparent;
+}
+
+.sidebar-menu .bp6-menu-item:hover {
+  color: var(--sidebar-foreground);
+  background-color: hsla(0, 0%, 100%, 0.04);
+}
+
+.sidebar-menu .bp6-menu-item:active {
+  background-color: hsla(0, 0%, 100%, 0.08);
+  color: var(--sidebar-foreground);
+}
+
+.sidebar-menu .bp6-menu-item:focus,
+.sidebar-menu .bp6-menu-item:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.sidebar-menu .bp6-menu-item:not(.bp6-active):not(.sidebar-item-active):focus {
+  background-color: transparent;
+}
+
+.sidebar-menu .bp6-menu-item:focus-visible {
+  outline: 2px solid hsl(var(--accent));
+  outline-offset: -2px;
+  background-color: hsla(0, 0%, 100%, 0.05) !important;
+  color: var(--sidebar-foreground);
+}
+
+.app-sidebar[data-focus-region-keyboard="true"]
+  .sidebar-menu
+  .bp6-menu-item:focus {
+  outline: 2px solid hsl(var(--accent));
+  outline-offset: -2px;
+  background-color: hsla(0, 0%, 100%, 0.05) !important;
+  color: var(--sidebar-foreground);
+}
+
+.sidebar-menu .bp6-menu-item .bp6-menu-item-label,
+.sidebar-menu .bp6-menu-item .bp6-text-overflow-ellipsis {
+  color: inherit;
+}
+
+/* Active state */
+.sidebar-menu .bp6-menu-item.bp6-active,
+.sidebar-menu .bp6-menu-item.sidebar-item-active {
+  background-color: hsla(0, 0%, 100%, 0.08);
+  border-left-color: hsl(var(--accent));
+  color: var(--sidebar-foreground);
+  font-weight: 600;
+}
+
+.sidebar-menu .bp6-menu-item.bp6-active .bp6-menu-item-label,
+.sidebar-menu .bp6-menu-item.bp6-active .bp6-text-overflow-ellipsis,
+.sidebar-menu .bp6-menu-item.sidebar-item-active .bp6-menu-item-label,
+.sidebar-menu .bp6-menu-item.sidebar-item-active .bp6-text-overflow-ellipsis {
+  color: inherit;
+}
+
+.sidebar-menu .bp6-menu-item .bp6-icon {
+  color: currentColor;
+  pointer-events: none;
+}
+
+/* Nav item right section */
+.nav-item-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 20px;
+  min-width: 24px;
+}
+
+/* Count badge */
+.nav-count-badge {
+  font-size: 10px;
+  font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", monospace;
+  font-weight: 700;
+  min-width: 24px;
+  text-align: center;
+  background-color: hsla(0, 0%, 100%, 0.08) !important;
+  color: hsl(var(--foreground)) !important;
+  border: none !important;
+  padding: 0 6px !important;
+  line-height: 18px;
+  border-radius: 2px !important;
+}
+
+/* Expanded parent — subtle indicator, doesn't compete with active child */
+.sidebar-menu .bp6-menu-item.sidebar-item-expanded {
+  color: var(--sidebar-foreground);
+}
+
+/* Submenu */
+.sidebar-submenu {
+  margin-left: 20px;
+  border-left: 2px solid hsla(0, 0%, 100%, 0.06);
+  padding-left: 4px;
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
+
+.sidebar-submenu .bp6-menu-item {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  color: var(--sidebar-muted-foreground);
+}
+
+.sidebar-submenu .bp6-menu-item:hover {
+  color: var(--sidebar-foreground);
+}
+
+.sidebar-submenu .bp6-menu-item.sidebar-item-active {
+  color: hsl(var(--accent));
+}

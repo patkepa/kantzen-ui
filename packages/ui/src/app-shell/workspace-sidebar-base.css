@@ -1,0 +1,87 @@
+/* Workspace Sidebar - High Contrast, Data-Dense, Professional */
+
+.app-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 260px;
+  min-width: 60px;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.app-sidebar.collapsed {
+  width: 60px;
+}
+
+/* ── Header ── */
+.sidebar-header {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border-color);
+  overflow: hidden;
+  transition: border-color 0.15s ease;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.sidebar-header:hover {
+  background: var(--sidebar-accent);
+}
+
+.sidebar-header:focus-visible {
+  outline: 2px solid hsl(var(--accent));
+  outline-offset: -2px;
+}
+
+.app-sidebar[data-focus-region-keyboard="true"] .sidebar-header {
+  border-bottom-color: hsl(var(--accent));
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--sidebar-foreground);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.logo-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--accent)) 0%,
+    hsl(var(--accent-hover)) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
+}
+
+.sidebar-title {
+  white-space: nowrap;
+  font-weight: 700;
+  color: var(--sidebar-foreground);
+  -webkit-user-select: none;
+  user-select: none;
+}

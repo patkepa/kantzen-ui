@@ -59,6 +59,11 @@ assert.equal(typeof commandPalette.CommandPaletteShell, "function");
 assert.equal(typeof graph.ForceGraphCanvas, "object");
 assert.equal(typeof interactions.useRovingFocus, "function");
 assert.equal(typeof ThemeProvider, "function");
+assert.equal(ui.BottomToolbar, ui.WorkspaceBottomToolbar);
+assert.equal(ui.MainToolbar, ui.WorkspaceToolbar);
+assert.equal(appShell.AppShell, appShell.WorkspaceShell);
+assert.equal(appShell.AppSidebar, appShell.WorkspaceSidebar);
+assert.equal(ui.PopoverNext, ui.Popover);
 
 await Icons.load("add", 16);
 const html = renderToStaticMarkup(

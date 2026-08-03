@@ -49,7 +49,10 @@ import { useRovingFocus } from "@kantzen-ui/ui/interactions";
 import type { NavGroup } from "@kantzen-ui/ui/navigation";
 ```
 
-Feature styles are exported next to their modules:
+Feature styles are exported next to their modules. They extend the base
+stylesheet rather than importing it, so applications should import
+`@kantzen-ui/ui/styles.css` exactly once and then add only the feature styles
+they use:
 
 ```tsx
 import { WorkspaceShell } from "@kantzen-ui/ui/app-shell";
@@ -61,6 +64,11 @@ import "@kantzen-ui/ui/app-shell/styles.css";
 import "@kantzen-ui/ui/command-palette/styles.css";
 import "@kantzen-ui/ui/graph/styles.css";
 ```
+
+`WorkspaceShell`, `WorkspaceSidebar`, `WorkspaceToolbar`, and
+`WorkspaceBottomToolbar` are the canonical workspace component names. The
+older `AppShell`, `AppSidebar`, `MainToolbar`, and `BottomToolbar` exports remain
+available as deprecated compatibility aliases.
 
 ## Site components
 

@@ -1,4 +1,4 @@
-import { Alignment, Navbar, NavbarGroup } from "../layout.js";
+import { Alignment, Navbar, NavbarGroup } from "../primitives/layout.js";
 import type { ReactNode } from "react";
 
 export interface WorkspaceNavbarProps {

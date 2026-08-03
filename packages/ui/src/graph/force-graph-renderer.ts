@@ -8,7 +8,7 @@ import type {
   ForceGraphSimulationNode,
   ForceGraphCanvasSize,
   RuntimeConfig,
-} from "./force-graph-canvas.js";
+} from "./force-graph-types.js";
 
 const EMPTY_NODE_IDS = new Set<string>();
 const NODE_IMAGE_SIZE = 128;

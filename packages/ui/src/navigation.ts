@@ -1,4 +1,4 @@
-import type { IconName } from "./icons.js";
+import type { IconName } from "@blueprintjs/icons";
 
 export interface NavItem {
   label: string;

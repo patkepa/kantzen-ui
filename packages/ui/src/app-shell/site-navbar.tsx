@@ -5,12 +5,12 @@ import {
   type MouseEvent,
   type ReactNode,
 } from "react";
+import { Button } from "../primitives/button.js";
 import {
-  Button,
   Popover,
   PopoverInteractionKind,
   Position,
-} from "../primitives.js";
+} from "../primitives/popover.js";
 import type { SiteNavAction, SiteNavItem } from "../navigation.js";
 import { WorkspaceNavbar } from "./workspace-navbar.js";
 

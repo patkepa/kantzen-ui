@@ -28,8 +28,8 @@
       "import": "./dist/index.js"
     },
     "./icons": {
-      "types": "./dist/icons.d.ts",
-      "import": "./dist/icons.js"
+      "types": "./dist/icons/index.d.ts",
+      "import": "./dist/icons/index.js"
     },
     "./interactions": {
       "types": "./dist/interactions/index.d.ts",
@@ -40,12 +40,12 @@
       "import": "./dist/navigation.js"
     },
     "./primitives": {
-      "types": "./dist/primitives.d.ts",
-      "import": "./dist/primitives.js"
+      "types": "./dist/primitives/index.d.ts",
+      "import": "./dist/primitives/index.js"
     },
     "./theme": {
-      "types": "./dist/theme-provider.d.ts",
-      "import": "./dist/theme-provider.js"
+      "types": "./dist/theme/theme-provider.d.ts",
+      "import": "./dist/theme/theme-provider.js"
     },
     "./app-shell": {
       "types": "./dist/app-shell/index.d.ts",
@@ -63,11 +63,11 @@
     },
     "./graph/styles.css": "./dist/graph/graph.css",
     "./styles.css": "./dist/styles.css",
-    "./theme.css": "./dist/theme.css"
+    "./theme.css": "./dist/theme/theme.css"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json && cp src/*.css dist/ && mkdir -p dist/app-shell dist/command-palette dist/graph && cp src/app-shell/*.css dist/app-shell/ && cp src/command-palette/*.css dist/command-palette/ && cp src/graph/*.css dist/graph/",
-    "test": "node --test test/*.test.mjs"
+    "build": "tsc -p tsconfig.json && node ../../scripts/copy-package-css.mjs",
+    "test": "node --test"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org",

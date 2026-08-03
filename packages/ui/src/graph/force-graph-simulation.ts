@@ -4,7 +4,7 @@ import type {
   ForceGraphNode,
   ForceGraphPosition,
   ForceGraphSimulationNode,
-} from "./force-graph-canvas.js";
+} from "./force-graph-types.js";
 import { clamp } from "./force-graph-geometry.js";
 
 interface MutableValue<Value> {
