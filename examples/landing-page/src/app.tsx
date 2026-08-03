@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { ComponentGallery } from "./routes/component-gallery";
 import { LandingPage } from "./routes/landing-page";
+import { MotivationPage } from "./routes/motivation-page";
 import { SiteBlogPage } from "./routes/site-blog-page";
 import { SiteProductPage } from "./routes/site-product-page";
 import { StressPage } from "./routes/stress";
@@ -14,6 +15,7 @@ import { WorkspaceDemo } from "./routes/workspace-demo";
 
 const playgroundRoutes = [
   { label: "Landing page", href: "/" },
+  { label: "Motivation", href: "/motivation" },
   { label: "Product", href: "/site/product" },
   { label: "Workspace", href: "/workspace" },
   { label: "Blog", href: "/site/blog" },
@@ -39,6 +41,10 @@ export const App = () => {
     <>
       <Routes>
         <Route path="/" element={<LandingPage onNavigate={navigate} />} />
+        <Route
+          path="/motivation"
+          element={<MotivationPage onNavigate={navigate} />}
+        />
         <Route
           path="/site/product"
           element={
@@ -75,7 +81,8 @@ export const App = () => {
         <Route path="/workspace/*" element={<WorkspaceDemo />} />
       </Routes>
       {location.pathname === "/" ||
-      location.pathname === "/components" ? null : (
+      location.pathname === "/components" ||
+      location.pathname === "/motivation" ? null : (
         <PlaygroundSwitcher />
       )}
     </>

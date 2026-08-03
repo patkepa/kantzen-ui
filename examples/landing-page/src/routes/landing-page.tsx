@@ -7,7 +7,7 @@ import {
 } from "@kantzen-ui/ui/graph";
 import "./landing-page.css";
 
-interface LandingPageProps {
+export interface LandingPageProps {
   onNavigate: (href: string) => void;
 }
 
@@ -121,7 +121,7 @@ const workspaceTableRows = [
   ["Public site", "Planning", "May 06"],
 ] as const;
 
-function BrandMark({ compact = false }: { compact?: boolean }) {
+export function BrandMark({ compact = false }: { compact?: boolean }) {
   return (
     <span
       className={["landing-brand-mark", compact && "is-compact"]
@@ -151,7 +151,7 @@ function ArrowLink({
   );
 }
 
-function LandingHeader({ onNavigate }: LandingPageProps) {
+export function LandingHeader({ onNavigate }: LandingPageProps) {
   return (
     <header className="landing-header">
       <a className="landing-brand" href="#top" aria-label="Kantzen UI home">
@@ -162,7 +162,9 @@ function LandingHeader({ onNavigate }: LandingPageProps) {
         <button type="button" onClick={() => onNavigate("/components")}>
           Components
         </button>
-        <a href="#motivation">Motivation</a>
+        <button type="button" onClick={() => onNavigate("/motivation")}>
+          Motivation
+        </button>
         <button type="button" onClick={() => onNavigate("/workspace")}>
           Examples
         </button>
@@ -577,7 +579,7 @@ function SurfaceShowcase({ onNavigate }: LandingPageProps) {
   );
 }
 
-function CommandWorkbench({ onNavigate }: LandingPageProps) {
+export function CommandWorkbench({ onNavigate }: LandingPageProps) {
   const [selectedId, setSelectedId] = useState<string | null>("workspace");
 
   const selectCommand = useCallback((item: CommandItem) => {
@@ -770,7 +772,7 @@ function LandingCta({ onNavigate }: LandingPageProps) {
   );
 }
 
-function LandingFooter({ onNavigate }: LandingPageProps) {
+export function LandingFooter({ onNavigate }: LandingPageProps) {
   return (
     <footer className="landing-footer">
       <div className="landing-footer-brand">
@@ -788,7 +790,9 @@ function LandingFooter({ onNavigate }: LandingPageProps) {
         <button type="button" onClick={() => onNavigate("/components")}>
           Components
         </button>
-        <a href="#motivation">Motivation</a>
+        <button type="button" onClick={() => onNavigate("/motivation")}>
+          Motivation
+        </button>
         <button type="button" onClick={() => onNavigate("/workspace")}>
           Examples
         </button>
