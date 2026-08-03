@@ -10,6 +10,31 @@ export interface ContextMenuOptions {
   transitionDuration?: number;
 }
 
+const VIEWPORT_MARGIN = 8;
+
+export function getContextMenuPosition(
+  targetOffset: ContextMenuOptions["targetOffset"],
+  popoverSize: { height: number; width: number },
+  viewportSize: { height: number; width: number },
+) {
+  return {
+    left: Math.min(
+      Math.max(targetOffset.left, VIEWPORT_MARGIN),
+      Math.max(
+        VIEWPORT_MARGIN,
+        viewportSize.width - popoverSize.width - VIEWPORT_MARGIN,
+      ),
+    ),
+    top: Math.min(
+      Math.max(targetOffset.top, VIEWPORT_MARGIN),
+      Math.max(
+        VIEWPORT_MARGIN,
+        viewportSize.height - popoverSize.height - VIEWPORT_MARGIN,
+      ),
+    ),
+  };
+}
+
 let contextMenuRoot: Root | null = null;
 let contextMenuContainer: HTMLDivElement | null = null;
 
@@ -42,13 +67,20 @@ function ContextMenuOverlay({
   targetOffset,
 }: ContextMenuOptions) {
   const popoverRef = useRef<HTMLDivElement>(null);
+  const transitionRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const popover = popoverRef.current;
-    if (!popover) return;
+    const transition = transitionRef.current;
+    if (!popover || !transition) return;
     const bounds = popover.getBoundingClientRect();
-    popover.style.left = `${Math.min(targetOffset.left, window.innerWidth - bounds.width - 8)}px`;
-    popover.style.top = `${Math.min(targetOffset.top, window.innerHeight - bounds.height - 8)}px`;
+    const position = getContextMenuPosition(
+      targetOffset,
+      bounds,
+      { width: window.innerWidth, height: window.innerHeight },
+    );
+    transition.style.left = `${position.left}px`;
+    transition.style.top = `${position.top}px`;
     const firstItem = popover.querySelector<HTMLElement>(
       '[role="menuitem"]:not([aria-disabled="true"])',
     );
@@ -76,6 +108,7 @@ function ContextMenuOverlay({
           position: "fixed",
           top: targetOffset.top,
         }}
+        ref={transitionRef}
       >
         <div
           className={classes(

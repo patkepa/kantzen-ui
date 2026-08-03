@@ -4,6 +4,11 @@ on:
   push:
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Package version to publish (for example, 0.1.0)"
+        required: true
+        type: string
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -28,6 +33,14 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Verify release version
+        env:
+          RELEASE_VERSION: ${{ github.event_name == 'push' && github.ref_name || inputs.version }}
+        run: node scripts/verify-release-version.mjs "$RELEASE_VERSION"
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
 
       - name: Check formatting
         run: npm run format:check

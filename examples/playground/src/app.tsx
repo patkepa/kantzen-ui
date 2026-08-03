@@ -1,18 +1,19 @@
 import {
   NavLink,
-  Navigate,
   Route,
   Routes,
   useLocation,
   useNavigate,
 } from "react-router-dom";
 import { ComponentGallery } from "./routes/component-gallery";
+import { LandingPage } from "./routes/landing-page";
 import { SiteBlogPage } from "./routes/site-blog-page";
 import { SiteProductPage } from "./routes/site-product-page";
 import { StressPage } from "./routes/stress";
 import { WorkspaceDemo } from "./routes/workspace-demo";
 
 const playgroundRoutes = [
+  { label: "Home", href: "/" },
   { label: "Product", href: "/site/product" },
   { label: "Workspace", href: "/workspace" },
   { label: "Blog", href: "/site/blog" },
@@ -37,7 +38,7 @@ export const App = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navigate to="/site/product" replace />} />
+        <Route path="/" element={<LandingPage onNavigate={navigate} />} />
         <Route
           path="/site/product"
           element={
@@ -73,7 +74,7 @@ export const App = () => {
         />
         <Route path="/workspace/*" element={<WorkspaceDemo />} />
       </Routes>
-      <PlaygroundSwitcher />
+      {location.pathname === "/" ? null : <PlaygroundSwitcher />}
     </>
   );
 };

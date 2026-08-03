@@ -26,6 +26,7 @@ import {
   SIDEBAR_NAV_ITEM_SELECTOR,
   WorkspaceSidebarNavigation,
 } from "./workspace-sidebar-navigation.js";
+import { isWorkspacePathActive } from "./workspace-route-matching.js";
 
 export interface WorkspaceSidebarProps {
   isCollapsed?: boolean;
@@ -46,7 +47,7 @@ export interface WorkspaceSidebarProps {
 const hasActiveChild = (item: NavItem, pathname: string): boolean => {
   if (!item.children) return false;
   return item.children.some((child) =>
-    child.href === "/" ? pathname === "/" : pathname.startsWith(child.href),
+    isWorkspacePathActive(child.href, pathname),
   );
 };
 
@@ -95,10 +96,8 @@ export const WorkspaceSidebar = ({
     });
   };
 
-  const isActive = (href: string) => {
-    if (href === "/") return location.pathname === "/";
-    return location.pathname.startsWith(href);
-  };
+  const isActive = (href: string) =>
+    isWorkspacePathActive(href, location.pathname);
 
   const handleNavigation = (href: string) => {
     navigate(href);
