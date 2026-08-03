@@ -3,6 +3,8 @@
 Kantzen UI is Patryk Kępa's reusable React interface system for workspace
 applications and websites.
 
+Explore the [Kantzen UI landing page and component playground](https://patkepa.github.io/kantzen-ui/).
+
 The project publishes one npm package with subpath exports for optional,
 specialized capabilities. Blueprint Icons is the intentional icon provider;
 Kantzen UI does not depend on Blueprint Core.
@@ -47,6 +49,13 @@ npm run format:check
 
 Run `npm run dev:playground` for the visual component playground and
 `npm run pack:packages` to build the installable package tarball.
+
+## GitHub Pages
+
+Every push to `main` builds and deploys the landing-page workspace with GitHub
+Actions. For the first deployment, set **Settings → Pages → Build and
+deployment → Source** to **GitHub Actions**, then run the **Deploy Landing
+Page** workflow or push to `main`.
 
 ## Publishing
 

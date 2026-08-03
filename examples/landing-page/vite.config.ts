@@ -6,6 +6,7 @@ const fromRoot = (path: string) =>
   fileURLToPath(new URL(`../../${path}`, import.meta.url));
 
 export default defineConfig({
+  base: process.env.BASE_PATH ?? "/",
   plugins: [react()],
   resolve: {
     alias: [

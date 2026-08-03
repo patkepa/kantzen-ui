@@ -82,7 +82,7 @@ export function LandingHeader({
     <header className="landing-header">
       <a
         className="landing-brand"
-        href="/"
+        href={import.meta.env.BASE_URL}
         aria-label="Kantzen UI home"
         onClick={(event) => {
           event.preventDefault();
