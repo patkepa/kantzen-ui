@@ -1,0 +1,93 @@
+{
+  "name": "@kantzen-ui/ui",
+  "version": "0.1.0",
+  "description": "Kantzen UI components, application shells, command palette, and graph visualization.",
+  "license": "MIT",
+  "keywords": [
+    "kantzen-ui",
+    "react",
+    "ui",
+    "components",
+    "workspace",
+    "site"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./icons": {
+      "types": "./dist/icons/index.d.ts",
+      "import": "./dist/icons/index.js"
+    },
+    "./interactions": {
+      "types": "./dist/interactions/index.d.ts",
+      "import": "./dist/interactions/index.js"
+    },
+    "./navigation": {
+      "types": "./dist/navigation.d.ts",
+      "import": "./dist/navigation.js"
+    },
+    "./primitives": {
+      "types": "./dist/primitives/index.d.ts",
+      "import": "./dist/primitives/index.js"
+    },
+    "./theme": {
+      "types": "./dist/theme/theme-provider.d.ts",
+      "import": "./dist/theme/theme-provider.js"
+    },
+    "./app-shell": {
+      "types": "./dist/app-shell/index.d.ts",
+      "import": "./dist/app-shell/index.js"
+    },
+    "./app-shell/styles.css": "./dist/app-shell/styles.css",
+    "./command-palette": {
+      "types": "./dist/command-palette/index.d.ts",
+      "import": "./dist/command-palette/index.js"
+    },
+    "./command-palette/styles.css": "./dist/command-palette/command-palette.css",
+    "./graph": {
+      "types": "./dist/graph/index.d.ts",
+      "import": "./dist/graph/index.js"
+    },
+    "./graph/styles.css": "./dist/graph/graph.css",
+    "./styles.css": "./dist/styles.css",
+    "./theme.css": "./dist/theme/theme.css"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node ../../scripts/copy-package-css.mjs",
+    "test": "node --test"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patkepa/kantzen-ui.git",
+    "directory": "packages/ui"
+  },
+  "homepage": "https://github.com/patkepa/kantzen-ui/tree/main/packages/ui#readme",
+  "bugs": {
+    "url": "https://github.com/patkepa/kantzen-ui/issues"
+  },
+  "dependencies": {
+    "@blueprintjs/icons": "^6.2.0",
+    "cmdk": "^1.1.1"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1 || ^19.0.0",
+    "react-dom": "^18.3.1 || ^19.0.0"
+  }
+}

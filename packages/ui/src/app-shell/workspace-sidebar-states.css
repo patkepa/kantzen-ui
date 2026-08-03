@@ -1,0 +1,105 @@
+/* ── Scrollbar ── */
+.sidebar-nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 0;
+}
+
+/* ── Collapsed state ── */
+.app-sidebar.collapsed .sidebar-header {
+  padding: 0 16px;
+}
+
+.app-sidebar.collapsed .sidebar-logo {
+  justify-content: flex-start;
+}
+
+.app-sidebar.collapsed .logo-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.app-sidebar.collapsed .nav-group-label {
+  display: none;
+}
+
+.app-sidebar.collapsed .sidebar-menu {
+  padding: 0 8px;
+}
+
+.app-sidebar.collapsed .sidebar-menu .bp6-menu-item {
+  justify-content: center;
+  padding: 8px;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.app-sidebar.collapsed .sidebar-menu .bp6-menu-item .bp6-text-overflow-ellipsis,
+.app-sidebar.collapsed .sidebar-menu .bp6-menu-item .bp6-menu-item-label {
+  display: none;
+}
+
+.app-sidebar.collapsed .sidebar-menu .bp6-menu-item::before,
+.app-sidebar.collapsed .sidebar-menu .bp6-menu-item > * {
+  margin-right: 0;
+}
+
+.app-sidebar.collapsed .sidebar-menu .bp6-menu-item > .bp6-fill {
+  display: none;
+}
+
+.app-sidebar.collapsed .sidebar-menu .bp6-menu-item:hover {
+  transform: none;
+}
+
+.app-sidebar.collapsed .sidebar-menu .bp6-menu-item {
+  border-left: none;
+}
+
+.app-sidebar.collapsed .sidebar-menu .bp6-menu-item.bp6-active,
+.app-sidebar.collapsed .sidebar-menu .bp6-menu-item.sidebar-item-active {
+  border-left: none;
+}
+
+.app-sidebar.collapsed .sidebar-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px;
+}
+
+.app-sidebar.collapsed .sidebar-nav {
+  padding: 8px 0;
+}
+
+/* ── Menu divider ── */
+.bp6-menu-divider {
+  border-color: var(--border-color);
+  margin: 8px 12px;
+  opacity: 0.5;
+}
+
+/* ── Animations ── */
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar-menu .bp6-menu-item {
+    animation: slideInFromLeft 0.15s ease both;
+  }
+}

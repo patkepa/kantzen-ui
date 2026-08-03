@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noEmit": true,
+    "paths": {
+      "@kantzen-ui/ui/app-shell": ["../../packages/ui/src/app-shell/index.ts"],
+      "@kantzen-ui/ui/command-palette": [
+        "../../packages/ui/src/command-palette/index.ts"
+      ],
+      "@kantzen-ui/ui/graph": ["../../packages/ui/src/graph/index.ts"],
+      "@kantzen-ui/ui/interactions": [
+        "../../packages/ui/src/interactions/index.ts"
+      ],
+      "@kantzen-ui/ui/navigation": ["../../packages/ui/src/navigation.ts"],
+      "@kantzen-ui/ui": ["../../packages/ui/src/index.ts"]
+    },
+    "types": ["node", "vite/client"]
+  },
+  "include": ["src", "vite.config.ts"]
+}

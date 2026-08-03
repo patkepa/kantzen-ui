@@ -1,0 +1,92 @@
+/* ── Footer ── */
+.sidebar-footer {
+  padding: 12px;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--sidebar-bg);
+}
+
+.env-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+.env-text {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--sidebar-foreground);
+}
+
+.version-text {
+  font-size: 9px;
+  color: var(--sidebar-muted-foreground);
+}
+
+/* User avatar */
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border: 1px solid hsl(var(--accent) / 0.42);
+  border-radius: 50%;
+  background: hsl(var(--accent) / 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: hsl(var(--accent-hover));
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.collapsed-avatar {
+  padding: 0;
+  border: 0;
+  margin: 0 auto;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.user-details {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sidebar-foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.user-email {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--sidebar-muted-foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Animated email in footer trigger — collapses height + fades */
+.footer-email {
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.15s ease,
+    margin-top 0.2s ease;
+  margin-top: 0;
+}
+
+.footer-email.visible {
+  max-height: 20px;
+  opacity: 1;
+  margin-top: 0;
+}

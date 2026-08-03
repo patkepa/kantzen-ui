@@ -1,0 +1,173 @@
+/* ── Environment Switcher (Footer) ── */
+
+/* ── Footer Panel (Unified Profile + Env) ── */
+.footer-panel {
+  border: 1px solid var(--border-color);
+  border-radius: 0;
+  background-color: var(--sidebar-accent);
+  transition: border-color 0.15s ease;
+}
+
+.footer-panel.open {
+  border-color: hsla(0, 0%, 100%, 0.12);
+}
+
+.footer-panel-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--sidebar-foreground);
+  transition: background-color 0.15s ease;
+}
+
+.footer-panel-trigger:hover {
+  background-color: var(--sidebar-accent-hover);
+}
+
+.footer-trigger-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.footer-panel-caret {
+  color: var(--sidebar-muted-foreground);
+  flex-shrink: 0;
+}
+
+.footer-panel-content {
+  padding: 4px 10px 8px;
+}
+
+.footer-section-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--sidebar-muted-foreground);
+  letter-spacing: 0.1em;
+  padding: 6px 0 4px;
+  opacity: 0.6;
+}
+
+.footer-env-options {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.footer-divider {
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 8px 0;
+}
+
+.footer-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sidebar-muted-foreground);
+  transition:
+    background-color 0.1s ease,
+    border-color 0.1s ease,
+    color 0.1s ease;
+}
+
+.footer-action:hover {
+  background-color: var(--sidebar-accent-hover);
+  border-color: var(--border-color);
+  color: var(--sidebar-foreground);
+}
+
+.footer-env-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px 6px;
+  max-height: 30px;
+  opacity: 1;
+  overflow: hidden;
+  transition:
+    max-height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.15s ease,
+    padding 0.2s ease;
+}
+
+.footer-env-badge.hidden {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Collapsed avatar popover */
+.collapsed-popover {
+  padding: 10px;
+  min-width: 200px;
+  background-color: var(--sidebar-bg);
+  border-radius: 0;
+}
+
+.collapsed-popover-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 2px;
+}
+
+/* Environment Options */
+
+.env-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--sidebar-muted-foreground);
+  font-size: 12px;
+  transition:
+    background-color 0.1s ease,
+    border-color 0.1s ease,
+    color 0.1s ease;
+}
+
+.env-option:hover {
+  background-color: var(--sidebar-accent);
+  border-color: var(--border-color);
+  color: var(--sidebar-foreground);
+}
+
+.env-option.active {
+  background-color: hsl(var(--accent) / 0.1);
+  border-color: hsl(var(--accent) / 0.2);
+  color: var(--sidebar-foreground);
+}
+
+.env-option-label {
+  flex: 1;
+  text-align: left;
+}
+
+.env-option-check {
+  color: hsl(var(--accent));
+}

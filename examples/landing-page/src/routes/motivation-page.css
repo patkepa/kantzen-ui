@@ -1,0 +1,544 @@
+.motivation-page {
+  --motivation-grid: rgba(255, 255, 255, 0.045);
+}
+
+.motivation-page .landing-header {
+  position: sticky;
+  top: 0;
+}
+
+.motivation-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(360px, 0.8fr);
+  min-height: calc(100vh - 74px);
+  overflow: hidden;
+  border-bottom: 1px solid var(--landing-line);
+  background:
+    linear-gradient(
+      90deg,
+      transparent calc(67% - 1px),
+      var(--landing-line) 67%,
+      transparent calc(67% + 1px)
+    ),
+    linear-gradient(var(--motivation-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--motivation-grid) 1px, transparent 1px), #060606;
+  background-size:
+    auto,
+    72px 72px,
+    72px 72px,
+    auto;
+}
+
+.motivation-hero::after {
+  position: absolute;
+  right: -10vw;
+  bottom: -36vw;
+  width: 72vw;
+  height: 72vw;
+  border: 1px solid rgba(91, 143, 223, 0.32);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 9vw rgba(91, 143, 223, 0.025),
+    0 0 0 18vw rgba(91, 143, 223, 0.018);
+  content: "";
+  pointer-events: none;
+}
+
+.motivation-hero-copy,
+.motivation-hero-thesis {
+  position: relative;
+  z-index: 2;
+}
+
+.motivation-hero-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 110px clamp(32px, 6vw, 104px) 150px;
+}
+
+.motivation-hero-copy h1 {
+  margin: 0;
+  color: var(--landing-text);
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(68px, 7.2vw, 126px);
+  font-stretch: condensed;
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.068em;
+}
+
+.motivation-hero-copy > p {
+  max-width: 650px;
+  margin: 42px 0 38px;
+  color: #b5b6bb;
+  font-size: clamp(19px, 1.6vw, 25px);
+  line-height: 1.5;
+  letter-spacing: -0.025em;
+}
+
+.motivation-hero-copy .bp6-button,
+.motivation-cta .bp6-button {
+  min-height: 54px;
+  padding: 0 24px;
+  border-radius: 0 !important;
+  font-size: 14px;
+}
+
+.motivation-hero-thesis {
+  align-self: end;
+  max-width: 540px;
+  margin: 0 7vw 15vh 4vw;
+  padding-top: 24px;
+  border-top: 2px solid var(--landing-blue-strong);
+}
+
+.motivation-hero-thesis > span,
+.motivation-hero-index,
+.motivation-principle-panel > span,
+.motivation-cta > div > span {
+  color: #6da0f5;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.07em;
+}
+
+.motivation-hero-thesis > p {
+  margin: 20px 0 44px;
+  color: #e0e1e3;
+  font-size: clamp(20px, 1.8vw, 28px);
+  line-height: 1.48;
+  letter-spacing: -0.03em;
+}
+
+.motivation-coordinate {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  color: #84878d;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 9px;
+  letter-spacing: 0.05em;
+}
+
+.motivation-coordinate .landing-brand-mark {
+  width: 24px;
+  height: 27px;
+  color: #f6f6f4;
+}
+
+.motivation-coordinate i {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.motivation-hero-index {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  min-height: 65px;
+  padding: 25px clamp(32px, 6vw, 104px);
+  border-top: 1px solid var(--landing-line);
+  color: #96999f;
+}
+
+.motivation-principles,
+.motivation-detail-section,
+.motivation-commitments {
+  position: relative;
+  padding: clamp(96px, 10vw, 170px) clamp(28px, 5vw, 78px);
+  border-bottom: 1px solid var(--landing-line);
+  background: #060606;
+}
+
+.motivation-principles > header,
+.motivation-commitments > header {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.55fr) minmax(0, 1.45fr);
+  gap: 60px;
+  align-items: start;
+}
+
+.motivation-principles h2,
+.motivation-detail-intro h2,
+.motivation-commitments h2,
+.motivation-cta h2 {
+  margin: 0;
+  color: var(--landing-text);
+  font-size: clamp(48px, 5.5vw, 88px);
+  font-weight: 480;
+  line-height: 0.98;
+  letter-spacing: -0.058em;
+}
+
+.motivation-principle-browser {
+  display: grid;
+  grid-template-columns: minmax(360px, 0.85fr) minmax(420px, 1.15fr);
+  min-height: 500px;
+  margin-top: 80px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: #080808;
+  box-shadow: 0 42px 90px rgba(0, 0, 0, 0.38);
+}
+
+.motivation-principle-list {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  border-right: 1px solid var(--landing-line);
+}
+
+.motivation-principle-list button {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 28px;
+  border: 0;
+  border-bottom: 1px solid var(--landing-line);
+  color: #96999f;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.motivation-principle-list button:last-child {
+  border-bottom: 0;
+}
+
+.motivation-principle-list button:hover,
+.motivation-principle-list button.is-active {
+  color: #fff;
+  background: rgba(91, 143, 223, 0.09);
+}
+
+.motivation-principle-list button.is-active {
+  box-shadow: inset 3px 0 var(--landing-blue-strong);
+}
+
+.motivation-principle-list button > span {
+  color: #6da0f5;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+}
+
+.motivation-principle-list strong {
+  max-width: 400px;
+  font-size: clamp(18px, 1.6vw, 25px);
+  font-weight: 510;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+.motivation-principle-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(40px, 6vw, 92px);
+  background:
+    linear-gradient(var(--motivation-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--motivation-grid) 1px, transparent 1px), #0a0a0a;
+  background-size: 52px 52px;
+}
+
+.motivation-principle-panel h3 {
+  max-width: 680px;
+  margin: 26px 0 30px;
+  color: #f2f2f1;
+  font-size: clamp(34px, 3.4vw, 56px);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.05em;
+}
+
+.motivation-principle-panel p {
+  max-width: 620px;
+  margin: 0;
+  color: #a9abb0;
+  font-size: 16px;
+  line-height: 1.72;
+}
+
+.motivation-principle-progress {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 54px;
+}
+
+.motivation-principle-progress i {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.motivation-principle-progress i.is-active {
+  background: var(--landing-blue-strong);
+}
+
+.motivation-detail-section {
+  display: grid;
+  gap: 68px;
+}
+
+.motivation-detail-intro {
+  display: grid;
+  grid-template-columns: 0.7fr 1.45fr 0.85fr;
+  gap: clamp(36px, 5vw, 82px);
+  align-items: end;
+}
+
+.motivation-detail-intro > p {
+  margin: 0 0 4px;
+  color: #aaacb1;
+  font-size: 16px;
+  line-height: 1.72;
+}
+
+.motivation-detail-section .momentum-workbench {
+  min-height: 450px;
+}
+
+.motivation-commitment-list {
+  margin-top: 80px;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.motivation-commitment-list article {
+  display: grid;
+  grid-template-columns: minmax(80px, 0.3fr) minmax(280px, 0.9fr) minmax(
+      300px,
+      1fr
+    );
+  gap: 40px;
+  align-items: center;
+  min-height: 142px;
+  border-bottom: 1px solid var(--landing-line);
+}
+
+.motivation-commitment-list article > span {
+  color: #6da0f5;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 12px;
+}
+
+.motivation-commitment-list h3 {
+  margin: 0;
+  color: #eeeeec;
+  font-size: clamp(24px, 2.1vw, 34px);
+  font-weight: 510;
+  letter-spacing: -0.035em;
+}
+
+.motivation-commitment-list p {
+  max-width: 600px;
+  margin: 0;
+  color: #9fa1a7;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.motivation-cta {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr auto;
+  gap: clamp(36px, 6vw, 100px);
+  align-items: center;
+  min-height: 300px;
+  padding: 60px clamp(36px, 7vw, 110px);
+  overflow: hidden;
+  color: #fff;
+  background: var(--landing-blue-strong);
+}
+
+.motivation-cta::after {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 80% 0%,
+      rgba(255, 255, 255, 0.16),
+      transparent 38%
+    ),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.13) 1px, transparent 1px);
+  background-size:
+    auto,
+    25% 100%;
+  content: "";
+  pointer-events: none;
+}
+
+.motivation-cta > * {
+  position: relative;
+  z-index: 1;
+}
+
+.motivation-cta > div > span {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.motivation-cta h2 {
+  margin-top: 14px;
+  color: #fff;
+}
+
+.motivation-cta > p {
+  max-width: 430px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 18px;
+  line-height: 1.58;
+}
+
+.motivation-cta .bp6-button {
+  border-color: #fff;
+  color: #111;
+  background: #fff;
+  white-space: nowrap;
+}
+
+@media (max-width: 1200px) {
+  .motivation-hero {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+
+  .motivation-principles > header,
+  .motivation-commitments > header {
+    grid-template-columns: 0.45fr 1.55fr;
+  }
+
+  .motivation-detail-intro {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .motivation-detail-intro > p {
+    grid-column: 2;
+  }
+
+  .motivation-cta {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .motivation-cta .bp6-button {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 820px) {
+  .motivation-hero {
+    display: block;
+    min-height: auto;
+    padding-bottom: 64px;
+    background-size: 48px 48px;
+  }
+
+  .motivation-hero-copy {
+    padding: 92px 24px 70px;
+  }
+
+  .motivation-hero-copy h1 {
+    font-size: clamp(58px, 15vw, 88px);
+  }
+
+  .motivation-hero-thesis {
+    max-width: none;
+    margin: 0 24px 70px;
+  }
+
+  .motivation-hero-index {
+    padding: 24px;
+  }
+
+  .motivation-principles,
+  .motivation-detail-section,
+  .motivation-commitments {
+    padding: 88px 24px;
+  }
+
+  .motivation-principles > header,
+  .motivation-commitments > header,
+  .motivation-detail-intro {
+    display: block;
+  }
+
+  .motivation-principles h2,
+  .motivation-detail-intro h2,
+  .motivation-commitments h2 {
+    font-size: clamp(46px, 12vw, 68px);
+  }
+
+  .motivation-principle-browser {
+    display: block;
+    min-height: 0;
+    margin-top: 54px;
+  }
+
+  .motivation-principle-list {
+    border-right: 0;
+    border-bottom: 1px solid var(--landing-line);
+  }
+
+  .motivation-principle-list button {
+    min-height: 112px;
+    padding: 22px 18px;
+  }
+
+  .motivation-principle-panel {
+    min-height: 460px;
+    padding: 42px 24px;
+  }
+
+  .motivation-detail-intro > p {
+    margin-top: 28px;
+  }
+
+  .motivation-detail-section {
+    overflow: hidden;
+  }
+
+  .motivation-detail-section .momentum-workbench {
+    grid-template-columns: repeat(4, minmax(270px, 1fr));
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .motivation-detail-section .momentum-workbench > section {
+    scroll-snap-align: start;
+  }
+
+  .motivation-commitment-list {
+    margin-top: 54px;
+  }
+
+  .motivation-commitment-list article {
+    grid-template-columns: 42px 1fr;
+    gap: 16px;
+    padding: 28px 0;
+  }
+
+  .motivation-commitment-list p {
+    grid-column: 2;
+  }
+
+  .motivation-cta {
+    display: block;
+    padding: 64px 24px;
+  }
+
+  .motivation-cta > p {
+    margin: 28px 0 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motivation-page * {
+    scroll-behavior: auto !important;
+  }
+}
