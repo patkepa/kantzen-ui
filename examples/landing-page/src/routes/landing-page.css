@@ -125,6 +125,12 @@
   color: #8bb4ff;
 }
 
+.landing-nav button[aria-current="page"] {
+  color: #8bb4ff;
+  background: rgba(91, 143, 223, 0.1);
+  box-shadow: inset 0 -2px 0 var(--landing-blue);
+}
+
 .landing-header .landing-header-action {
   align-self: center;
   justify-self: end;

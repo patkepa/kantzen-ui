@@ -1,0 +1,520 @@
+.examples-page {
+  min-height: 100vh;
+}
+
+.examples-main {
+  position: relative;
+  padding: clamp(64px, 8vw, 118px) clamp(24px, 5vw, 76px)
+    clamp(72px, 9vw, 132px);
+  border-bottom: 1px solid var(--landing-line);
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0,
+      transparent calc(50% - 0.5px),
+      var(--landing-line-soft) 50%,
+      transparent calc(50% + 0.5px)
+    ),
+    var(--landing-bg);
+}
+
+.examples-main::before,
+.examples-main::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  content: "";
+  background: var(--landing-line-soft);
+}
+
+.examples-main::before {
+  left: clamp(12px, 2vw, 30px);
+}
+
+.examples-main::after {
+  right: clamp(12px, 2vw, 30px);
+}
+
+.examples-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.72fr);
+  align-items: end;
+  gap: 28px 64px;
+  max-width: 1460px;
+  margin: 0 auto clamp(48px, 6vw, 84px);
+}
+
+.examples-intro .landing-section-label {
+  grid-column: 1 / -1;
+}
+
+.examples-intro h1 {
+  max-width: 820px;
+  margin: 0;
+  color: var(--landing-text);
+  font-size: clamp(46px, 6.1vw, 92px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.examples-intro p {
+  max-width: 480px;
+  margin: 0 0 4px;
+  color: var(--landing-muted);
+  font-size: clamp(16px, 1.3vw, 20px);
+  line-height: 1.65;
+}
+
+.examples-panel {
+  max-width: 1460px;
+  margin: 0 auto;
+  border: 1px solid var(--landing-line);
+  background: var(--landing-surface);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+}
+
+.examples-panel-header {
+  display: flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--landing-line);
+  color: var(--landing-muted);
+  font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.examples-panel-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.68fr) minmax(0, 1.6fr);
+  min-height: 600px;
+}
+
+.examples-index {
+  border-right: 1px solid var(--landing-line);
+}
+
+.examples-index button {
+  display: grid;
+  width: 100%;
+  min-height: 96px;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  border: 0;
+  border-bottom: 1px solid var(--landing-line-soft);
+  color: var(--landing-text);
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.examples-index button:last-child {
+  border-bottom: 0;
+}
+
+.examples-index button:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.examples-index button.is-selected {
+  background: rgba(91, 143, 223, 0.1);
+  box-shadow: inset 3px 0 var(--landing-blue);
+}
+
+.examples-index button > svg {
+  color: #6d717a;
+  transition: color 160ms ease;
+}
+
+.examples-index button.is-selected > svg {
+  color: #8bb4ff;
+}
+
+.examples-index-number,
+.examples-index-copy small,
+.examples-detail-meta {
+  font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.examples-index-number {
+  align-self: start;
+  padding-top: 2px;
+  color: #6d717a;
+  font-size: 11px;
+}
+
+.examples-index-copy {
+  display: grid;
+  gap: 7px;
+}
+
+.examples-index-copy strong {
+  font-size: 15px;
+  font-weight: 550;
+}
+
+.examples-index-copy small {
+  color: var(--landing-muted);
+  font-size: 9px;
+}
+
+.examples-detail {
+  display: grid;
+  min-width: 0;
+  grid-template-rows: minmax(300px, 1fr) auto;
+}
+
+.examples-preview {
+  position: relative;
+  min-height: 360px;
+  padding: clamp(24px, 4vw, 56px);
+  overflow: hidden;
+  border-bottom: 1px solid var(--landing-line);
+  background-color: #080808;
+  background-image:
+    linear-gradient(var(--landing-line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--landing-line-soft) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.examples-preview::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 78% 20%,
+    rgba(46, 109, 215, 0.2),
+    transparent 38%
+  );
+}
+
+.examples-preview-bar,
+.examples-preview-body {
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(7, 7, 7, 0.94);
+}
+
+.examples-preview-bar {
+  display: flex;
+  height: 36px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 13px;
+  border-bottom: 0;
+}
+
+.examples-preview-bar span {
+  width: 5px;
+  height: 5px;
+  background: #4b4f57;
+}
+
+.examples-preview-bar span:first-child {
+  background: var(--landing-blue);
+}
+
+.examples-preview-body {
+  display: grid;
+  min-height: 240px;
+  grid-template-columns: 58px minmax(0, 1fr);
+}
+
+.examples-preview-rail {
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  gap: 13px;
+  padding-top: 17px;
+  border-right: 1px solid var(--landing-line-soft);
+}
+
+.examples-preview-rail span {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #34363b;
+}
+
+.examples-preview-rail span:first-child {
+  border-color: var(--landing-blue);
+  background: rgba(46, 109, 215, 0.28);
+}
+
+.examples-preview-canvas {
+  padding: clamp(22px, 3vw, 40px);
+}
+
+.examples-preview-heading {
+  width: min(62%, 340px);
+  height: 22px;
+  margin-bottom: 15px;
+  background: #e4e5e8;
+}
+
+.examples-preview-copy {
+  width: min(78%, 430px);
+  height: 7px;
+  margin-bottom: 8px;
+  background: #555861;
+}
+
+.examples-preview-copy.is-short {
+  width: min(52%, 280px);
+}
+
+.examples-preview-content {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 38px;
+}
+
+.examples-preview-content span {
+  min-height: 72px;
+  border: 1px solid #34363b;
+  background: #111214;
+}
+
+.examples-preview--product .examples-preview-body,
+.examples-preview--editorial .examples-preview-body,
+.examples-preview--stress .examples-preview-body {
+  grid-template-columns: 1fr;
+}
+
+.examples-preview--product .examples-preview-rail,
+.examples-preview--editorial .examples-preview-rail,
+.examples-preview--stress .examples-preview-rail {
+  display: none;
+}
+
+.examples-preview--product .examples-preview-heading {
+  width: min(48%, 300px);
+  height: 38px;
+}
+
+.examples-preview--product .examples-preview-content span:first-child {
+  border-color: var(--landing-blue);
+  background: rgba(46, 109, 215, 0.32);
+}
+
+.examples-preview--editorial .examples-preview-heading {
+  width: min(72%, 470px);
+  height: 30px;
+}
+
+.examples-preview--editorial .examples-preview-content {
+  grid-template-columns: 1.3fr 1fr;
+}
+
+.examples-preview--editorial .examples-preview-content span:last-child {
+  display: none;
+}
+
+.examples-preview--stress .examples-preview-heading {
+  width: min(88%, 580px);
+}
+
+.examples-preview--stress .examples-preview-copy,
+.examples-preview--stress .examples-preview-copy.is-short {
+  width: 91%;
+}
+
+.examples-preview--stress .examples-preview-content {
+  grid-template-columns: 1.4fr 0.8fr 1.2fr;
+}
+
+.examples-detail-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.95fr) auto;
+  align-items: end;
+  gap: 18px 36px;
+  padding: clamp(24px, 3vw, 40px);
+}
+
+.examples-detail-meta {
+  display: flex;
+  grid-column: 1 / -1;
+  gap: 12px;
+  color: #8bb4ff;
+  font-size: 10px;
+}
+
+.examples-detail-meta span:first-child::after {
+  margin-left: 12px;
+  color: #555861;
+  content: "/";
+}
+
+.examples-detail-copy h2 {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 46px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.examples-detail-copy p {
+  max-width: 480px;
+  margin: 0;
+  color: var(--landing-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.examples-detail-copy .bp6-button {
+  min-height: 48px;
+  padding: 0 18px;
+  white-space: nowrap;
+}
+
+@media (max-width: 980px) {
+  .examples-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .examples-intro .landing-section-label {
+    grid-column: auto;
+  }
+
+  .examples-panel-layout {
+    grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1fr);
+  }
+
+  .examples-detail-copy {
+    grid-template-columns: 1fr auto;
+  }
+
+  .examples-detail-copy p {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .examples-main {
+    padding: 54px 18px 72px;
+    background: var(--landing-bg);
+  }
+
+  .examples-intro {
+    margin-bottom: 38px;
+  }
+
+  .examples-intro h1 {
+    font-size: clamp(42px, 14vw, 64px);
+  }
+
+  .examples-panel-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .examples-index {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-right: 0;
+    border-bottom: 1px solid var(--landing-line);
+  }
+
+  .examples-index button {
+    min-height: 84px;
+    grid-template-columns: 26px minmax(0, 1fr);
+    padding: 14px;
+    border-right: 1px solid var(--landing-line-soft);
+  }
+
+  .examples-index button:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .examples-index button:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+
+  .examples-index button > svg {
+    display: none;
+  }
+
+  .examples-preview {
+    min-height: 290px;
+    padding: 24px;
+  }
+
+  .examples-preview-body {
+    min-height: 200px;
+  }
+
+  .examples-detail-copy {
+    grid-template-columns: 1fr;
+  }
+
+  .examples-detail-copy p,
+  .examples-detail-meta {
+    grid-column: auto;
+  }
+
+  .examples-detail-copy .bp6-button {
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 460px) {
+  .examples-index {
+    grid-template-columns: 1fr;
+  }
+
+  .examples-index button,
+  .examples-index button:nth-child(2n),
+  .examples-index button:nth-last-child(-n + 2) {
+    border-right: 0;
+    border-bottom: 1px solid var(--landing-line-soft);
+  }
+
+  .examples-index button:last-child {
+    border-bottom: 0;
+  }
+
+  .examples-panel-header {
+    padding: 0 14px;
+  }
+
+  .examples-preview {
+    padding: 14px;
+  }
+
+  .examples-preview-body {
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+
+  .examples-preview-canvas {
+    padding: 22px 18px;
+  }
+
+  .examples-preview-content {
+    margin-top: 28px;
+  }
+
+  .examples-detail-copy {
+    padding: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .examples-index button,
+  .examples-index button > svg {
+    transition: none;
+  }
+}

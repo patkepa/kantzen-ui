@@ -11,6 +11,10 @@ export interface LandingPageProps {
   onNavigate: (href: string) => void;
 }
 
+interface LandingHeaderProps extends LandingPageProps {
+  activeItem?: "components" | "motivation" | "examples";
+}
+
 interface GraphNode extends ForceGraphNode {
   kind: "core" | "service";
 }
@@ -151,7 +155,7 @@ function ArrowLink({
   );
 }
 
-export function LandingHeader({ onNavigate }: LandingPageProps) {
+export function LandingHeader({ activeItem, onNavigate }: LandingHeaderProps) {
   return (
     <header className="landing-header">
       <a className="landing-brand" href="#top" aria-label="Kantzen UI home">
@@ -159,13 +163,25 @@ export function LandingHeader({ onNavigate }: LandingPageProps) {
         <span>KANTZEN UI</span>
       </a>
       <nav className="landing-nav" aria-label="Landing page navigation">
-        <button type="button" onClick={() => onNavigate("/components")}>
+        <button
+          aria-current={activeItem === "components" ? "page" : undefined}
+          type="button"
+          onClick={() => onNavigate("/components")}
+        >
           Components
         </button>
-        <button type="button" onClick={() => onNavigate("/motivation")}>
+        <button
+          aria-current={activeItem === "motivation" ? "page" : undefined}
+          type="button"
+          onClick={() => onNavigate("/motivation")}
+        >
           Motivation
         </button>
-        <button type="button" onClick={() => onNavigate("/workspace")}>
+        <button
+          aria-current={activeItem === "examples" ? "page" : undefined}
+          type="button"
+          onClick={() => onNavigate("/examples")}
+        >
           Examples
         </button>
       </nav>
@@ -793,7 +809,7 @@ export function LandingFooter({ onNavigate }: LandingPageProps) {
         <button type="button" onClick={() => onNavigate("/motivation")}>
           Motivation
         </button>
-        <button type="button" onClick={() => onNavigate("/workspace")}>
+        <button type="button" onClick={() => onNavigate("/examples")}>
           Examples
         </button>
         <a

@@ -176,8 +176,8 @@ export const ComponentGallery = ({ onNavigate }: SiteRouteProps) => {
           <button className="is-active" type="button">
             Components
           </button>
-          <button type="button" onClick={() => onNavigate("/workspace")}>
-            Workspace
+          <button type="button" onClick={() => onNavigate("/examples")}>
+            Examples
           </button>
           <a
             href="https://github.com/patkepa/kantzen-ui"
