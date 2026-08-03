@@ -8,6 +8,10 @@
   --wiki-muted: #999ca3;
   --wiki-blue: #5b8fdf;
   --wiki-blue-strong: #2e6dd7;
+  --landing-line: var(--wiki-line);
+  --landing-text: var(--wiki-text);
+  --landing-blue: var(--wiki-blue);
+  --landing-blue-strong: var(--wiki-blue-strong);
   min-height: 100svh;
   color: var(--wiki-text);
   background: var(--wiki-bg);
@@ -34,115 +38,18 @@
   outline-offset: -2px;
 }
 
-.component-wiki-header {
+.component-wiki > .landing-header {
   position: fixed;
   z-index: 60;
   top: 0;
   right: 0;
   left: 0;
-  display: grid;
-  grid-template-columns: 268px minmax(0, 1fr) 268px;
-  align-items: stretch;
-  height: 60px;
-  border-bottom: 1px solid var(--wiki-line);
-  background: rgba(6, 6, 6, 0.96);
-  backdrop-filter: blur(18px);
-}
-
-.component-wiki-brand {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  padding: 0 18px;
-  border: 0;
-  border-right: 1px solid var(--wiki-line);
-  color: var(--wiki-text);
-  background: transparent;
-  font-size: 14px;
-  font-weight: 680;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-}
-
-.component-wiki-brand-mark {
-  display: grid;
-  width: 29px;
-  height: 32px;
-  place-items: center;
-}
-
-.component-wiki-brand-mark svg {
-  width: 100%;
-  height: 100%;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: square;
-  stroke-linejoin: miter;
-  stroke-width: 1.3;
-}
-
-.component-wiki-header > nav {
-  display: flex;
-  justify-content: center;
-  min-width: 0;
-}
-
-.component-wiki-header > nav button,
-.component-wiki-header > nav a {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0 20px;
-  border: 0;
-  color: #c9cacf;
-  background: transparent;
-  font-size: 12px;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.component-wiki-header > nav button:hover,
-.component-wiki-header > nav a:hover,
-.component-wiki-header > nav .is-active {
-  color: var(--wiki-text);
-}
-
-.component-wiki-header > nav .is-active::after {
-  position: absolute;
-  right: 0;
-  bottom: -1px;
-  left: 0;
-  height: 2px;
-  background: var(--wiki-blue-strong);
-  content: "";
-}
-
-.component-wiki-header-tools {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 2px;
-  padding: 0 18px;
-  border-left: 1px solid var(--wiki-line);
-}
-
-.component-wiki-header-tools .bp6-button {
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--wiki-line-soft);
-  border-radius: 0 !important;
-}
-
-.component-wiki-mobile-menu,
-.component-wiki-mobile-search {
-  display: none !important;
 }
 
 .component-wiki-sidebar {
   position: fixed;
   z-index: 40;
-  top: 60px;
+  top: 74px;
   bottom: 0;
   left: 0;
   width: 268px;
@@ -261,7 +168,7 @@
 
 .component-wiki-main {
   position: fixed;
-  top: 60px;
+  top: 74px;
   right: 218px;
   bottom: 0;
   left: 268px;
@@ -768,7 +675,7 @@
 .component-wiki-outline {
   position: fixed;
   z-index: 20;
-  top: 60px;
+  top: 74px;
   right: 0;
   bottom: 0;
   width: 218px;

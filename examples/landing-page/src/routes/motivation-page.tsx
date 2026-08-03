@@ -90,7 +90,7 @@ export function MotivationPage({ onNavigate }: LandingPageProps) {
 
   return (
     <div className="landing-page motivation-page">
-      <LandingHeader onNavigate={onNavigate} />
+      <LandingHeader activeItem="motivation" onNavigate={onNavigate} />
       <main>
         <section className="motivation-hero" id="top">
           <div className="motivation-hero-copy">

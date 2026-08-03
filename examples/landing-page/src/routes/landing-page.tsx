@@ -13,6 +13,7 @@ export interface LandingPageProps {
 
 interface LandingHeaderProps extends LandingPageProps {
   activeItem?: "components" | "motivation" | "examples";
+  isHome?: boolean;
 }
 
 interface GraphNode extends ForceGraphNode {
@@ -155,10 +156,22 @@ function ArrowLink({
   );
 }
 
-export function LandingHeader({ activeItem, onNavigate }: LandingHeaderProps) {
+export function LandingHeader({
+  activeItem,
+  isHome = false,
+  onNavigate,
+}: LandingHeaderProps) {
   return (
     <header className="landing-header">
-      <a className="landing-brand" href="#top" aria-label="Kantzen UI home">
+      <a
+        className="landing-brand"
+        href="/"
+        aria-label="Kantzen UI home"
+        onClick={(event) => {
+          event.preventDefault();
+          if (!isHome) onNavigate("/");
+        }}
+      >
         <BrandMark />
         <span>KANTZEN UI</span>
       </a>
@@ -827,7 +840,7 @@ export function LandingFooter({ onNavigate }: LandingPageProps) {
 export function LandingPage({ onNavigate }: LandingPageProps) {
   return (
     <div className="landing-page">
-      <LandingHeader onNavigate={onNavigate} />
+      <LandingHeader isHome onNavigate={onNavigate} />
       <main>
         <LandingHero onNavigate={onNavigate} />
         <SurfaceShowcase onNavigate={onNavigate} />

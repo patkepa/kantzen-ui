@@ -6,6 +6,7 @@ import {
   getCatalogItem,
 } from "./component-catalog";
 import { ComponentPreview } from "./component-preview";
+import { LandingHeader } from "./landing-page";
 import "./component-gallery.css";
 
 interface SiteRouteProps {
@@ -156,60 +157,7 @@ export const ComponentGallery = ({ onNavigate }: SiteRouteProps) => {
 
   return (
     <div className="component-wiki">
-      <header className="component-wiki-header">
-        <button
-          className="component-wiki-brand"
-          type="button"
-          onClick={() => onNavigate("/")}
-        >
-          <span className="component-wiki-brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 32 32" role="presentation">
-              <path d="M7 3v26M8 16 23 3M8 16l15 13M13 12l11-9M13 20l11 9" />
-            </svg>
-          </span>
-          <span>KANTZEN UI</span>
-        </button>
-        <nav aria-label="Primary navigation">
-          <button type="button" onClick={() => onNavigate("/")}>
-            Landing page
-          </button>
-          <button className="is-active" type="button">
-            Components
-          </button>
-          <button type="button" onClick={() => onNavigate("/examples")}>
-            Examples
-          </button>
-          <a
-            href="https://github.com/patkepa/kantzen-ui"
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub <Icon icon="share" size={11} />
-          </a>
-        </nav>
-        <div className="component-wiki-header-tools">
-          <Button
-            aria-label="Theme: dark"
-            icon="flash"
-            minimal
-            title="Dark theme"
-          />
-          <Button
-            className="component-wiki-mobile-search"
-            aria-label="Search components"
-            icon="search"
-            minimal
-            onClick={() => setMobileCatalogOpen(true)}
-          />
-          <Button
-            className="component-wiki-mobile-menu"
-            aria-label="Browse components"
-            icon="menu"
-            minimal
-            onClick={() => setMobileCatalogOpen(true)}
-          />
-        </div>
-      </header>
+      <LandingHeader activeItem="components" onNavigate={onNavigate} />
 
       {mobileCatalogOpen ? (
         <button
