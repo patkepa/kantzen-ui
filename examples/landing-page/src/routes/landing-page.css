@@ -1394,8 +1394,9 @@
 
 .landing-footer nav {
   position: absolute;
+  top: 50%;
   right: clamp(36px, 5vw, 78px);
-  bottom: 48px;
+  transform: translateY(-50%);
 }
 
 .landing-footer nav a {
@@ -1712,7 +1713,6 @@
 
   .landing-footer nav {
     right: 20px;
-    bottom: 50px;
   }
 }
 

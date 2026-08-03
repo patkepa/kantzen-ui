@@ -1,10 +1,4 @@
-import {
-  useDeferredValue,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { Button, Icon, InputGroup } from "@kantzen-ui/ui";
 import {
   catalogGroups,
@@ -12,6 +6,7 @@ import {
   getCatalogItem,
 } from "./component-catalog";
 import { ComponentPreview } from "./component-preview";
+import { getComponentExample } from "./component-examples";
 import { LandingHeader } from "./landing-page";
 import "./component-gallery.css";
 
@@ -90,15 +85,6 @@ const defaultApi: readonly ApiRow[] = [
   { prop: "ariaLabel", type: "string", defaultValue: "—" },
 ];
 
-const importSourceByCategory = {
-  "App shell": "@kantzen-ui/ui/app-shell",
-  Command: "@kantzen-ui/ui/command-palette",
-  Components: "@kantzen-ui/ui",
-  Graph: "@kantzen-ui/ui/graph",
-  Primitives: "@kantzen-ui/ui",
-  Site: "@kantzen-ui/ui",
-} as const;
-
 const getComponentIdFromHash = () => {
   if (typeof window === "undefined") return null;
   const hash = window.location.hash.replace(/^#/, "");
@@ -162,8 +148,7 @@ export const ComponentGallery = ({ onNavigate }: SiteRouteProps) => {
     [deferredQuery],
   );
 
-  const importSource = importSourceByCategory[selected.category];
-  const code = `import { ${selected.exportName} } from "${importSource}";\n\nexport function Example() {\n  return <${selected.exportName} />;\n}`;
+  const code = getComponentExample(selected);
   const apiRows = apiByExport[selected.exportName] ?? defaultApi;
 
   const selectComponent = (id: string) => {
