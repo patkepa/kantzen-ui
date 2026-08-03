@@ -14,12 +14,18 @@ export default defineConfig({
         replacement: fromRoot("packages/ui/src/styles.css"),
       },
       {
-        find: "@kantzen-ui/app-shell/styles.css",
+        find: "@kantzen-ui/ui/app-shell/styles.css",
         replacement: fromRoot("examples/playground/src/app-shell-source.css"),
       },
       {
-        find: "@kantzen-ui/graph/styles.css",
-        replacement: fromRoot("packages/graph/src/graph.css"),
+        find: "@kantzen-ui/ui/command-palette/styles.css",
+        replacement: fromRoot(
+          "packages/ui/src/command-palette/command-palette.css",
+        ),
+      },
+      {
+        find: "@kantzen-ui/ui/graph/styles.css",
+        replacement: fromRoot("packages/ui/src/graph/graph.css"),
       },
       {
         find: "@kantzen-ui/ui/interactions",
@@ -30,12 +36,16 @@ export default defineConfig({
         replacement: fromRoot("packages/ui/src/navigation.ts"),
       },
       {
-        find: "@kantzen-ui/app-shell",
-        replacement: fromRoot("packages/app-shell/src/index.ts"),
+        find: "@kantzen-ui/ui/app-shell",
+        replacement: fromRoot("packages/ui/src/app-shell/index.ts"),
       },
       {
-        find: "@kantzen-ui/graph",
-        replacement: fromRoot("packages/graph/src/index.ts"),
+        find: "@kantzen-ui/ui/command-palette",
+        replacement: fromRoot("packages/ui/src/command-palette/index.ts"),
+      },
+      {
+        find: "@kantzen-ui/ui/graph",
+        replacement: fromRoot("packages/ui/src/graph/index.ts"),
       },
       {
         find: "@kantzen-ui/ui",

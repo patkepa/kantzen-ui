@@ -7,12 +7,7 @@ const scriptDir = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(scriptDir, "..");
 const packageDir = resolve(rootDir, "dist", "package-tarballs");
 const npmCacheDir = resolve(rootDir, "dist", ".npm-cache");
-const publicWorkspaces = [
-  "@kantzen-ui/ui",
-  "@kantzen-ui/graph",
-  "@kantzen-ui/command-palette",
-  "@kantzen-ui/app-shell",
-];
+const publicWorkspaces = ["@kantzen-ui/ui"];
 
 function run(command, args) {
   const result = spawnSync(command, args, {

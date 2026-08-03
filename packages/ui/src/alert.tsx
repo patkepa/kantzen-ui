@@ -70,7 +70,7 @@ export function Alert({
     };
   }, [canEscapeKeyCancel, cancel, isOpen]);
 
-  if (!isOpen) return null;
+  if (!isOpen || typeof document === "undefined") return null;
   return createPortal(
     <div className="kui-overlay bp6-overlay bp6-overlay-open">
       <div

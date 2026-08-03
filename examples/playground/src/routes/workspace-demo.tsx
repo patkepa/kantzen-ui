@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Card, Tag } from "@kantzen-ui/ui";
-import { WorkspacePortal, WorkspaceShell } from "@kantzen-ui/app-shell";
+import { WorkspacePortal, WorkspaceShell } from "@kantzen-ui/ui/app-shell";
 import { SearchField, StatusLed, WorkspaceToolbar } from "@kantzen-ui/ui";
 import {
   workspaceNavGroups,

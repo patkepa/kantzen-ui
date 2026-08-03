@@ -10,8 +10,8 @@ import {
   Popover,
   PopoverInteractionKind,
   Position,
-} from "@kantzen-ui/ui";
-import type { SiteNavAction, SiteNavItem } from "@kantzen-ui/ui/navigation";
+} from "../primitives.js";
+import type { SiteNavAction, SiteNavItem } from "../navigation.js";
 import { WorkspaceNavbar } from "./workspace-navbar.js";
 
 export interface SiteNavbarProps {

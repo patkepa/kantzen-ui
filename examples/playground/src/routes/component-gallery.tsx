@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Tag } from "@kantzen-ui/ui";
-import { ForceGraphCanvas } from "@kantzen-ui/graph";
-import { SiteFooter, SiteShell } from "@kantzen-ui/app-shell";
+import { SiteFooter, SiteShell } from "@kantzen-ui/ui/app-shell";
+import { ForceGraphCanvas } from "@kantzen-ui/ui/graph";
 import {
   CtaBar,
   DemoFrame,

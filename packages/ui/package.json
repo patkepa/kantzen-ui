@@ -1,7 +1,7 @@
 {
   "name": "@kantzen-ui/ui",
   "version": "0.1.0",
-  "description": "Kantzen UI theme, icons, primitives, interactions, navigation contracts, and React components.",
+  "description": "Kantzen UI components, application shells, command palette, and graph visualization.",
   "license": "MIT",
   "keywords": [
     "kantzen-ui",
@@ -20,7 +20,7 @@
     "README.md"
   ],
   "sideEffects": [
-    "*.css"
+    "**/*.css"
   ],
   "exports": {
     ".": {
@@ -47,11 +47,26 @@
       "types": "./dist/theme-provider.d.ts",
       "import": "./dist/theme-provider.js"
     },
+    "./app-shell": {
+      "types": "./dist/app-shell/index.d.ts",
+      "import": "./dist/app-shell/index.js"
+    },
+    "./app-shell/styles.css": "./dist/app-shell/styles.css",
+    "./command-palette": {
+      "types": "./dist/command-palette/index.d.ts",
+      "import": "./dist/command-palette/index.js"
+    },
+    "./command-palette/styles.css": "./dist/command-palette/command-palette.css",
+    "./graph": {
+      "types": "./dist/graph/index.d.ts",
+      "import": "./dist/graph/index.js"
+    },
+    "./graph/styles.css": "./dist/graph/graph.css",
     "./styles.css": "./dist/styles.css",
     "./theme.css": "./dist/theme.css"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json && cp src/*.css dist/",
+    "build": "tsc -p tsconfig.json && cp src/*.css dist/ && mkdir -p dist/app-shell dist/command-palette dist/graph && cp src/app-shell/*.css dist/app-shell/ && cp src/command-palette/*.css dist/command-palette/ && cp src/graph/*.css dist/graph/",
     "test": "node --test test/*.test.mjs"
   },
   "publishConfig": {
@@ -68,10 +83,17 @@
     "url": "https://github.com/patkepa/kantzen-ui/issues"
   },
   "dependencies": {
-    "@blueprintjs/icons": "^6.2.0"
+    "@blueprintjs/icons": "^6.2.0",
+    "cmdk": "^1.1.1"
   },
   "peerDependencies": {
     "react": "^18.3.1 || ^19.0.0",
-    "react-dom": "^18.3.1 || ^19.0.0"
+    "react-dom": "^18.3.1 || ^19.0.0",
+    "react-router-dom": "^7.18.2"
+  },
+  "peerDependenciesMeta": {
+    "react-router-dom": {
+      "optional": true
+    }
   }
 }

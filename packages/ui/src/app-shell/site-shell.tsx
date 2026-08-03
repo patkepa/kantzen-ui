@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { SiteNavAction, SiteNavItem } from "@kantzen-ui/ui/navigation";
+import type { SiteNavAction, SiteNavItem } from "../navigation.js";
 import { ErrorBoundary } from "./error-boundary.js";
 import { SiteNavbar } from "./site-navbar.js";
 

@@ -292,12 +292,103 @@
 }
 
 .bp6-popover {
+  position: relative;
   border: 1px solid var(--border-color, rgb(255 255 255 / 0.1));
   border-radius: var(--bp-surface-border-radius, 2px);
   background: var(--card-bg, #242424);
   color: hsl(var(--foreground, 0 0% 100%));
   box-shadow: 0 10px 34px rgb(0 0 0 / 0.42);
   pointer-events: auto;
+}
+
+.kui-popover-transition {
+  animation: kui-popover-enter var(--kui-popover-transition-duration, 100ms)
+    ease-out;
+}
+
+@keyframes kui-popover-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bp6-popover-arrow {
+  position: absolute;
+  z-index: 1;
+  width: 16px;
+  height: 8px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.bp6-popover-arrow-border {
+  fill: var(--border-color, rgb(255 255 255 / 0.1));
+}
+
+.bp6-popover-arrow-fill {
+  fill: var(--card-bg, #242424);
+}
+
+.bp6-popover[data-placement^="bottom"] > .bp6-popover-arrow {
+  top: -8px;
+  left: calc(50% - 8px);
+}
+
+.bp6-popover[data-placement^="top"] > .bp6-popover-arrow {
+  bottom: -8px;
+  left: calc(50% - 8px);
+  transform: rotate(180deg);
+}
+
+.bp6-popover[data-placement^="left"] > .bp6-popover-arrow {
+  top: calc(50% - 4px);
+  right: -12px;
+  transform: rotate(90deg);
+}
+
+.bp6-popover[data-placement^="right"] > .bp6-popover-arrow {
+  top: calc(50% - 4px);
+  left: -12px;
+  transform: rotate(-90deg);
+}
+
+.bp6-popover[data-placement$="start"] > .bp6-popover-arrow {
+  left: 12px;
+}
+
+.bp6-popover[data-placement$="end"] > .bp6-popover-arrow {
+  right: 12px;
+  left: auto;
+}
+
+.bp6-popover[data-placement^="left"][data-placement$="start"]
+  > .bp6-popover-arrow,
+.bp6-popover[data-placement^="right"][data-placement$="start"]
+  > .bp6-popover-arrow {
+  top: 12px;
+  left: auto;
+}
+
+.bp6-popover[data-placement^="left"][data-placement$="end"]
+  > .bp6-popover-arrow {
+  top: auto;
+  right: -12px;
+  bottom: 12px;
+  left: auto;
+}
+
+.bp6-popover[data-placement^="right"][data-placement$="end"]
+  > .bp6-popover-arrow {
+  top: auto;
+  right: auto;
+  bottom: 12px;
+  left: -12px;
 }
 
 .bp6-popover.bp6-minimal {

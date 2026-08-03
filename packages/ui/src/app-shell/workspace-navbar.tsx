@@ -1,4 +1,4 @@
-import { Alignment, Navbar, NavbarGroup } from "@kantzen-ui/ui";
+import { Alignment, Navbar, NavbarGroup } from "../layout.js";
 import type { ReactNode } from "react";
 
 export interface WorkspaceNavbarProps {

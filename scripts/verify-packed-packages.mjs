@@ -1,5 +1,11 @@
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import {
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
@@ -12,6 +18,10 @@ const typescriptBin = resolve(
   "bin",
   "tsc",
 );
+const packageManifest = JSON.parse(
+  readFileSync(resolve(rootDir, "packages", "ui", "package.json"), "utf8"),
+);
+const reactRouterVersion = packageManifest.peerDependencies["react-router-dom"];
 const tarballs = readdirSync(tarballDir)
   .filter((file) => file.endsWith(".tgz"))
   .sort()
@@ -65,9 +75,9 @@ function verifyReactVersion(reactVersion) {
 
   writeFileSync(
     resolve(consumerDir, "consumer.tsx"),
-    `import { WorkspaceShell } from "@kantzen-ui/app-shell";
-import { CommandPaletteShell } from "@kantzen-ui/command-palette";
-import { ForceGraphCanvas } from "@kantzen-ui/graph";
+    `import { WorkspaceShell } from "@kantzen-ui/ui/app-shell";
+import { CommandPaletteShell } from "@kantzen-ui/ui/command-palette";
+import { ForceGraphCanvas } from "@kantzen-ui/ui/graph";
 import { Button, Card, ThemeProvider } from "@kantzen-ui/ui";
 import type { NavGroup } from "@kantzen-ui/ui/navigation";
 
@@ -84,9 +94,9 @@ void ForceGraphCanvas;
     `import assert from "node:assert/strict";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { WorkspaceShell } from "@kantzen-ui/app-shell";
-import { CommandPaletteShell } from "@kantzen-ui/command-palette";
-import { ForceGraphCanvas } from "@kantzen-ui/graph";
+import { WorkspaceShell } from "@kantzen-ui/ui/app-shell";
+import { CommandPaletteShell } from "@kantzen-ui/ui/command-palette";
+import { ForceGraphCanvas } from "@kantzen-ui/ui/graph";
 import { Button, Card, ThemeProvider } from "@kantzen-ui/ui";
 import { Icon } from "@kantzen-ui/ui/icons";
 import { getLinearNavigationIndex } from "@kantzen-ui/ui/interactions";
@@ -104,9 +114,9 @@ assert.match(html, /kui-card/);
 assert.match(html, /kui-button/);
 
 for (const stylesheet of [
-  "@kantzen-ui/app-shell/styles.css",
-  "@kantzen-ui/command-palette/styles.css",
-  "@kantzen-ui/graph/styles.css",
+  "@kantzen-ui/ui/app-shell/styles.css",
+  "@kantzen-ui/ui/command-palette/styles.css",
+  "@kantzen-ui/ui/graph/styles.css",
   "@kantzen-ui/ui/styles.css",
   "@kantzen-ui/ui/theme.css",
 ]) {
@@ -126,7 +136,7 @@ for (const stylesheet of [
         ...tarballs,
         `react@${reactVersion}`,
         `react-dom@${reactVersion}`,
-        "react-router-dom@7.18.2",
+        `react-router-dom@${reactRouterVersion}`,
         `@types/react@${reactMajor}`,
         `@types/react-dom@${reactMajor}`,
       ],
@@ -146,8 +156,8 @@ for (const stylesheet of [
   }
 }
 
-if (tarballs.length !== 4) {
-  throw new Error(`Expected 4 package tarballs, found ${tarballs.length}`);
+if (tarballs.length !== 1) {
+  throw new Error(`Expected 1 package tarball, found ${tarballs.length}`);
 }
 
 for (const reactVersion of ["18.3.1", "19"]) {

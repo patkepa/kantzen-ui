@@ -1,6 +1,7 @@
 import { Component, Fragment } from "react";
 import type { ErrorInfo, ReactNode } from "react";
-import { NonIdealState, Button } from "@kantzen-ui/ui";
+import { Button } from "../button.js";
+import { NonIdealState } from "../layout.js";
 
 export type ErrorBoundaryContent = ReactNode | ((error: Error) => ReactNode);
 

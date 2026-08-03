@@ -1,5 +1,5 @@
 import { useEffect, type ReactNode } from "react";
-import { Icon } from "@kantzen-ui/ui";
+import { Icon } from "../icons.js";
 import { Command } from "cmdk";
 
 export interface CommandPaletteShellProps {

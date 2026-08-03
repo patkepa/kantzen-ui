@@ -30,7 +30,12 @@ export const FilterPill = <TValue extends string = string>({
     .join(" ");
 
   return (
-    <button className={classNames} onClick={() => onSelect(value)}>
+    <button
+      aria-pressed={active}
+      className={classNames}
+      onClick={() => onSelect(value)}
+      type="button"
+    >
       {status && <StatusLed status={status} />}
       {icon && <Icon icon={icon} size={12} className={iconClassName} />}
       <span className="pill-label">{label}</span>

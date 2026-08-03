@@ -1,5 +1,5 @@
 import { Button } from "@kantzen-ui/ui";
-import { SiteFooter, SiteShell } from "@kantzen-ui/app-shell";
+import { SiteFooter, SiteShell } from "@kantzen-ui/ui/app-shell";
 import { CtaBar, FeatureGrid, SiteHero, SiteSection } from "@kantzen-ui/ui";
 import type { SiteNavItem } from "@kantzen-ui/ui/navigation";
 import { footerGroups, siteActions } from "../fixtures/site-nav";

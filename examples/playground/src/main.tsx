@@ -1,6 +1,6 @@
 import "@kantzen-ui/ui/styles.css";
-import "@kantzen-ui/app-shell/styles.css";
-import "@kantzen-ui/graph/styles.css";
+import "@kantzen-ui/ui/app-shell/styles.css";
+import "@kantzen-ui/ui/graph/styles.css";
 import "./styles.css";
 
 import React from "react";

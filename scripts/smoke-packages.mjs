@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import * as appShell from "@kantzen-ui/app-shell";
-import * as commandPalette from "@kantzen-ui/command-palette";
-import * as graph from "@kantzen-ui/graph";
+import * as appShell from "@kantzen-ui/ui/app-shell";
+import * as commandPalette from "@kantzen-ui/ui/command-palette";
+import * as graph from "@kantzen-ui/ui/graph";
 import { Icon, Icons } from "@kantzen-ui/ui/icons";
 import * as interactions from "@kantzen-ui/ui/interactions";
 import { Button, Card, ThemeProvider } from "@kantzen-ui/ui";
@@ -74,9 +74,9 @@ assert.match(html, /kui-button/);
 assert.match(html, /<path/);
 
 for (const stylesheet of [
-  "@kantzen-ui/app-shell/styles.css",
-  "@kantzen-ui/command-palette/styles.css",
-  "@kantzen-ui/graph/styles.css",
+  "@kantzen-ui/ui/app-shell/styles.css",
+  "@kantzen-ui/ui/command-palette/styles.css",
+  "@kantzen-ui/ui/graph/styles.css",
   "@kantzen-ui/ui/styles.css",
   "@kantzen-ui/ui/theme.css",
 ]) {

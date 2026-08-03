@@ -4,6 +4,7 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  type CSSProperties,
   type ReactNode,
   type SyntheticEvent,
 } from "react";
@@ -48,6 +49,17 @@ export type PopoverPlacement =
   | "right-start"
   | "right-end";
 
+export interface PopoverOffsetModifier {
+  enabled?: boolean;
+  options?: {
+    offset?: readonly [skidding: number, distance: number];
+  };
+}
+
+export interface PopoverModifiers {
+  offset?: PopoverOffsetModifier;
+}
+
 export interface PopoverProps {
   arrow?: boolean;
   captureDismiss?: boolean;
@@ -63,7 +75,7 @@ export interface PopoverProps {
   interactionKind?: (typeof PopoverInteractionKind)[keyof typeof PopoverInteractionKind];
   isOpen?: boolean;
   minimal?: boolean;
-  modifiers?: unknown;
+  modifiers?: PopoverModifiers;
   onInteraction?: (
     nextOpenState: boolean,
     event?: SyntheticEvent<HTMLElement>,
@@ -81,8 +93,14 @@ interface Coordinates {
   top: number;
 }
 
+type PopoverTransitionStyle = CSSProperties & {
+  "--kui-popover-transition-duration": string;
+};
+
 const VIEWPORT_MARGIN = 8;
 const POPOVER_GAP = 6;
+const useIsomorphicLayoutEffect =
+  typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 function normalizePlacement(placement?: string): PopoverPlacement {
   if (!placement || placement === "auto") return "bottom-start";
@@ -103,6 +121,7 @@ function getCoordinates(
   target: DOMRect,
   popover: DOMRect,
   placement: PopoverPlacement,
+  modifiers?: PopoverModifiers,
 ): Coordinates {
   let left = target.left;
   let top = target.bottom + POPOVER_GAP;
@@ -134,6 +153,24 @@ function getCoordinates(
     top = target.top;
   }
 
+  const offsetModifier = modifiers?.offset;
+  if (offsetModifier?.enabled !== false) {
+    const [skidding = 0, distance = 0] = offsetModifier?.options?.offset ?? [];
+    if (placement.startsWith("top")) {
+      left += skidding;
+      top -= distance;
+    } else if (placement.startsWith("bottom")) {
+      left += skidding;
+      top += distance;
+    } else if (placement.startsWith("left")) {
+      left -= distance;
+      top += skidding;
+    } else if (placement.startsWith("right")) {
+      left += distance;
+      top += skidding;
+    }
+  }
+
   return {
     left: Math.min(
       Math.max(left, VIEWPORT_MARGIN),
@@ -153,6 +190,8 @@ function getCoordinates(
 }
 
 export function Popover({
+  arrow = true,
+  captureDismiss = false,
   children,
   className,
   content,
@@ -161,15 +200,18 @@ export function Popover({
   fill,
   hoverCloseDelay = 300,
   hoverOpenDelay = 150,
+  inheritDarkTheme = true,
   interactionKind = PopoverInteractionKind.CLICK,
   isOpen: controlledOpen,
   minimal,
+  modifiers,
   onInteraction,
   openOnTargetFocus = true,
   placement,
   popoverClassName,
   portalClassName,
   position,
+  transitionDuration = 100,
 }: PopoverProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultIsOpen);
   const [coordinates, setCoordinates] = useState<Coordinates>({
@@ -183,6 +225,8 @@ export function Popover({
   const isControlled = controlledOpen !== undefined;
   const isOpen = !disabled && (controlledOpen ?? uncontrolledOpen);
   const isHover = interactionKind.startsWith("hover");
+  const normalizedPlacement = normalizePlacement(placement ?? position);
+  const canUseDOM = typeof document !== "undefined";
 
   const changeOpen = useCallback(
     (nextOpen: boolean, event?: SyntheticEvent<HTMLElement>) => {
@@ -222,12 +266,13 @@ export function Popover({
       getCoordinates(
         target.getBoundingClientRect(),
         popover.getBoundingClientRect(),
-        normalizePlacement(placement ?? position),
+        normalizedPlacement,
+        modifiers,
       ),
     );
-  }, [placement, position]);
+  }, [modifiers, normalizedPlacement]);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!isOpen) return;
     updatePosition();
     const frame = window.requestAnimationFrame(updatePosition);
@@ -286,12 +331,13 @@ export function Popover({
       >
         {children}
       </span>
-      {isOpen && content
+      {isOpen && content && canUseDOM
         ? createPortal(
             <div
               className={classes(
                 "kui-popover-portal",
                 "bp6-portal",
+                inheritDarkTheme && "bp6-dark kui-dark dark",
                 portalClassName,
               )}
               onMouseEnter={isHover ? clearTimers : undefined}
@@ -299,12 +345,15 @@ export function Popover({
             >
               <div className="bp6-overlay bp6-overlay-open bp6-overlay-inline">
                 <div
-                  className="bp6-popover-transition-container bp6-popover-enter-done"
-                  style={{
-                    left: coordinates.left,
-                    position: "fixed",
-                    top: coordinates.top,
-                  }}
+                  className="kui-popover-transition bp6-popover-transition-container bp6-popover-enter-done"
+                  style={
+                    {
+                      "--kui-popover-transition-duration": `${Math.max(0, transitionDuration)}ms`,
+                      left: coordinates.left,
+                      position: "fixed",
+                      top: coordinates.top,
+                    } as PopoverTransitionStyle
+                  }
                 >
                   <div
                     className={classes(
@@ -314,17 +363,41 @@ export function Popover({
                       popoverClassName,
                     )}
                     data-kui-popover-root="true"
+                    data-placement={normalizedPlacement}
                     onClick={(event) => {
+                      const dismissTarget = (
+                        event.target as HTMLElement
+                      ).closest<HTMLElement>('[data-kui-dismiss="true"]');
+                      if (!dismissTarget) return;
+
+                      const dismissPopover = dismissTarget.closest(
+                        '[data-kui-popover-root="true"]',
+                      );
                       if (
-                        (event.target as HTMLElement).closest(
-                          '[data-kui-dismiss="true"]',
-                        )
+                        captureDismiss ||
+                        dismissPopover === event.currentTarget
                       ) {
                         changeOpen(false, event);
                       }
                     }}
                     ref={popoverRef}
                   >
+                    {arrow ? (
+                      <svg
+                        aria-hidden="true"
+                        className="bp6-popover-arrow"
+                        viewBox="0 0 16 8"
+                      >
+                        <path
+                          className="bp6-popover-arrow-border"
+                          d="M0 8 8 0l8 8"
+                        />
+                        <path
+                          className="bp6-popover-arrow-fill"
+                          d="M1 8 8 1l7 7"
+                        />
+                      </svg>
+                    ) : null}
                     <div className="bp6-popover-content">{content}</div>
                   </div>
                 </div>

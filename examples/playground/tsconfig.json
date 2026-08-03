@@ -4,8 +4,11 @@
     "baseUrl": ".",
     "noEmit": true,
     "paths": {
-      "@kantzen-ui/app-shell": ["../../packages/app-shell/src/index.ts"],
-      "@kantzen-ui/graph": ["../../packages/graph/src/index.ts"],
+      "@kantzen-ui/ui/app-shell": ["../../packages/ui/src/app-shell/index.ts"],
+      "@kantzen-ui/ui/command-palette": [
+        "../../packages/ui/src/command-palette/index.ts"
+      ],
+      "@kantzen-ui/ui/graph": ["../../packages/ui/src/graph/index.ts"],
       "@kantzen-ui/ui/interactions": [
         "../../packages/ui/src/interactions/index.ts"
       ],

@@ -1,5 +1,5 @@
 import { Button, Tag } from "@kantzen-ui/ui";
-import { SiteFooter, SiteShell } from "@kantzen-ui/app-shell";
+import { SiteFooter, SiteShell } from "@kantzen-ui/ui/app-shell";
 import {
   CtaBar,
   DemoFrame,

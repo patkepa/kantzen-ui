@@ -6,12 +6,12 @@ import {
   getDistance,
   getMidpoint,
   screenToGraph,
-} from "../dist/force-graph-geometry.js";
+} from "../dist/graph/force-graph-geometry.js";
 import {
   createSimulationNodes,
   defaultPosition,
   simulateGraph,
-} from "../dist/force-graph-simulation.js";
+} from "../dist/graph/force-graph-simulation.js";
 
 test("keeps a graph point anchored while zooming", () => {
   const screenPoint = { x: 200, y: 100 };

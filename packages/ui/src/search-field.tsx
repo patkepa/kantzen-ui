@@ -1,6 +1,8 @@
 import { Button, InputGroup } from "./primitives.js";
 
 export interface SearchFieldProps {
+  ariaLabel?: string;
+  clearButtonAriaLabel?: string;
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
@@ -9,24 +11,39 @@ export interface SearchFieldProps {
 }
 
 export const SearchField = ({
+  ariaLabel,
+  clearButtonAriaLabel = "Clear search",
   value,
   onChange,
   placeholder = "Search...",
   inputRef,
   className,
-}: SearchFieldProps) => (
-  <InputGroup
-    className={className}
-    inputRef={inputRef}
-    leftIcon="search"
-    placeholder={placeholder}
-    value={value}
-    onChange={(event) => onChange(event.target.value)}
-    fill
-    rightElement={
-      value ? (
-        <Button icon="cross" minimal onClick={() => onChange("")} />
-      ) : undefined
-    }
-  />
-);
+}: SearchFieldProps) => {
+  const inputAriaLabel =
+    ariaLabel ?? (placeholder.replace(/\.{3}$/, "").trim() || "Search");
+
+  return (
+    <InputGroup
+      aria-label={inputAriaLabel}
+      className={className}
+      inputRef={inputRef}
+      leftIcon="search"
+      placeholder={placeholder}
+      type="search"
+      value={value}
+      onChange={(event) => onChange(event.target.value)}
+      fill
+      rightElement={
+        value ? (
+          <Button
+            aria-label={clearButtonAriaLabel}
+            icon="cross"
+            minimal
+            onClick={() => onChange("")}
+            title={clearButtonAriaLabel}
+          />
+        ) : undefined
+      }
+    />
+  );
+};

@@ -22,8 +22,7 @@ export function ExpandableSearchField({
   const [open, setOpen] = useState(() => value.length > 0);
   const internalInputRef = useRef<HTMLInputElement | null>(null);
   const label =
-    ariaLabel ??
-    `Search ${placeholder.replace(/^Filter\s+/i, "").toLocaleLowerCase()}`;
+    ariaLabel ?? (placeholder.replace(/\.{3}$/, "").trim() || "Search");
 
   const openSearch = () => {
     setOpen(true);
@@ -32,6 +31,7 @@ export function ExpandableSearchField({
 
   return open ? (
     <SearchField
+      ariaLabel={label}
       className={["kui-expandable-search-field", className]
         .filter(Boolean)
         .join(" ")}

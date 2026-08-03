@@ -2,4 +2,4 @@
 @import "./main-layout.css";
 @import "./app-sidebar.css";
 @import "./site-shell.css";
-@import "@kantzen-ui/ui/styles.css";
+@import "../styles.css";

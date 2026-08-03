@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { SiteNavGroup, SiteNavItem } from "@kantzen-ui/ui/navigation";
+import type { SiteNavGroup, SiteNavItem } from "../navigation.js";
 
 export interface SiteFooterProps {
   productName: string;

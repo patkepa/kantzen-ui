@@ -42,6 +42,8 @@ export {
   Tooltip,
 } from "./popover.js";
 export type {
+  PopoverModifiers,
+  PopoverOffsetModifier,
   PopoverPlacement,
   PopoverProps,
   TooltipProps,

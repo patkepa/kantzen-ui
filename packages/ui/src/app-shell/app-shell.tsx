@@ -1,17 +1,12 @@
 import { useEffect, type ReactNode } from "react";
-import { Button } from "@kantzen-ui/ui";
+import { Button } from "../button.js";
 import {
   clearKeyboardFocusRegions,
   hasOpenBlockingOverlay,
   isEditableTarget,
   moveFocusRegion,
-} from "@kantzen-ui/ui/interactions";
-import type {
-  NavBadge,
-  NavGroup,
-  Project,
-  User,
-} from "@kantzen-ui/ui/navigation";
+} from "../interactions/index.js";
+import type { NavBadge, NavGroup, Project, User } from "../navigation.js";
 import { AppSidebar } from "./app-sidebar.js";
 import { ErrorBoundary } from "./error-boundary.js";
 import { WorkspaceNavbar } from "./workspace-navbar.js";

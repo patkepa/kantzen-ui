@@ -18,20 +18,20 @@ import {
   Tooltip,
   Position,
   Popover,
-} from "@kantzen-ui/ui";
+} from "../primitives.js";
 import {
   clearKeyboardFocusRegions,
   getDirectionalKey,
   shouldIgnorePageShortcut,
-} from "@kantzen-ui/ui/interactions";
+} from "../interactions/index.js";
 import type {
   NavBadge,
   NavGroup,
   NavItem,
   Project,
   User,
-} from "@kantzen-ui/ui/navigation";
-import { StatusLed } from "@kantzen-ui/ui";
+} from "../navigation.js";
+import { StatusLed } from "../status-led.js";
 
 export interface AppSidebarProps {
   isCollapsed?: boolean;
@@ -456,8 +456,10 @@ export const AppSidebar = ({
           {!isCollapsed ? (
             <div className={`footer-panel ${footerOpen ? "open" : ""}`}>
               <button
+                aria-expanded={footerOpen}
                 className="footer-panel-trigger"
                 onClick={() => setFooterOpen(!footerOpen)}
+                type="button"
               >
                 <div className="footer-trigger-left">
                   <div className="user-avatar">
@@ -484,11 +486,15 @@ export const AppSidebar = ({
                   <div className="footer-env-options">
                     {projects.map((project) => (
                       <button
+                        aria-pressed={
+                          selectedProject?.environment === project.environment
+                        }
                         key={project.environment}
                         className={`env-option ${selectedProject?.environment === project.environment ? "active" : ""}`}
                         onClick={() =>
                           setSelectedProjectEnvironment(project.environment)
                         }
+                        type="button"
                       >
                         <span
                           className="env-dot"
@@ -510,7 +516,11 @@ export const AppSidebar = ({
                   </div>
                   <div className="footer-divider" />
                   {onLogout && (
-                    <button className="footer-action" onClick={onLogout}>
+                    <button
+                      className="footer-action"
+                      onClick={onLogout}
+                      type="button"
+                    >
                       <Icon icon="log-out" size={14} />
                       <span>Sign out</span>
                     </button>
@@ -559,11 +569,15 @@ export const AppSidebar = ({
                   <div className="footer-env-options">
                     {projects.map((project) => (
                       <button
+                        aria-pressed={
+                          selectedProject?.environment === project.environment
+                        }
                         key={project.environment}
                         className={`env-option ${selectedProject?.environment === project.environment ? "active" : ""}`}
                         onClick={() =>
                           setSelectedProjectEnvironment(project.environment)
                         }
+                        type="button"
                       >
                         <span
                           className="env-dot"
@@ -585,7 +599,11 @@ export const AppSidebar = ({
                   </div>
                   <div className="footer-divider" />
                   {onLogout && (
-                    <button className="footer-action" onClick={onLogout}>
+                    <button
+                      className="footer-action"
+                      onClick={onLogout}
+                      type="button"
+                    >
                       <Icon icon="log-out" size={14} />
                       <span>Sign out</span>
                     </button>
@@ -593,9 +611,13 @@ export const AppSidebar = ({
                 </div>
               }
             >
-              <div className="user-avatar collapsed-avatar">
+              <button
+                aria-label={`Open ${user.name} menu`}
+                className="user-avatar collapsed-avatar"
+                type="button"
+              >
                 {user.name.charAt(0).toUpperCase()}
-              </div>
+              </button>
             </Popover>
           )}
         </div>
