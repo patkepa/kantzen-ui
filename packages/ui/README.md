@@ -56,6 +56,7 @@ import { WorkspaceShell } from "@kantzen-ui/ui/app-shell";
 import { CommandPaletteShell } from "@kantzen-ui/ui/command-palette";
 import { ForceGraphCanvas } from "@kantzen-ui/ui/graph";
 
+import "@kantzen-ui/ui/styles.css";
 import "@kantzen-ui/ui/app-shell/styles.css";
 import "@kantzen-ui/ui/command-palette/styles.css";
 import "@kantzen-ui/ui/graph/styles.css";

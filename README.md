@@ -28,6 +28,9 @@ import { Button, Card, ThemeProvider } from "@kantzen-ui/ui";
 import { useRovingFocus } from "@kantzen-ui/ui/interactions";
 import type { NavGroup } from "@kantzen-ui/ui/navigation";
 import "@kantzen-ui/ui/styles.css";
+import "@kantzen-ui/ui/app-shell/styles.css";
+import "@kantzen-ui/ui/command-palette/styles.css";
+import "@kantzen-ui/ui/graph/styles.css";
 ```
 
 Applications using the app-shell subpath must also install the optional
