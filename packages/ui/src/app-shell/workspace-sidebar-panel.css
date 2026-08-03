@@ -3,7 +3,7 @@
 /* ── Footer Panel (Unified Profile + Env) ── */
 .footer-panel {
   border: 1px solid var(--border-color);
-  border-radius: 2px;
+  border-radius: 0;
   background-color: var(--sidebar-accent);
   transition: border-color 0.15s ease;
 }
@@ -20,7 +20,7 @@
   padding: 8px 10px;
   background: transparent;
   border: none;
-  border-radius: 2px;
+  border-radius: 0;
   cursor: pointer;
   font-family: inherit;
   color: var(--sidebar-foreground);
@@ -76,13 +76,16 @@
   padding: 6px 10px;
   background: transparent;
   border: 1px solid transparent;
-  border-radius: 2px;
+  border-radius: 0;
   cursor: pointer;
   font-family: inherit;
   font-size: 12px;
   font-weight: 500;
   color: var(--sidebar-muted-foreground);
-  transition: all 0.1s ease;
+  transition:
+    background-color 0.1s ease,
+    border-color 0.1s ease,
+    color 0.1s ease;
 }
 
 .footer-action:hover {
@@ -117,7 +120,7 @@
   padding: 10px;
   min-width: 200px;
   background-color: var(--sidebar-bg);
-  border-radius: 2px;
+  border-radius: 0;
 }
 
 .collapsed-popover-header {
@@ -137,12 +140,15 @@
   padding: 6px 10px;
   background: transparent;
   border: 1px solid transparent;
-  border-radius: 2px;
+  border-radius: 0;
   cursor: pointer;
   font-family: inherit;
   color: var(--sidebar-muted-foreground);
   font-size: 12px;
-  transition: all 0.1s ease;
+  transition:
+    background-color 0.1s ease,
+    border-color 0.1s ease,
+    color 0.1s ease;
 }
 
 .env-option:hover {

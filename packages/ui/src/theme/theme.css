@@ -14,6 +14,23 @@
 :root,
 :root.dark {
   --bp-surface-border-radius: 0;
+  --kui-radius: 0;
+  --kui-control-height: 32px;
+  --kui-control-height-small: 26px;
+  --kui-control-height-large: 40px;
+  --kui-surface-canvas: #080808;
+  --kui-surface-nav: #060606;
+  --kui-surface-panel: #0d0d0d;
+  --kui-surface-raised: #111111;
+  --kui-surface-hover: #151515;
+  --kui-surface-active: #191919;
+  --kui-line-soft: rgb(255 255 255 / 0.08);
+  --kui-line: rgb(255 255 255 / 0.16);
+  --kui-line-strong: rgb(255 255 255 / 0.28);
+  --kui-text: #ffffff;
+  --kui-text-secondary: #d7d7d7;
+  --kui-text-muted: #a8a8a8;
+  --kui-overlay-shadow: 0 18px 52px rgb(0 0 0 / 0.56);
   /* Base colors - HIGH CONTRAST dark theme
    * Pure black backgrounds with white text for maximum contrast
    */
@@ -40,7 +57,7 @@
   --ring: 213 68% 59%;
 
   /* Sidebar specific - HIGH CONTRAST */
-  --sidebar-bg: #060606;
+  --sidebar-bg: var(--kui-surface-nav);
   --sidebar-foreground: hsl(0, 0%, 100%); /* Pure white text */
   --sidebar-primary: hsl(213, 68%, 59%);
   --sidebar-primary-foreground: hsl(
@@ -48,16 +65,16 @@
     0%,
     0%
   ); /* Black text on blue background */
-  --sidebar-accent: #101010;
-  --sidebar-accent-hover: #161616;
+  --sidebar-accent: var(--kui-surface-raised);
+  --sidebar-accent-hover: var(--kui-surface-hover);
   --sidebar-muted-foreground: hsl(0, 0%, 85%); /* Light gray for muted text */
-  --sidebar-border: hsla(0, 0%, 100%, 0.08);
+  --sidebar-border: var(--kui-line-soft);
 
   /* Content area - HIGH CONTRAST */
-  --content-bg: #080808;
-  --navbar-bg: #060606;
-  --border-color: hsla(0, 0%, 100%, 0.16);
-  --card-bg: #0d0d0d;
+  --content-bg: var(--kui-surface-canvas);
+  --navbar-bg: var(--kui-surface-nav);
+  --border-color: var(--kui-line);
+  --card-bg: var(--kui-surface-panel);
 
   /* Status colors - Vibrant for dark bg (Blueprint GREEN3, ORANGE3, RED3) */
   --success: 152 69% 45%; /* ~Blueprint GREEN3 */
@@ -84,6 +101,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--content-bg);
   color: hsl(var(--foreground));
+  font-size: 14px;
   line-height: 1.5;
   letter-spacing: -0.01em;
 }
@@ -109,12 +127,12 @@ code {
 
 /* Section header labels — uppercase tracked */
 .section-label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: hsl(var(--muted));
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 /* Typography improvements */
@@ -165,7 +183,8 @@ p {
 }
 
 .bp6-card.bp6-interactive:hover {
-  border-color: hsla(0, 0%, 100%, 0.14);
+  border-color: var(--kui-line-strong);
+  background-color: var(--kui-surface-raised);
 }
 
 .bp6-menu {
@@ -197,20 +216,24 @@ p {
 
 /* Enhanced button styles */
 .bp6-button {
-  font-weight: 500;
+  min-height: var(--kui-control-height);
+  padding: 0 11px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
   letter-spacing: -0.01em;
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease;
-  background-color: hsla(0, 0%, 100%, 0.06);
+  background-color: var(--kui-surface-raised);
   color: hsl(var(--foreground));
   border-color: var(--border-color);
   border-radius: 0 !important;
 }
 
 .bp6-button:hover {
-  background-color: hsla(0, 0%, 100%, 0.1);
-  border-color: var(--border-color);
+  background-color: var(--kui-surface-hover);
+  border-color: var(--kui-line-strong);
 }
 
 .bp6-button.bp6-intent-primary {
@@ -249,15 +272,29 @@ p {
 }
 
 .bp6-button.bp6-minimal:hover {
-  background-color: hsla(0, 0%, 100%, 0.06);
+  background-color: var(--kui-surface-hover);
+}
+
+.bp6-button.bp6-small {
+  min-height: var(--kui-control-height-small);
+  padding-inline: 8px;
+  font-size: 11px;
+}
+
+.bp6-button.bp6-large {
+  min-height: var(--kui-control-height-large);
+  padding-inline: 15px;
+  font-size: 13px;
 }
 
 /* Input enhancements */
 .bp6-input {
+  min-height: var(--kui-control-height);
   border: 1px solid var(--border-color);
   background-color: var(--card-bg);
   color: hsl(var(--foreground));
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 500;
   border-radius: 0;
   transition:
     border-color 0.15s ease,
@@ -272,6 +309,7 @@ p {
 
 .bp6-input::placeholder {
   color: hsl(var(--muted));
+  opacity: 0.72;
 }
 
 .bp6-input-group .bp6-input {
@@ -284,12 +322,15 @@ p {
 
 /* Tag enhancements */
 .bp6-tag {
+  min-height: 20px;
   font-weight: 500;
   letter-spacing: 0.01em;
   border: 1px solid var(--border-color);
   border-radius: 0;
   background-color: hsla(0, 0%, 100%, 0.06);
   color: hsl(var(--foreground));
+  font-size: 10px;
+  line-height: 1;
 }
 
 .bp6-tag.bp6-minimal {
@@ -389,7 +430,7 @@ p {
 /* Rectangular progress bars */
 .bp6-progress-bar,
 .bp6-progress-bar .bp6-progress-meter {
-  border-radius: 2px !important;
+  border-radius: 0 !important;
 }
 
 /* Divider */
@@ -448,8 +489,8 @@ p {
 
 /* Scrollbar styling - minimal and elegant */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -457,12 +498,16 @@ p {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
+  border: 3px solid transparent;
   border-radius: 0;
+  background: rgb(255 255 255 / 0.16);
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground));
+  border: 3px solid transparent;
+  background: rgb(255 255 255 / 0.28);
+  background-clip: padding-box;
 }
 
 /* Selection color */
@@ -517,7 +562,7 @@ p {
 /* Popover overrides */
 .bp6-dark .bp6-popover {
   background-color: var(--card-bg);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--kui-overlay-shadow);
 }
 
 .bp6-dark .bp6-popover .bp6-popover-content {

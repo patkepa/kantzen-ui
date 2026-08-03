@@ -5,6 +5,13 @@
   background-color: var(--content-bg);
 }
 
+@supports (height: 100dvh) {
+  .main-layout,
+  .app-sidebar {
+    height: 100dvh;
+  }
+}
+
 .main-content {
   flex: 1;
   min-width: 0;

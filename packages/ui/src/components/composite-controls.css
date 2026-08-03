@@ -29,15 +29,15 @@
 .kui-tabs--default {
   width: max-content;
   max-width: 100%;
-  border: 1px solid var(--border-color);
-  background: var(--navbar-bg);
+  border-bottom: 1px solid var(--border-color);
+  background: transparent;
 }
 
 .kui-tabs--default .kui-tabs__tab {
   min-height: 36px;
   padding: 0 14px;
-  border-right: 1px solid var(--border-color);
-  font-size: 12px;
+  border-right: 0;
+  font-size: 11px;
   font-weight: 600;
 }
 
@@ -46,11 +46,11 @@
 }
 
 .kui-tabs--default .kui-tabs__tab:hover {
-  background: var(--sidebar-accent);
+  background: var(--kui-surface-raised, var(--sidebar-accent));
 }
 
 .kui-tabs--default .kui-tabs__tab[aria-selected="true"] {
-  background: hsl(var(--accent) / 0.14);
+  background: transparent;
   box-shadow: inset 0 -2px hsl(var(--accent));
   color: hsl(var(--foreground));
 }
@@ -127,7 +127,7 @@
   padding: 2px;
   border: 1px solid var(--border-color);
   border-radius: 0;
-  background: #171717;
+  background: var(--navbar-bg);
 }
 
 .kui-segmented-control--compact .kui-segmented-control__option {
@@ -170,7 +170,7 @@
   z-index: 1;
   border-color: hsl(var(--accent) / 0.5);
   background: hsl(var(--accent) / 0.18);
-  color: #dbeafe;
+  color: hsl(var(--foreground));
 }
 
 .kui-expandable-search-field {
@@ -185,19 +185,20 @@
 .kui-expandable-search-field .bp6-input {
   height: 32px;
   min-height: 32px;
-  border: 0;
+  border: 1px solid var(--border-color);
   border-radius: 0;
   outline: 0;
-  background: var(--sidebar-accent);
+  background: var(--card-bg);
   box-shadow: none;
   color: hsl(var(--foreground));
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
 }
 
 .kui-expandable-search-field .bp6-input:focus {
-  background: hsl(var(--accent) / 0.09);
-  box-shadow: none;
+  border-color: hsl(var(--accent));
+  background: var(--card-bg);
+  box-shadow: 0 0 0 1px hsl(var(--accent));
 }
 
 .kui-expandable-search-field .bp6-input:hover {

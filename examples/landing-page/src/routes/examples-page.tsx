@@ -6,22 +6,16 @@ import {
   LandingHeader,
   type LandingPageProps,
 } from "./landing-page";
+import { WorkspaceDemo } from "./workspace-demo";
 import "./examples-page.css";
 
 const examples = [
   { id: "login", title: "User login" },
-  { id: "admin", title: "Admin dashboard" },
+  { id: "workspace", title: "Operations workspace" },
   { id: "projects", title: "Project board" },
 ] as const;
 
 type ExampleId = (typeof examples)[number]["id"];
-
-const adminRows = [
-  ["Maya Chen", "maya@northstar.dev", "Admin", "Active"],
-  ["Elliot Stone", "elliot@northstar.dev", "Editor", "Active"],
-  ["Noah Williams", "noah@northstar.dev", "Viewer", "Invited"],
-  ["Ari Patel", "ari@northstar.dev", "Editor", "Active"],
-] as const;
 
 const projectColumns = [
   {
@@ -73,7 +67,7 @@ function LoginThumbnail() {
   );
 }
 
-function AdminThumbnail() {
+function WorkspaceThumbnail() {
   return (
     <div className="gallery-thumb gallery-thumb--app" aria-hidden="true">
       <aside>
@@ -83,25 +77,23 @@ function AdminThumbnail() {
         <i />
         <i />
       </aside>
-      <div className="gallery-admin-main">
+      <div className="gallery-workspace-main">
         <header>
-          <strong>Overview</strong>
+          <strong>Operations overview</strong>
           <span />
         </header>
-        <div className="gallery-admin-stats">
-          <span />
-          <span />
-          <span />
+        <div className="gallery-workspace-stats">
+          <span><i />28</span>
+          <span><i />03</span>
+          <span><i />98.7%</span>
         </div>
-        <div className="gallery-admin-chart">
+        <div className="gallery-workspace-chart">
           <svg viewBox="0 0 240 60" preserveAspectRatio="none">
-            <path d="M0 54 28 43 54 46 82 27 110 34 138 19 168 25 198 8 240 14" />
+            <path d="M0 50 38 42 76 35 114 46 152 22 190 31 240 12" />
           </svg>
         </div>
-        <div className="gallery-admin-rows">
-          <span />
-          <span />
-          <span />
+        <div className="gallery-workspace-rows">
+          {[0, 1, 2, 3].map((row) => <span key={row}><i /><b /></span>)}
         </div>
       </div>
     </div>
@@ -139,7 +131,7 @@ function ProjectThumbnail() {
 
 function GalleryThumbnail({ id }: { id: ExampleId }) {
   if (id === "login") return <LoginThumbnail />;
-  if (id === "admin") return <AdminThumbnail />;
+  if (id === "workspace") return <WorkspaceThumbnail />;
   return <ProjectThumbnail />;
 }
 
@@ -273,15 +265,13 @@ function LoginExample() {
   );
 }
 
-function DashboardSidebar({ project = false }: { project?: boolean }) {
-  const labels = project
-    ? ["Projects", "My tasks", "Calendar", "Files", "Settings"]
-    : ["Overview", "Users", "Projects", "Billing", "Reports"];
+function DashboardSidebar() {
+  const labels = ["Projects", "My tasks", "Calendar", "Files", "Settings"];
 
   return (
     <aside className="example-app-sidebar">
       <KantzenWordmark />
-      <nav aria-label={project ? "Project navigation" : "Admin navigation"}>
+      <nav aria-label="Project navigation">
         {labels.map((label, index) => (
           <button
             className={index === 0 ? "is-active" : undefined}
@@ -296,117 +286,10 @@ function DashboardSidebar({ project = false }: { project?: boolean }) {
       <div className="example-app-user">
         <span>JD</span>
         <span>
-          Jane Doe<small>Administrator</small>
+          Jane Doe<small>Project lead</small>
         </span>
       </div>
     </aside>
-  );
-}
-
-function AdminExample() {
-  const [range, setRange] = useState<"30d" | "90d">("30d");
-
-  return (
-    <main className="admin-example-page">
-      <DashboardSidebar />
-      <section className="admin-example-content">
-        <header className="example-app-heading">
-          <div>
-            <span>Operations</span>
-            <h1>Overview</h1>
-          </div>
-          <div>
-            <button
-              className={range === "30d" ? "is-active" : undefined}
-              type="button"
-              onClick={() => setRange("30d")}
-            >
-              30 days
-            </button>
-            <button
-              className={range === "90d" ? "is-active" : undefined}
-              type="button"
-              onClick={() => setRange("90d")}
-            >
-              90 days
-            </button>
-            <button aria-label="Notifications" type="button">
-              <Icon icon="notifications" size={14} />
-            </button>
-          </div>
-        </header>
-
-        <div className="admin-example-stats">
-          {[
-            ["Total revenue", range === "30d" ? "$152,430" : "$428,912"],
-            ["Active users", range === "30d" ? "2,845" : "7,291"],
-            ["New signups", range === "30d" ? "342" : "918"],
-            ["MRR", range === "30d" ? "$48,920" : "$51,480"],
-          ].map(([label, value]) => (
-            <div key={label}>
-              <span>{label}</span>
-              <strong>{value}</strong>
-              <small>↑ 12.4% from last period</small>
-            </div>
-          ))}
-        </div>
-
-        <div className="admin-example-chart">
-          <header>
-            <div>
-              <strong>Revenue over time</strong>
-              <span>
-                {range === "30d" ? "May 01–31, 2026" : "Mar 01–May 31, 2026"}
-              </span>
-            </div>
-          </header>
-          <svg
-            viewBox="0 0 900 250"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <path
-              className="example-chart-grid"
-              d="M0 45H900M0 105H900M0 165H900M0 225H900"
-            />
-            <path
-              className="example-chart-area"
-              d="M0 215 66 190 126 198 190 145 257 162 327 118 393 131 463 88 528 108 594 67 663 82 728 42 798 58 852 20 900 34V250H0Z"
-            />
-            <path
-              className="example-chart-line"
-              d="M0 215 66 190 126 198 190 145 257 162 327 118 393 131 463 88 528 108 594 67 663 82 728 42 798 58 852 20 900 34"
-            />
-          </svg>
-        </div>
-
-        <section className="admin-example-table">
-          <header>
-            <strong>Recent users</strong>
-            <button type="button">View all users</button>
-          </header>
-          <div className="admin-example-row is-header">
-            <span>User</span>
-            <span>Email</span>
-            <span>Role</span>
-            <span>Status</span>
-          </div>
-          {adminRows.map(([name, email, role, status], index) => (
-            <div className="admin-example-row" key={email}>
-              <span>
-                <i>{["MC", "ES", "NW", "AP"][index]}</i>
-                {name}
-              </span>
-              <span>{email}</span>
-              <span>{role}</span>
-              <span className={status === "Active" ? "is-active" : undefined}>
-                {status}
-              </span>
-            </div>
-          ))}
-        </section>
-      </section>
-    </main>
   );
 }
 
@@ -415,7 +298,7 @@ function ProjectExample() {
 
   return (
     <main className="project-example-page">
-      <DashboardSidebar project />
+      <DashboardSidebar />
       <section className="project-example-content">
         <header className="example-app-heading project-example-heading">
           <div>
@@ -497,7 +380,7 @@ export function ExamplePage({ onNavigate }: LandingPageProps) {
     <div className="landing-page example-detail-page">
       <ExampleTopBar onBack={() => onNavigate("/examples")} />
       {selected?.id === "login" ? <LoginExample /> : null}
-      {selected?.id === "admin" ? <AdminExample /> : null}
+      {selected?.id === "workspace" ? <WorkspaceDemo /> : null}
       {selected?.id === "projects" ? <ProjectExample /> : null}
       {!selected ? (
         <main className="example-not-found">

@@ -55,8 +55,8 @@
   align-items: center;
   gap: 10px;
   color: var(--sidebar-foreground);
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 650;
   letter-spacing: -0.03em;
   -webkit-user-select: none;
   user-select: none;
@@ -84,4 +84,6 @@
   color: var(--sidebar-foreground);
   -webkit-user-select: none;
   user-select: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

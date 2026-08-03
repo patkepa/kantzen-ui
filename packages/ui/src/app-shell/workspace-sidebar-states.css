@@ -98,34 +98,8 @@
   }
 }
 
-.sidebar-menu .bp6-menu-item {
-  animation: slideInFromLeft 0.15s ease both;
-}
-
-.nav-group:nth-child(1) .bp6-menu-item:nth-child(1) {
-  animation-delay: 0ms;
-}
-.nav-group:nth-child(1) .bp6-menu-item:nth-child(2) {
-  animation-delay: 12ms;
-}
-.nav-group:nth-child(2) .bp6-menu-item:nth-child(1) {
-  animation-delay: 24ms;
-}
-.nav-group:nth-child(2) .bp6-menu-item:nth-child(2) {
-  animation-delay: 36ms;
-}
-.nav-group:nth-child(2) .bp6-menu-item:nth-child(3) {
-  animation-delay: 48ms;
-}
-.nav-group:nth-child(3) .bp6-menu-item:nth-child(1) {
-  animation-delay: 60ms;
-}
-.nav-group:nth-child(3) .bp6-menu-item:nth-child(2) {
-  animation-delay: 72ms;
-}
-.nav-group:nth-child(3) .bp6-menu-item:nth-child(3) {
-  animation-delay: 84ms;
-}
-.nav-group:nth-child(3) .bp6-menu-item:nth-child(4) {
-  animation-delay: 96ms;
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar-menu .bp6-menu-item {
+    animation: slideInFromLeft 0.15s ease both;
+  }
 }
