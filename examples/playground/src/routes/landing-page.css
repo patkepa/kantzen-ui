@@ -141,7 +141,7 @@
   position: relative;
   display: grid;
   grid-template-columns: 36.8% 63.2%;
-  min-height: 826px;
+  min-height: 950px;
   border-bottom: 1px solid var(--landing-line);
   background:
     linear-gradient(
@@ -171,15 +171,17 @@
 .landing-hero-copy {
   position: relative;
   z-index: 2;
-  align-self: center;
-  padding: 88px clamp(24px, 2.5vw, 40px) 128px;
+  align-self: start;
+  padding: 128px 4px 128px clamp(24px, 2.5vw, 40px);
 }
 
 .landing-hero h1 {
   max-width: 680px;
   margin: 0;
   color: var(--landing-text);
-  font-size: clamp(58px, 4.45vw, 72px);
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(62px, 4.7vw, 74px);
+  font-stretch: condensed;
   font-weight: 500;
   line-height: 0.98;
   letter-spacing: -0.06em;
@@ -240,13 +242,13 @@
 .hero-workspace {
   position: relative;
   z-index: 2;
-  align-self: center;
+  align-self: start;
   display: grid;
   grid-template-columns: 106px minmax(0, 1fr);
-  width: calc(100% + 48px);
-  max-width: 1000px;
+  width: 100%;
+  max-width: none;
   min-height: 720px;
-  margin-right: -48px;
+  margin-top: 58px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   color: #d5d6d9;
   background: #080808;
@@ -537,7 +539,7 @@
   display: grid;
   grid-template-columns: 31% 1fr;
   align-items: center;
-  min-height: 84px;
+  min-height: 124px;
   border-top: 1px solid var(--landing-line);
   color: #c2c4c8;
   font-family: "SFMono-Regular", Consolas, monospace;
@@ -547,7 +549,7 @@
 
 .landing-hero-footnote > span:first-child {
   width: 210px;
-  height: 54px;
+  height: 84px;
   margin-left: 36px;
   background: var(--landing-blue-strong);
 }
@@ -1579,10 +1581,9 @@
   }
 
   .momentum-workbench {
-    grid-template-columns: minmax(280px, 1.3fr) minmax(220px, 0.85fr) minmax(
-        220px,
-        0.9fr
-      ) minmax(220px, 0.9fr);
+    grid-template-columns:
+      minmax(280px, 1.3fr) minmax(220px, 0.85fr) minmax(220px, 0.9fr)
+      minmax(220px, 0.9fr);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
   }
