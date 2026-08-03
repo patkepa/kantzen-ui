@@ -1,7 +1,7 @@
 # Kantzen UI
 
 Kantzen UI is Patryk Kępa's reusable React interface system for workspace
-applications and websites. Castle is its first production consumer.
+applications and websites.
 
 The project is maintained as one npm workspace with a deliberately small public
 package surface. Blueprint Icons is the intentional icon provider; Kantzen UI

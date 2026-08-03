@@ -1,10 +1,4 @@
-/*
- * Kantzen primitive compatibility layer.
- *
- * Components intentionally retain Blueprint 6 class aliases while Castle is
- * migrated. Kantzen-owned class names are emitted alongside them and are the
- * stable contract for new components.
- */
+/* Kantzen primitive styles. */
 
 .kui-icon,
 .bp6-icon {

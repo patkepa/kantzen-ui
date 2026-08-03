@@ -89,17 +89,3 @@ already been published.
 
 For prereleases, use a semantic prerelease version such as `0.2.0-beta.1` and
 publish it with the `next` dist-tag rather than replacing `latest`.
-
-## Local cross-repository development
-
-Keep sibling checkouts:
-
-```text
-Developer/
-  kantzen-ui/
-  main/
-```
-
-Use `npm run pack:packages` and install the generated tarballs into Castle when
-testing unpublished changes. Castle should use normal semver dependencies for
-released builds.
