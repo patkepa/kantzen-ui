@@ -1,0 +1,60 @@
+{
+  "name": "kantzen-ui",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Reusable React interface system for Kantzen workspace applications and websites.",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "npm@10.9.3",
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patkepa/kantzen-ui.git"
+  },
+  "homepage": "https://github.com/patkepa/kantzen-ui#readme",
+  "bugs": {
+    "url": "https://github.com/patkepa/kantzen-ui/issues"
+  },
+  "workspaces": [
+    "examples/playground",
+    "packages/graph",
+    "packages/ui",
+    "packages/command-palette",
+    "packages/app-shell"
+  ],
+  "scripts": {
+    "build": "npm run build:packages",
+    "build:packages": "npm run clean:packages && npm run build --workspace @kantzen-ui/ui --workspace @kantzen-ui/graph --workspace @kantzen-ui/command-palette --workspace @kantzen-ui/app-shell",
+    "build:playground": "npm --workspace @kantzen-ui/ui-playground run build",
+    "clean": "node scripts/clean.mjs",
+    "clean:packages": "node scripts/clean-package-dist.mjs",
+    "dev:playground": "npm --workspace @kantzen-ui/ui-playground run dev",
+    "format": "prettier --write packages examples scripts docs README.md package.json tsconfig.json tsconfig.package.json eslint.config.js",
+    "format:check": "prettier --check packages examples scripts docs README.md package.json tsconfig.json tsconfig.package.json eslint.config.js",
+    "lint": "eslint packages examples scripts",
+    "pack:packages": "node scripts/pack-ui-packages.mjs",
+    "verify:packages": "npm run pack:packages && node scripts/verify-packed-packages.mjs",
+    "publish:packages": "npm run build:packages && npm publish --access public --workspace @kantzen-ui/ui --workspace @kantzen-ui/graph --workspace @kantzen-ui/command-palette --workspace @kantzen-ui/app-shell",
+    "test": "npm run build:packages && npm run test:packages",
+    "test:packages": "node scripts/smoke-packages.mjs && npm run test --workspace @kantzen-ui/ui && npm run test --workspace @kantzen-ui/graph",
+    "typecheck": "npm run build:packages"
+  },
+  "devDependencies": {
+    "@blueprintjs/icons": "^6.2.0",
+    "@eslint/js": "^9.39.4",
+    "@types/react": "^18.3.26",
+    "@types/react-dom": "^18.3.7",
+    "cmdk": "^1.1.1",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "prettier": "^3.8.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "7.18.2",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.57.0"
+  }
+}

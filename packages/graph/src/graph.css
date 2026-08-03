@@ -1,0 +1,38 @@
+.kui-force-graph-canvas,
+.force-graph-canvas {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  outline: 0;
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.kui-force-graph-canvas.is-panning,
+.force-graph-canvas.is-panning,
+.kui-force-graph-canvas.is-pinching,
+.force-graph-canvas.is-pinching {
+  cursor: grabbing;
+}
+
+.kui-force-graph-canvas.is-over-node,
+.force-graph-canvas.is-over-node {
+  cursor: pointer;
+}
+
+.kui-force-graph-canvas.is-dragging-node,
+.force-graph-canvas.is-dragging-node {
+  cursor: move;
+}
+
+.kui-force-graph-canvas:focus-visible,
+.force-graph-canvas:focus-visible {
+  outline: 2px solid hsl(var(--accent));
+  outline-offset: -2px;
+}

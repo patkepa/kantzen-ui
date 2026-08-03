@@ -1,0 +1,55 @@
+{
+  "name": "@kantzen-ui/app-shell",
+  "version": "0.1.0",
+  "description": "Reusable Kantzen UI workspace and public site shells.",
+  "license": "MIT",
+  "keywords": [
+    "kantzen-ui",
+    "react",
+    "app-shell",
+    "layout",
+    "workspace",
+    "site"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && cp src/*.css dist/ && cp styles.css dist/styles.css"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patkepa/kantzen-ui.git",
+    "directory": "packages/app-shell"
+  },
+  "homepage": "https://github.com/patkepa/kantzen-ui/tree/main/packages/app-shell#readme",
+  "bugs": {
+    "url": "https://github.com/patkepa/kantzen-ui/issues"
+  },
+  "dependencies": {
+    "@kantzen-ui/ui": "^0.1.0"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1 || ^19.0.0",
+    "react-router-dom": "^7.18.2"
+  }
+}
