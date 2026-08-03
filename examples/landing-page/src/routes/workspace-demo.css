@@ -48,6 +48,14 @@
   margin-left: auto;
 }
 
+.workspace-toolbar-actions .bp6-button {
+  white-space: nowrap;
+}
+
+.workspace-toolbar-actions .bp6-button:last-child {
+  min-width: 128px;
+}
+
 .workspace-notification-control {
   position: relative;
   display: inline-flex;

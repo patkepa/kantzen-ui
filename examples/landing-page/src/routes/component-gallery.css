@@ -225,12 +225,11 @@
 .component-wiki-article-header h1 {
   margin: 0;
   color: var(--wiki-text);
-  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(39px, 4vw, 52px);
-  font-stretch: condensed;
-  font-weight: 510;
-  line-height: 1;
-  letter-spacing: -0.055em;
+  font-family: inherit;
+  font-size: clamp(36px, 3.6vw, 48px);
+  font-weight: 650;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
 }
 
 .component-wiki-article-header p {
