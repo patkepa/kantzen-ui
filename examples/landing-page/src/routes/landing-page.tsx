@@ -162,10 +162,10 @@ function LandingHeader({ onNavigate }: LandingPageProps) {
         <button type="button" onClick={() => onNavigate("/components")}>
           Components
         </button>
+        <a href="#motivation">Motivation</a>
         <button type="button" onClick={() => onNavigate("/workspace")}>
-          Workspace
+          Examples
         </button>
-        <a href="#patterns">Patterns</a>
       </nav>
       <Button
         className="landing-header-action"
@@ -715,7 +715,7 @@ function CommandWorkbench({ onNavigate }: LandingPageProps) {
 
 function MomentumSection({ onNavigate }: LandingPageProps) {
   return (
-    <section className="landing-section landing-momentum" id="patterns">
+    <section className="landing-section landing-momentum" id="motivation">
       <div className="momentum-intro">
         <span className="landing-section-label">BUILT FOR MOMENTUM</span>
         <h2>
@@ -788,10 +788,10 @@ function LandingFooter({ onNavigate }: LandingPageProps) {
         <button type="button" onClick={() => onNavigate("/components")}>
           Components
         </button>
+        <a href="#motivation">Motivation</a>
         <button type="button" onClick={() => onNavigate("/workspace")}>
-          Workspace
+          Examples
         </button>
-        <a href="#patterns">Patterns</a>
         <a
           href="https://github.com/patkepa/kantzen-ui"
           target="_blank"

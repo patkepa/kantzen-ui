@@ -13,7 +13,7 @@ import { StressPage } from "./routes/stress";
 import { WorkspaceDemo } from "./routes/workspace-demo";
 
 const playgroundRoutes = [
-  { label: "Home", href: "/" },
+  { label: "Landing page", href: "/" },
   { label: "Product", href: "/site/product" },
   { label: "Workspace", href: "/workspace" },
   { label: "Blog", href: "/site/blog" },
@@ -74,7 +74,10 @@ export const App = () => {
         />
         <Route path="/workspace/*" element={<WorkspaceDemo />} />
       </Routes>
-      {location.pathname === "/" ? null : <PlaygroundSwitcher />}
+      {location.pathname === "/" ||
+      location.pathname === "/components" ? null : (
+        <PlaygroundSwitcher />
+      )}
     </>
   );
 };

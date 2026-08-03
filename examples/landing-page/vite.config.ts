@@ -15,7 +15,7 @@ export default defineConfig({
       },
       {
         find: "@kantzen-ui/ui/app-shell/styles.css",
-        replacement: fromRoot("examples/playground/src/app-shell-source.css"),
+        replacement: fromRoot("examples/landing-page/src/app-shell-source.css"),
       },
       {
         find: "@kantzen-ui/ui/command-palette/styles.css",

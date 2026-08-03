@@ -18,7 +18,7 @@
     "url": "https://github.com/patkepa/kantzen-ui/issues"
   },
   "workspaces": [
-    "examples/playground",
+    "examples/landing-page",
     "packages/ui"
   ],
   "scripts": {

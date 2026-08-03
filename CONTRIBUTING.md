@@ -43,6 +43,6 @@ Feature stylesheets do not import it and must remain independently additive.
 ## Package Changes
 
 The public package lives in `packages/ui`. The playground in
-`examples/playground` is private and should not be published.
+`examples/landing-page` is private and should not be published.
 
 When preparing a release, bump the `@kantzen-ui/ui` package version.
