@@ -7,7 +7,10 @@ if (!releaseVersion) {
 }
 
 const packageManifest = JSON.parse(
-  readFileSync(resolve(import.meta.dirname, "..", "packages/ui/package.json")),
+  readFileSync(
+    resolve(import.meta.dirname, "..", "packages/ui/package.json"),
+    "utf8",
+  ),
 );
 const normalizedReleaseVersion = releaseVersion.startsWith("v")
   ? releaseVersion.slice(1)
@@ -19,4 +22,6 @@ if (normalizedReleaseVersion !== packageManifest.version) {
   );
 }
 
-console.log(`Release version verified: @kantzen-ui/ui@${packageManifest.version}`);
+console.log(
+  `Release version verified: @kantzen-ui/ui@${packageManifest.version}`,
+);

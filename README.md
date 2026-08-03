@@ -10,7 +10,7 @@ Kantzen UI does not depend on Blueprint Core.
 ## Package surface
 
 - `@kantzen-ui/ui` — theme, icons, primitives, interactions, navigation contracts, and general components
-- `@kantzen-ui/ui/app-shell` — application and website shells built around React Router
+- `@kantzen-ui/ui/app-shell` — router-agnostic application and website shells
 - `@kantzen-ui/ui/command-palette` — command-palette composition built around `cmdk`
 - `@kantzen-ui/ui/graph` — data-agnostic force-directed graph canvas
 
@@ -32,9 +32,6 @@ import "@kantzen-ui/ui/app-shell/styles.css";
 import "@kantzen-ui/ui/command-palette/styles.css";
 import "@kantzen-ui/ui/graph/styles.css";
 ```
-
-Applications using the app-shell subpath must also install the optional
-`react-router-dom` peer dependency.
 
 ## Development
 

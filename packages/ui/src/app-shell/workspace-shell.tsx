@@ -22,6 +22,7 @@ export interface WorkspaceShellProps {
   children: ReactNode;
   productName: string;
   collapsedProductName?: string;
+  currentPath?: string;
   navGroups: NavGroup[];
   sidebarCollapsed: boolean;
   onToggleSidebar: () => void;
@@ -31,6 +32,7 @@ export interface WorkspaceShellProps {
   user?: User;
   version?: string;
   onLogout?: () => void;
+  onNavigate?: (href: string) => void;
   onOpenCommandPalette?: () => void;
   commandPalette?: ReactNode;
   sidebarShortcutLabel?: string;
@@ -46,6 +48,7 @@ const WorkspaceShellLayout = ({
   children,
   productName,
   collapsedProductName,
+  currentPath,
   navGroups,
   sidebarCollapsed,
   onToggleSidebar,
@@ -55,6 +58,7 @@ const WorkspaceShellLayout = ({
   user,
   version,
   onLogout,
+  onNavigate,
   onOpenCommandPalette,
   commandPalette,
   sidebarShortcutLabel,
@@ -98,12 +102,14 @@ const WorkspaceShellLayout = ({
         isCollapsed={sidebarCollapsed}
         productName={productName}
         collapsedProductName={collapsedProductName}
+        currentPath={currentPath}
         navGroups={navGroups}
         navBadges={navBadges}
         projects={projects}
         user={user}
         version={version}
         onLogout={onLogout}
+        onNavigate={onNavigate}
         onExpandSidebar={onToggleSidebar}
         sidebarShortcutLabel={sidebarShortcutLabel}
         navigationFooter={

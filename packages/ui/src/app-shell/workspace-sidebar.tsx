@@ -7,7 +7,6 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { clearKeyboardFocusRegions } from "../interactions/focus-regions.js";
 import {
   getDirectionalKey,
@@ -32,6 +31,7 @@ export interface WorkspaceSidebarProps {
   isCollapsed?: boolean;
   productName: string;
   collapsedProductName?: string;
+  currentPath?: string;
   navGroups: NavGroup[];
   navBadges?: Record<string, NavBadge>;
   projects?: Project[];
@@ -39,6 +39,7 @@ export interface WorkspaceSidebarProps {
   version?: string;
   onLogout?: () => void;
   onExpandSidebar?: () => void;
+  onNavigate?: (href: string) => void;
   navigationFooter?: ReactNode;
   sidebarShortcutLabel?: string;
 }
@@ -55,6 +56,7 @@ export const WorkspaceSidebar = ({
   isCollapsed = false,
   productName,
   collapsedProductName,
+  currentPath,
   navGroups,
   navBadges = {},
   projects = [],
@@ -62,27 +64,29 @@ export const WorkspaceSidebar = ({
   version,
   onLogout,
   onExpandSidebar,
+  onNavigate,
   navigationFooter,
   sidebarShortcutLabel = "⌘B",
 }: WorkspaceSidebarProps) => {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const focusedNavLabelRef = useRef<string | null>(null);
   const prevCollapsedRef = useRef(isCollapsed);
-  const navigate = useNavigate();
-  const location = useLocation();
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
+  const pathname =
+    currentPath ??
+    (typeof window === "undefined" ? "/" : window.location.pathname);
 
   const activeParentLabels = useMemo(() => {
     const labels = new Set<string>();
     for (const group of navGroups) {
       for (const item of group.items) {
-        if (item.children && hasActiveChild(item, location.pathname)) {
+        if (item.children && hasActiveChild(item, pathname)) {
           labels.add(item.label);
         }
       }
     }
     return labels;
-  }, [location.pathname, navGroups]);
+  }, [navGroups, pathname]);
 
   const toggleExpanded = (label: string) => {
     setExpandedItems((prev) => {
@@ -96,11 +100,14 @@ export const WorkspaceSidebar = ({
     });
   };
 
-  const isActive = (href: string) =>
-    isWorkspacePathActive(href, location.pathname);
+  const isActive = (href: string) => isWorkspacePathActive(href, pathname);
 
   const handleNavigation = (href: string) => {
-    navigate(href);
+    if (onNavigate) {
+      onNavigate(href);
+      return;
+    }
+    window.location.assign(href);
   };
 
   const activateNavItem = (item: NavItem) => {

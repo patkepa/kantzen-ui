@@ -75,9 +75,12 @@ function ContextMenuOverlay({
     if (!popover || !transition) return;
     const bounds = popover.getBoundingClientRect();
     const position = getContextMenuPosition(
-      targetOffset,
+      { left: targetOffset.left, top: targetOffset.top },
       bounds,
-      { width: window.innerWidth, height: window.innerHeight },
+      {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      },
     );
     transition.style.left = `${position.left}px`;
     transition.style.top = `${position.top}px`;

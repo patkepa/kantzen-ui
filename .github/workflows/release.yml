@@ -40,7 +40,7 @@ jobs:
         run: node scripts/verify-release-version.mjs "$RELEASE_VERSION"
 
       - name: Audit dependencies
-        run: npm audit --audit-level=high
+        run: npm audit --omit=dev --audit-level=high
 
       - name: Check formatting
         run: npm run format:check

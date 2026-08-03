@@ -140,7 +140,7 @@
 .landing-hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(390px, 0.82fr) minmax(690px, 1.55fr);
+  grid-template-columns: 36.8% 63.2%;
   min-height: 826px;
   border-bottom: 1px solid var(--landing-line);
   background:
@@ -172,14 +172,14 @@
   position: relative;
   z-index: 2;
   align-self: center;
-  padding: 88px clamp(36px, 4vw, 70px) 128px;
+  padding: 88px clamp(24px, 2.5vw, 40px) 128px;
 }
 
 .landing-hero h1 {
   max-width: 680px;
   margin: 0;
   color: var(--landing-text);
-  font-size: clamp(58px, 5.1vw, 88px);
+  font-size: clamp(58px, 4.45vw, 72px);
   font-weight: 500;
   line-height: 0.98;
   letter-spacing: -0.06em;
@@ -245,7 +245,7 @@
   grid-template-columns: 106px minmax(0, 1fr);
   width: calc(100% + 48px);
   max-width: 1000px;
-  min-height: 620px;
+  min-height: 720px;
   margin-right: -48px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   color: #d5d6d9;
@@ -332,7 +332,7 @@
 .hero-workspace-main {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(190px, 0.75fr);
-  grid-template-rows: 52px 280px 1fr;
+  grid-template-rows: 52px 320px 1fr;
   min-width: 0;
 }
 

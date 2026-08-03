@@ -11,9 +11,9 @@ workspace/public-site components.
 npm install @kantzen-ui/ui
 ```
 
-React and React DOM are peer dependencies. React Router is an optional peer used
-by the app-shell subpath. Packed artifacts are tested against both React 18 and
-React 19 before release.
+React and React DOM are peer dependencies. Application shells accept navigation
+state and callbacks without requiring a particular router. Packed artifacts are
+tested against both React 18 and React 19 before release.
 
 ## Main entry point
 

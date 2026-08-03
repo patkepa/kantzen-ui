@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Card, Tag } from "@kantzen-ui/ui";
 import { WorkspacePortal, WorkspaceShell } from "@kantzen-ui/ui/app-shell";
 import { SearchField, StatusLed, WorkspaceToolbar } from "@kantzen-ui/ui";
@@ -38,13 +39,17 @@ const rows = [
 export const WorkspaceDemo = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [query, setQuery] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <WorkspaceShell
       productName="Kantzen Workspace"
       collapsedProductName="EW"
+      currentPath={location.pathname}
       navGroups={workspaceNavGroups}
       sidebarCollapsed={sidebarCollapsed}
+      onNavigate={navigate}
       onToggleSidebar={() => setSidebarCollapsed((collapsed) => !collapsed)}
       breadcrumb={
         <>

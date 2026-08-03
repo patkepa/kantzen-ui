@@ -1,11 +1,5 @@
 import { spawnSync } from "node:child_process";
-import {
-  mkdtempSync,
-  readFileSync,
-  readdirSync,
-  rmSync,
-  writeFileSync,
-} from "node:fs";
+import { mkdtempSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
@@ -18,10 +12,6 @@ const typescriptBin = resolve(
   "bin",
   "tsc",
 );
-const packageManifest = JSON.parse(
-  readFileSync(resolve(rootDir, "packages", "ui", "package.json"), "utf8"),
-);
-const reactRouterVersion = packageManifest.peerDependencies["react-router-dom"];
 const tarballs = readdirSync(tarballDir)
   .filter((file) => file.endsWith(".tgz"))
   .sort()
@@ -83,7 +73,7 @@ import type { NavGroup } from "@kantzen-ui/ui/navigation";
 
 const navGroups: NavGroup[] = [];
 void <ThemeProvider><Card><Button text="Create" /></Card></ThemeProvider>;
-void <WorkspaceShell productName="Test" navGroups={navGroups} sidebarCollapsed={false} onToggleSidebar={() => undefined}>Content</WorkspaceShell>;
+void <WorkspaceShell currentPath="/" productName="Test" navGroups={navGroups} sidebarCollapsed={false} onNavigate={() => undefined} onToggleSidebar={() => undefined}>Content</WorkspaceShell>;
 void CommandPaletteShell;
 void ForceGraphCanvas;
 `,
@@ -136,7 +126,6 @@ for (const stylesheet of [
         ...tarballs,
         `react@${reactVersion}`,
         `react-dom@${reactVersion}`,
-        `react-router-dom@${reactRouterVersion}`,
         `@types/react@${reactMajor}`,
         `@types/react-dom@${reactMajor}`,
       ],
