@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import type { SiteNavGroup, SiteNavItem } from "../navigation.js";
 
 export interface SiteFooterProps {
@@ -7,6 +7,7 @@ export interface SiteFooterProps {
   secondaryLinks?: SiteNavItem[];
   children?: ReactNode;
   className?: string;
+  onNavigate?: (href: string) => void;
 }
 
 export const SiteFooter = ({
@@ -15,8 +16,16 @@ export const SiteFooter = ({
   secondaryLinks = [],
   children,
   className,
+  onNavigate,
 }: SiteFooterProps) => {
   const classNames = ["site-footer", className].filter(Boolean).join(" ");
+  const handleNavigate =
+    (href: string, external?: boolean) =>
+    (event: MouseEvent<HTMLAnchorElement>) => {
+      if (external || !onNavigate) return;
+      event.preventDefault();
+      onNavigate(href);
+    };
 
   return (
     <footer className={classNames}>
@@ -38,6 +47,7 @@ export const SiteFooter = ({
                       href={item.href}
                       target={item.external ? "_blank" : undefined}
                       rel={item.external ? "noreferrer" : undefined}
+                      onClick={handleNavigate(item.href, item.external)}
                     >
                       {item.label}
                     </a>
@@ -56,6 +66,7 @@ export const SiteFooter = ({
                 href={link.href}
                 target={link.external ? "_blank" : undefined}
                 rel={link.external ? "noreferrer" : undefined}
+                onClick={handleNavigate(link.href, link.external)}
               >
                 {link.label}
               </a>

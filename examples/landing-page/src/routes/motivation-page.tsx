@@ -241,7 +241,7 @@ export function MotivationPage({ onNavigate }: LandingPageProps) {
           />
         </section>
       </main>
-      <LandingFooter onNavigate={onNavigate} />
+      <LandingFooter />
     </div>
   );
 }

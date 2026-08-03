@@ -6,6 +6,7 @@ export interface SearchFieldProps {
   clearButtonAriaLabel?: string;
   value: string;
   onChange: (value: string) => void;
+  onClear?: () => void;
   placeholder?: string;
   inputRef?: React.Ref<HTMLInputElement>;
   className?: string;
@@ -16,6 +17,7 @@ export const SearchField = ({
   clearButtonAriaLabel = "Clear search",
   value,
   onChange,
+  onClear,
   placeholder = "Search...",
   inputRef,
   className,
@@ -40,7 +42,10 @@ export const SearchField = ({
             aria-label={clearButtonAriaLabel}
             icon="cross"
             minimal
-            onClick={() => onChange("")}
+            onClick={() => {
+              onChange("");
+              onClear?.();
+            }}
             title={clearButtonAriaLabel}
           />
         ) : undefined

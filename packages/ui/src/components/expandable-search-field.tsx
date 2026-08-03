@@ -29,6 +29,8 @@ export function ExpandableSearchField({
     window.requestAnimationFrame(() => internalInputRef.current?.focus());
   };
 
+  const closeSearch = () => setOpen(false);
+
   return open ? (
     <SearchField
       ariaLabel={label}
@@ -37,6 +39,7 @@ export function ExpandableSearchField({
         .join(" ")}
       inputRef={internalInputRef}
       onChange={onChange}
+      onClear={closeSearch}
       placeholder={placeholder}
       value={value}
     />

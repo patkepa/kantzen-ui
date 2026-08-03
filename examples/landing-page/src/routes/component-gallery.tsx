@@ -1,4 +1,10 @@
-import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import {
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Button, Icon, InputGroup } from "@kantzen-ui/ui";
 import {
   catalogGroups,
@@ -93,10 +99,13 @@ const importSourceByCategory = {
   Site: "@kantzen-ui/ui",
 } as const;
 
-const getInitialComponentId = () => {
-  if (typeof window === "undefined") return "button";
-  return window.location.hash.replace(/^#/, "") || "button";
+const getComponentIdFromHash = () => {
+  if (typeof window === "undefined") return null;
+  const hash = window.location.hash.replace(/^#/, "");
+  return catalogItems.some((item) => item.id === hash) ? hash : null;
 };
+
+const getInitialComponentId = () => getComponentIdFromHash() ?? "button";
 
 export const ComponentGallery = ({ onNavigate }: SiteRouteProps) => {
   const [activeTab, setActiveTab] = useState<"preview" | "usage">("preview");
@@ -104,6 +113,7 @@ export const ComponentGallery = ({ onNavigate }: SiteRouteProps) => {
   const [mobileCatalogOpen, setMobileCatalogOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(getInitialComponentId);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
   const selected = getCatalogItem(selectedId);
 
@@ -112,10 +122,28 @@ export const ComponentGallery = ({ onNavigate }: SiteRouteProps) => {
   }, [selected.name]);
 
   useEffect(() => {
-    const onHashChange = () => setSelectedId(getInitialComponentId());
+    const onHashChange = () => {
+      const componentId = getComponentIdFromHash();
+      if (componentId) setSelectedId(componentId);
+    };
     window.addEventListener("hashchange", onHashChange);
     return () => window.removeEventListener("hashchange", onHashChange);
   }, []);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setMobileCatalogOpen(true);
+        window.requestAnimationFrame(() => searchInputRef.current?.focus());
+      }
+      if (event.key === "Escape" && mobileCatalogOpen) {
+        setMobileCatalogOpen(false);
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [mobileCatalogOpen]);
 
   const filteredGroups = useMemo(
     () =>
@@ -148,11 +176,14 @@ export const ComponentGallery = ({ onNavigate }: SiteRouteProps) => {
       ?.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const copyCode = () => {
-    void navigator.clipboard?.writeText(code).then(() => {
+  const copyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1600);
-    });
+    } catch {
+      setCopied(false);
+    }
   };
 
   return (
@@ -178,6 +209,7 @@ export const ComponentGallery = ({ onNavigate }: SiteRouteProps) => {
           <InputGroup
             aria-label="Search components"
             fill
+            inputRef={searchInputRef}
             leftIcon="search"
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search components…"
@@ -334,7 +366,7 @@ export const ComponentGallery = ({ onNavigate }: SiteRouteProps) => {
             <div className="component-wiki-code-frame">
               <header>
                 <span>TSX</span>
-                <button type="button" onClick={copyCode}>
+                <button type="button" onClick={() => void copyCode()}>
                   <Icon icon={copied ? "confirm" : "clipboard"} size={13} />
                   {copied ? "Copied" : "Copy"}
                 </button>

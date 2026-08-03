@@ -131,18 +131,6 @@
   box-shadow: inset 0 -2px 0 var(--landing-blue);
 }
 
-.landing-header .landing-header-action {
-  align-self: center;
-  justify-self: end;
-  min-height: 46px;
-  margin-right: 28px;
-  padding: 0 23px;
-  border-radius: 0 !important;
-  color: #fff;
-  font-size: 13px;
-  background: var(--landing-blue-strong);
-}
-
 .landing-hero {
   position: relative;
   display: grid;
@@ -225,24 +213,70 @@
 }
 
 .landing-install {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 12px;
+  width: min(100%, 390px);
+  min-height: 54px;
   margin-top: 26px;
-  padding: 10px 0;
-  border: 0;
-  color: #a5a7ac;
-  background: transparent;
+  padding: 5px 5px 5px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: var(--landing-text);
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow:
+    inset 3px 0 0 var(--landing-blue),
+    0 14px 34px rgba(0, 0, 0, 0.24);
   cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.landing-install-prompt {
+  color: #8bb4ff;
+  font-size: 20px;
+  line-height: 1;
 }
 
 .landing-install code {
+  overflow: hidden;
+  color: var(--landing-text);
   font-size: 13px;
+  font-weight: 600;
   letter-spacing: 0;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.landing-install-action {
+  display: inline-flex;
+  align-items: center;
+  align-self: stretch;
+  gap: 7px;
+  min-width: 76px;
+  padding: 0 11px;
+  color: #a9c8ff;
+  background: rgba(91, 143, 223, 0.14);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .landing-install:hover {
-  color: var(--landing-text);
+  border-color: rgba(139, 180, 255, 0.72);
+  background: rgba(91, 143, 223, 0.1);
+  box-shadow:
+    inset 3px 0 0 #8bb4ff,
+    0 16px 38px rgba(0, 0, 0, 0.32);
+}
+
+.landing-install:hover .landing-install-action {
+  color: #d8e6ff;
+  background: rgba(91, 143, 223, 0.22);
 }
 
 .hero-workspace {
@@ -510,16 +544,43 @@
   min-height: 260px;
 }
 
-.hero-graph-pane .force-graph-canvas,
-.surface-graph .force-graph-canvas {
-  display: block;
-  width: 100%;
+.hero-graph-drift {
   height: calc(100% - 38px);
   min-height: 220px;
   background:
     linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
   background-size: 22px 22px;
+}
+
+.hero-graph-motion {
+  height: 100%;
+  transform-origin: center;
+  animation: hero-graph-drift 22s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.hero-graph-pane .force-graph-canvas,
+.surface-graph .force-graph-canvas {
+  display: block;
+  width: 100%;
+}
+
+.surface-graph .force-graph-canvas {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.hero-graph-pane .force-graph-canvas {
+  height: 100%;
+  min-height: 100%;
+}
+
+.surface-graph .force-graph-canvas {
+  height: calc(100% - 38px);
+  min-height: 220px;
 }
 
 .hero-event {
@@ -1332,7 +1393,7 @@
 
 .landing-footer nav {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1fr;
   border-top: 1px solid var(--landing-line);
 }
 
@@ -1358,6 +1419,21 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes hero-graph-drift {
+  0% {
+    transform: translate3d(-4px, 2px, 0) scale(1.01);
+  }
+  35% {
+    transform: translate3d(3px, -4px, 0) scale(1.018);
+  }
+  70% {
+    transform: translate3d(5px, 3px, 0) scale(1.012);
+  }
+  100% {
+    transform: translate3d(-2px, -3px, 0) scale(1.02);
   }
 }
 
@@ -1465,13 +1541,6 @@
     height: 27px;
   }
 
-  .landing-header .landing-header-action {
-    min-height: 38px;
-    margin-right: 12px;
-    padding: 0 12px;
-    font-size: 11px;
-  }
-
   .landing-hero-copy {
     padding: 70px 20px 42px;
   }
@@ -1491,6 +1560,24 @@
 
   .landing-hero-actions .bp6-button {
     width: 100%;
+  }
+
+  .landing-install {
+    gap: 8px;
+    padding-left: 10px;
+  }
+
+  .landing-install-prompt {
+    display: none;
+  }
+
+  .landing-install code {
+    font-size: 12px;
+  }
+
+  .landing-install-action {
+    min-width: 68px;
+    padding: 0 9px;
   }
 
   .hero-workspace {
@@ -1636,7 +1723,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-workspace {
+  .hero-workspace,
+  .hero-graph-motion {
     animation: none;
   }
 

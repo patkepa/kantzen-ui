@@ -1,5 +1,6 @@
 import "@kantzen-ui/ui/styles.css";
 import "@kantzen-ui/ui/app-shell/styles.css";
+import "@kantzen-ui/ui/command-palette/styles.css";
 import "@kantzen-ui/ui/graph/styles.css";
 import "./styles.css";
 

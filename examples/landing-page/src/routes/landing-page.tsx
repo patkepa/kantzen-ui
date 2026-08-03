@@ -1,11 +1,12 @@
 import { useCallback, useState } from "react";
 import { Button, Icon, SelectableList, StatusLed } from "@kantzen-ui/ui";
-import {
-  ForceGraphCanvas,
-  type ForceGraphEdge,
-  type ForceGraphNode,
-} from "@kantzen-ui/ui/graph";
+import { ForceGraphCanvas } from "@kantzen-ui/ui/graph";
+import { HeroWorkspacePreview } from "./hero-workspace-preview.js";
+import { BrandMark } from "./landing-brand-mark.js";
+import { landingGraphEdges, landingGraphNodes } from "./landing-graph-data.js";
 import "./landing-page.css";
+
+export { BrandMark };
 
 export interface LandingPageProps {
   onNavigate: (href: string) => void;
@@ -14,10 +15,6 @@ export interface LandingPageProps {
 interface LandingHeaderProps extends LandingPageProps {
   activeItem?: "components" | "motivation" | "examples";
   isHome?: boolean;
-}
-
-interface GraphNode extends ForceGraphNode {
-  kind: "core" | "service";
 }
 
 interface CommandItem {
@@ -29,63 +26,6 @@ interface CommandItem {
 }
 
 const installCommand = "npm install @kantzen-ui/ui";
-
-const deploymentRows = [
-  { id: "run_2d7b9e11", service: "api", status: "online", time: "10:42:03" },
-  { id: "run_8f3a1c7e", service: "ingest", status: "online", time: "10:42:18" },
-  {
-    id: "run_c91a2d4b",
-    service: "worker",
-    status: "warning",
-    time: "10:41:55",
-  },
-  { id: "run_a4e2b6f9", service: "web", status: "online", time: "10:41:27" },
-] as const;
-
-const graphNodes: readonly GraphNode[] = [
-  {
-    id: "kantzen",
-    label: "Kantzen system",
-    kind: "core",
-    x: 0,
-    y: 0,
-    radius: 15,
-  },
-  { id: "theme", label: "Theme", kind: "service", x: 0, y: -130, radius: 9 },
-  {
-    id: "components",
-    label: "Components",
-    kind: "service",
-    x: 145,
-    y: -56,
-    radius: 9,
-  },
-  {
-    id: "interactions",
-    label: "Interactions",
-    kind: "service",
-    x: 122,
-    y: 104,
-    radius: 9,
-  },
-  { id: "graph", label: "Graph", kind: "service", x: -118, y: 104, radius: 9 },
-  {
-    id: "shells",
-    label: "Shells",
-    kind: "service",
-    x: -145,
-    y: -56,
-    radius: 9,
-  },
-];
-
-const graphEdges: readonly ForceGraphEdge[] = graphNodes
-  .filter((node) => node.id !== "kantzen")
-  .map((node) => ({
-    id: `kantzen-${node.id}`,
-    source: "kantzen",
-    target: node.id,
-  }));
 
 const commandItems: readonly CommandItem[] = [
   {
@@ -111,35 +51,12 @@ const commandItems: readonly CommandItem[] = [
   },
 ];
 
-const workspaceNav = [
-  { label: "Overview", icon: "grid-view" as const },
-  { label: "Services", icon: "cube" as const },
-  { label: "Runs", icon: "pulse" as const },
-  { label: "Deployments", icon: "git-branch" as const },
-  { label: "Graphs", icon: "graph" as const },
-];
-
 const workspaceTableRows = [
   ["Kantzen redesign", "In progress", "Today"],
   ["Command system", "Ready", "Yesterday"],
   ["Graph canvas", "In review", "May 08"],
   ["Public site", "Planning", "May 06"],
 ] as const;
-
-export function BrandMark({ compact = false }: { compact?: boolean }) {
-  return (
-    <span
-      className={["landing-brand-mark", compact && "is-compact"]
-        .filter(Boolean)
-        .join(" ")}
-      aria-hidden="true"
-    >
-      <svg viewBox="0 0 32 32" role="presentation">
-        <path d="M7 3v26M8 16 23 3M8 16l15 13M13 12l11-9M13 20l11 9" />
-      </svg>
-    </span>
-  );
-}
 
 function ArrowLink({
   children,
@@ -198,185 +115,7 @@ export function LandingHeader({
           Examples
         </button>
       </nav>
-      <Button
-        className="landing-header-action"
-        intent="primary"
-        rightIcon="arrow-right"
-        text="Explore system"
-        onClick={() => onNavigate("/components")}
-      />
     </header>
-  );
-}
-
-function HeroWorkspace({ onNavigate }: LandingPageProps) {
-  const [activeRun, setActiveRun] = useState<string>(deploymentRows[0].id);
-  const [selectedNode, setSelectedNode] = useState<string | null>("kantzen");
-
-  return (
-    <div
-      className="hero-workspace"
-      aria-label="Interactive Kantzen workspace preview"
-    >
-      <aside className="hero-workspace-sidebar">
-        <BrandMark compact />
-        <nav aria-label="Workspace preview navigation">
-          {workspaceNav.map((item, index) => (
-            <button
-              className={index === 0 ? "is-active" : undefined}
-              key={item.label}
-              type="button"
-            >
-              <Icon icon={item.icon} size={14} />
-              <span>{item.label}</span>
-            </button>
-          ))}
-        </nav>
-        <button
-          className="hero-workspace-user"
-          type="button"
-          onClick={() => onNavigate("/workspace")}
-        >
-          <span>AK</span>
-          <span>
-            Alex Kim<small>alex@kantzen.dev</small>
-          </span>
-        </button>
-      </aside>
-
-      <div className="hero-workspace-main">
-        <button
-          className="hero-command-bar"
-          type="button"
-          onClick={() => onNavigate("/components")}
-        >
-          <Icon icon="console" size={14} />
-          <span>Type a command or search…</span>
-          <kbd>⌘ K</kbd>
-        </button>
-
-        <div className="hero-runs">
-          <div className="hero-pane-heading">
-            <span>ACTIVE RUNS</span>
-            <button type="button" onClick={() => onNavigate("/workspace")}>
-              View all runs <Icon icon="arrow-right" size={12} />
-            </button>
-          </div>
-          <div className="hero-run-header">
-            <span>Run</span>
-            <span>Service</span>
-            <span>Status</span>
-            <span>Updated</span>
-          </div>
-          {deploymentRows.map((row) => (
-            <button
-              className={["hero-run-row", activeRun === row.id && "is-selected"]
-                .filter(Boolean)
-                .join(" ")}
-              key={row.id}
-              type="button"
-              onClick={() => setActiveRun(row.id)}
-            >
-              <span>{row.id}</span>
-              <span>{row.service}</span>
-              <span>
-                <StatusLed status={row.status} />
-                {row.status === "online" ? "Running" : "Queued"}
-              </span>
-              <span>{row.time}</span>
-            </button>
-          ))}
-        </div>
-
-        <aside className="hero-run-detail">
-          <strong>{activeRun}</strong>
-          <div className="hero-detail-tabs">
-            <span className="is-active">Details</span>
-            <span>Logs</span>
-            <span>Events</span>
-          </div>
-          <dl>
-            <div>
-              <dt>Service</dt>
-              <dd>
-                {deploymentRows.find((row) => row.id === activeRun)?.service}
-              </dd>
-            </div>
-            <div>
-              <dt>Environment</dt>
-              <dd>production</dd>
-            </div>
-            <div>
-              <dt>Commit</dt>
-              <dd>9c3d7e1</dd>
-            </div>
-            <div>
-              <dt>Started</dt>
-              <dd>2m 15s ago</dd>
-            </div>
-            <div>
-              <dt>Region</dt>
-              <dd>iad-1</dd>
-            </div>
-          </dl>
-        </aside>
-
-        <div className="hero-graph-pane">
-          <div className="hero-pane-heading">
-            <span>SYSTEM GRAPH</span>
-            <span>
-              Live <StatusLed status="online" />
-            </span>
-          </div>
-          <ForceGraphCanvas
-            ariaLabel="Interactive graph of Kantzen UI system capabilities"
-            display={{ arrows: false, labels: true, nodeSize: 1 }}
-            edges={graphEdges}
-            getInitialPosition={(node) => ({ x: node.x ?? 0, y: node.y ?? 0 })}
-            getNodeStyle={(node) => ({
-              fill:
-                node.id === selectedNode || node.kind === "core"
-                  ? "#2e6dd7"
-                  : "#111111",
-              stroke: node.id === selectedNode ? "#78a7ff" : "#6d7480",
-              strokeWidth: node.id === selectedNode ? 2 : 1,
-              shape: "square",
-            })}
-            getEdgeStyle={(_, state) => ({
-              stroke: state.focused ? "#5b8fdf" : "rgba(255,255,255,.28)",
-              width: state.focused ? 1.5 : 1,
-            })}
-            getLabelStyle={() => ({
-              color: "#d8dbe0",
-              fontSize: 11,
-              fontWeight: 560,
-            })}
-            nodes={graphNodes}
-            onSelectNode={setSelectedNode}
-            running={false}
-            selectedNodeId={selectedNode}
-          />
-        </div>
-
-        <div className="hero-event-pane">
-          <div className="hero-pane-heading">
-            <span>EVENTS</span>
-            <span>View all</span>
-          </div>
-          {[
-            "api scaled to 6 pods",
-            "deploy started by deploy.yml",
-            "worker queued",
-            "web rollout succeeded",
-          ].map((event, index) => (
-            <div className="hero-event" key={event}>
-              <span>{`10:4${2 - index}:0${index + 2}`}</span>
-              <span>{event}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -423,15 +162,20 @@ function LandingHero({ onNavigate }: LandingPageProps) {
           type="button"
           onClick={copyInstallCommand}
         >
-          <span aria-hidden="true">›</span>
+          <span className="landing-install-prompt" aria-hidden="true">
+            ›
+          </span>
           <code>{installCommand}</code>
-          <Icon icon={copied ? "confirm" : "clipboard"} size={14} />
+          <span className="landing-install-action" aria-hidden="true">
+            <Icon icon={copied ? "confirm" : "clipboard"} size={14} />
+            <span>{copied ? "Copied" : "Copy"}</span>
+          </span>
           <span className="sr-only" aria-live="polite">
             {copied ? "Install command copied" : "Copy install command"}
           </span>
         </button>
       </div>
-      <HeroWorkspace onNavigate={onNavigate} />
+      <HeroWorkspacePreview onNavigate={onNavigate} />
       <div className="landing-hero-footnote" aria-hidden="true">
         <span />
         <span>DESIGNED FOR HOW YOU BUILD</span>
@@ -527,7 +271,7 @@ function MiniGraphSurface() {
       <ForceGraphCanvas
         ariaLabel="Interactive Kantzen UI package graph"
         display={{ arrows: false, labels: true, nodeSize: 1 }}
-        edges={graphEdges}
+        edges={landingGraphEdges}
         getInitialPosition={(node) => ({ x: node.x ?? 0, y: node.y ?? 0 })}
         getNodeStyle={(node) => ({
           fill:
@@ -544,7 +288,7 @@ function MiniGraphSurface() {
           fontSize: 12,
           fontWeight: 600,
         })}
-        nodes={graphNodes}
+        nodes={landingGraphNodes}
         onSelectNode={setSelectedNode}
         running={false}
         selectedNodeId={selectedNode}
@@ -801,7 +545,7 @@ function LandingCta({ onNavigate }: LandingPageProps) {
   );
 }
 
-export function LandingFooter({ onNavigate }: LandingPageProps) {
+export function LandingFooter() {
   return (
     <footer className="landing-footer">
       <div className="landing-footer-brand">
@@ -816,15 +560,6 @@ export function LandingFooter({ onNavigate }: LandingPageProps) {
         </div>
       </div>
       <nav aria-label="Footer navigation">
-        <button type="button" onClick={() => onNavigate("/components")}>
-          Components
-        </button>
-        <button type="button" onClick={() => onNavigate("/motivation")}>
-          Motivation
-        </button>
-        <button type="button" onClick={() => onNavigate("/examples")}>
-          Examples
-        </button>
         <a
           href="https://github.com/patkepa/kantzen-ui"
           target="_blank"
@@ -847,7 +582,7 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
         <MomentumSection onNavigate={onNavigate} />
         <LandingCta onNavigate={onNavigate} />
       </main>
-      <LandingFooter onNavigate={onNavigate} />
+      <LandingFooter />
     </div>
   );
 }
