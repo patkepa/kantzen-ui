@@ -6,7 +6,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { ComponentGallery } from "./routes/component-gallery";
-import { ExamplesPage } from "./routes/examples-page";
+import { ExamplePage, ExamplesPage } from "./routes/examples-page";
 import {
   LandingHeader,
   LandingPage,
@@ -59,6 +59,10 @@ export const App = () => {
           element={<ExamplesPage onNavigate={navigate} />}
         />
         <Route
+          path="/examples/:exampleId"
+          element={<ExamplePage onNavigate={navigate} />}
+        />
+        <Route
           path="/motivation"
           element={<MotivationPage onNavigate={navigate} />}
         />
@@ -102,6 +106,7 @@ export const App = () => {
       </Routes>
       {location.pathname === "/" ||
       location.pathname === "/examples" ||
+      location.pathname.startsWith("/examples/") ||
       location.pathname === "/components" ||
       location.pathname === "/motivation" ? null : (
         <PlaygroundSwitcher />

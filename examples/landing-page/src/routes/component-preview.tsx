@@ -40,7 +40,9 @@ import {
   SiteNavbar,
   SiteShell,
   WorkspaceNavbar,
+  WorkspacePortal,
   WorkspaceSidebar,
+  WorkspaceShell,
 } from "@kantzen-ui/ui/app-shell";
 import { Command, CommandPaletteShell } from "@kantzen-ui/ui/command-palette";
 import { ForceGraphCanvas } from "@kantzen-ui/ui/graph";
@@ -115,15 +117,36 @@ function ShellDiagram({ active = "CONTENT" }: { active?: string }) {
   );
 }
 
+function FaultyDemo({ shouldThrow }: { shouldThrow: boolean }) {
+  if (shouldThrow) throw new Error("Preview failure requested");
+  return (
+    <div className="wiki-boundary-ok">
+      <Icon icon="confirm" size={24} />
+      <strong>Feature mounted safely</strong>
+      <span>Trigger a failure to inspect the recovery state.</span>
+    </div>
+  );
+}
+
 export function ComponentPreview({ item }: ComponentPreviewProps) {
+  const [activeCard, setActiveCard] = useState("selected");
   const [alertOpen, setAlertOpen] = useState(false);
   const [controlValue, setControlValue] = useState("preview");
+  const [createdProjects, setCreatedProjects] = useState(0);
+  const [demoFrameExpanded, setDemoFrameExpanded] = useState(false);
+  const [feedback, setFeedback] = useState(`${item.name} ready`);
+  const [faultyPreview, setFaultyPreview] = useState(false);
   const [filter, setFilter] = useState("all");
+  const [inputValue, setInputValue] = useState("");
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [sitePath, setSitePath] = useState("/components");
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [selectedItem, setSelectedItem] = useState("design");
   const [selectedNode, setSelectedNode] = useState<string | null>("system");
   const [tab, setTab] = useState("overview");
+  const [tool, setTool] = useState("Select");
+  const [zoom, setZoom] = useState(100);
 
   const openContextMenu = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
@@ -131,10 +154,23 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
       showContextMenu({
         content: (
           <Menu>
-            <MenuItem icon="duplicate" text="Duplicate" />
-            <MenuItem icon="edit" text="Rename" />
+            <MenuItem
+              icon="duplicate"
+              text="Duplicate"
+              onClick={() => setFeedback("Surface duplicated")}
+            />
+            <MenuItem
+              icon="edit"
+              text="Rename"
+              onClick={() => setFeedback("Rename action selected")}
+            />
             <MenuDivider />
-            <MenuItem icon="trash" intent="danger" text="Delete" />
+            <MenuItem
+              icon="trash"
+              intent="danger"
+              text="Delete"
+              onClick={() => setFeedback("Delete action selected")}
+            />
           </Menu>
         ),
         targetOffset: { left: event.clientX, top: event.clientY },
@@ -143,21 +179,42 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
     [],
   );
 
-  switch (item.exportName) {
+  const renderPreview = () => {
+    switch (item.exportName) {
     case "Button":
       return (
         <div className="wiki-preview-row wiki-preview-row--buttons">
           <LabelledSample label="Primary">
-            <Button large intent="primary" text="Button" />
+            <Button
+              large
+              intent="primary"
+              text="Button"
+              onClick={() => setFeedback("Primary action pressed")}
+            />
           </LabelledSample>
           <LabelledSample label="Secondary">
-            <Button large outlined text="Button" />
+            <Button
+              large
+              outlined
+              text="Button"
+              onClick={() => setFeedback("Secondary action pressed")}
+            />
           </LabelledSample>
           <LabelledSample label="Minimal">
-            <Button large minimal text="Button" />
+            <Button
+              large
+              minimal
+              text="Button"
+              onClick={() => setFeedback("Minimal action pressed")}
+            />
           </LabelledSample>
           <LabelledSample label="Danger">
-            <Button large intent="danger" text="Button" />
+            <Button
+              large
+              intent="danger"
+              text="Button"
+              onClick={() => setFeedback("Danger action pressed")}
+            />
           </LabelledSample>
           <LabelledSample label="Disabled">
             <Button disabled large text="Button" />
@@ -167,15 +224,37 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
     case "Card":
       return (
         <div className="wiki-preview-row">
-          <Card>
+          <Card
+            interactive
+            onClick={() => {
+              setActiveCard("default");
+              setFeedback("Default card selected");
+            }}
+            selected={activeCard === "default"}
+          >
             <strong>Default card</strong>
             <p>Related content, without unnecessary decoration.</p>
           </Card>
-          <Card elevation={2} interactive>
+          <Card
+            elevation={2}
+            interactive
+            onClick={() => {
+              setActiveCard("interactive");
+              setFeedback("Interactive card selected");
+            }}
+            selected={activeCard === "interactive"}
+          >
             <strong>Interactive card</strong>
             <p>Hover to see the active surface treatment.</p>
           </Card>
-          <Card selected>
+          <Card
+            interactive
+            onClick={() => {
+              setActiveCard("selected");
+              setFeedback("Selected card selected");
+            }}
+            selected={activeCard === "selected"}
+          >
             <strong>Selected card</strong>
             <p>A clear current-state treatment.</p>
           </Card>
@@ -184,12 +263,32 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
     case "InputGroup":
       return (
         <div className="wiki-preview-stack wiki-preview-narrow">
-          <InputGroup fill leftIcon="search" placeholder="Search projects…" />
+          <InputGroup
+            fill
+            leftIcon="search"
+            onChange={(event) => {
+              setInputValue(event.target.value);
+              setFeedback(
+                event.target.value
+                  ? `Searching for “${event.target.value}”`
+                  : "Search cleared",
+              );
+            }}
+            placeholder="Search projects…"
+            value={inputValue}
+          />
           <InputGroup
             fill
             leftIcon="link"
             placeholder="Paste a URL"
-            rightElement={<Button minimal icon="arrow-right" />}
+            rightElement={
+              <Button
+                aria-label="Submit URL"
+                minimal
+                icon="arrow-right"
+                onClick={() => setFeedback("URL submitted")}
+              />
+            }
           />
           <InputGroup disabled fill placeholder="Disabled input" />
         </div>
@@ -211,7 +310,12 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
             icon="trash"
             intent="danger"
             isOpen={alertOpen}
-            onClose={() => setAlertOpen(false)}
+            onClose={(confirmed) => {
+              setAlertOpen(false);
+              setFeedback(
+                confirmed ? "Project deleted" : "Deletion cancelled",
+              );
+            }}
           >
             <h3>Delete project?</h3>
             <p>This action cannot be undone.</p>
@@ -222,11 +326,29 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
       return (
         <Menu className="wiki-demo-menu">
           <MenuDivider title="Project" />
-          <MenuItem icon="document-open" text="Open" labelElement="⌘O" />
-          <MenuItem icon="duplicate" text="Duplicate" />
-          <MenuItem icon="share" text="Share" />
+          <MenuItem
+            icon="document-open"
+            text="Open"
+            labelElement="⌘O"
+            onClick={() => setFeedback("Project opened")}
+          />
+          <MenuItem
+            icon="duplicate"
+            text="Duplicate"
+            onClick={() => setFeedback("Project duplicated")}
+          />
+          <MenuItem
+            icon="share"
+            text="Share"
+            onClick={() => setFeedback("Share action selected")}
+          />
           <MenuDivider />
-          <MenuItem icon="trash" intent="danger" text="Delete" />
+          <MenuItem
+            icon="trash"
+            intent="danger"
+            text="Delete"
+            onClick={() => setFeedback("Delete action selected")}
+          />
         </Menu>
       );
     case "Popover":
@@ -236,6 +358,12 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
             <div className="wiki-popover-content">
               <strong>Deployment ready</strong>
               <p>All checks passed in production.</p>
+              <Button
+                fill
+                intent="primary"
+                text="Deploy"
+                onClick={() => setFeedback("Deployment started")}
+              />
             </div>
           }
         >
@@ -260,12 +388,40 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
         <Navbar className="wiki-demo-navbar">
           <NavbarGroup>
             <strong>KANTZEN</strong>
-            <Button minimal text="Projects" />
-            <Button minimal text="Activity" />
+            <Button
+              active={sitePath === "/projects"}
+              minimal
+              text="Projects"
+              onClick={() => {
+                setSitePath("/projects");
+                setFeedback("Projects view selected");
+              }}
+            />
+            <Button
+              active={sitePath === "/activity"}
+              minimal
+              text="Activity"
+              onClick={() => {
+                setSitePath("/activity");
+                setFeedback("Activity view selected");
+              }}
+            />
           </NavbarGroup>
           <NavbarGroup align={Alignment.RIGHT}>
-            <Button minimal icon="search" />
-            <Button intent="primary" text="New project" />
+            <Button
+              aria-label="Search"
+              minimal
+              icon="search"
+              onClick={() => setFeedback("Search opened")}
+            />
+            <Button
+              intent="primary"
+              text="New project"
+              onClick={() => {
+                setCreatedProjects((count) => count + 1);
+                setFeedback("New project created");
+              }}
+            />
           </NavbarGroup>
         </Navbar>
       );
@@ -278,9 +434,24 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
         </div>
       );
     case "NonIdealState":
-      return (
+      return createdProjects > 0 ? (
+        <div className="wiki-created-state">
+          <Icon icon="folder-open" size={30} />
+          <strong>Project created</strong>
+          <span>Your empty state resolved successfully.</span>
+        </div>
+      ) : (
         <NonIdealState
-          action={<Button intent="primary" text="Create project" />}
+          action={
+            <Button
+              intent="primary"
+              text="Create project"
+              onClick={() => {
+                setCreatedProjects(1);
+                setFeedback("Project created");
+              }}
+            />
+          }
           description="Create a project to start organizing your work."
           icon="folder-new"
           title="No projects yet"
@@ -288,36 +459,58 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
       );
     case "Tabs":
       return (
-        <Tabs
-          ariaLabel="Example tabs"
-          items={[
-            { id: "overview", label: "Overview" },
-            { id: "activity", label: "Activity" },
-            { id: "settings", label: "Settings" },
-          ]}
-          onChange={setTab}
-          value={tab}
-        />
+        <div className="wiki-control-demo">
+          <Tabs
+            ariaLabel="Example tabs"
+            items={[
+              { id: "overview", label: "Overview" },
+              { id: "activity", label: "Activity" },
+              { id: "settings", label: "Settings" },
+            ]}
+            onChange={(value) => {
+              setTab(value);
+              setFeedback(`${value} tab selected`);
+            }}
+            value={tab}
+          />
+          <div className="wiki-control-panel" role="tabpanel">
+            <span className="mono-data">{tab.toUpperCase()}</span>
+            <strong>{tab[0]!.toUpperCase() + tab.slice(1)} panel</strong>
+          </div>
+        </div>
       );
     case "SegmentedControl":
       return (
-        <SegmentedControl
-          ariaLabel="Preview mode"
-          items={[
-            { icon: "eye-open", label: "Preview", value: "preview" },
-            { icon: "code", label: "Code", value: "code" },
-            { icon: "document", label: "Docs", value: "docs" },
-          ]}
-          onChange={setControlValue}
-          value={controlValue}
-          variant="joined"
-        />
+        <div className="wiki-control-demo">
+          <SegmentedControl
+            ariaLabel="Preview mode"
+            items={[
+              { icon: "eye-open", label: "Preview", value: "preview" },
+              { icon: "code", label: "Code", value: "code" },
+              { icon: "document", label: "Docs", value: "docs" },
+            ]}
+            onChange={(value) => {
+              setControlValue(value);
+              setFeedback(`${value} mode selected`);
+            }}
+            value={controlValue}
+            variant="joined"
+          />
+          <div className="wiki-mode-readout mono-data">
+            MODE / {controlValue.toUpperCase()}
+          </div>
+        </div>
       );
     case "SearchField":
       return (
         <div className="wiki-preview-narrow">
           <SearchField
-            onChange={setQuery}
+            onChange={(value) => {
+              setQuery(value);
+              setFeedback(
+                value ? `Found ${Math.max(1, 8 - value.length)} matches` : "Search ready",
+              );
+            }}
             placeholder="Search components…"
             value={query}
           />
@@ -327,7 +520,10 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
       return (
         <div className="wiki-preview-narrow">
           <ExpandableSearchField
-            onChange={setQuery}
+            onChange={(value) => {
+              setQuery(value);
+              setFeedback(value ? `Filtering by “${value}”` : "Filter cleared");
+            }}
             placeholder="Filter components"
             value={query}
           />
@@ -346,7 +542,10 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
               count={Number(count)}
               key={value}
               label={String(label)}
-              onSelect={setFilter}
+              onSelect={(nextFilter) => {
+                setFilter(nextFilter);
+                setFeedback(`${String(label)} filter applied`);
+              }}
               value={String(value)}
             />
           ))}
@@ -359,8 +558,17 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
           className="component-gallery-list wiki-demo-list"
           empty={<span>No results</span>}
           items={listItems}
-          onSelect={(entry) => setSelectedItem(entry.id)}
-          renderItem={(entry) => entry.label}
+          onSelect={(entry) => {
+            setSelectedItem(entry.id);
+            setFeedback(`${entry.label} selected`);
+          }}
+          renderItem={(entry) => (
+            <>
+              <Icon icon="cube" size={13} />
+              <span>{entry.label}</span>
+              <Icon icon="chevron-right" size={12} />
+            </>
+          )}
           selectedId={selectedItem}
         />
       );
@@ -398,7 +606,20 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
     case "DemoFrame":
       return (
         <DemoFrame
-          actions={<Button minimal icon="more" />}
+          actions={
+            <Button
+              aria-label="Toggle deployment details"
+              active={demoFrameExpanded}
+              minimal
+              icon={demoFrameExpanded ? "chevron-up" : "more"}
+              onClick={() => {
+                setDemoFrameExpanded((expanded) => !expanded);
+                setFeedback(
+                  demoFrameExpanded ? "Details collapsed" : "Details expanded",
+                );
+              }}
+            />
+          }
           eyebrow="LIVE EXAMPLE"
           footer="Keyboard accessible"
           title="Deployment status"
@@ -406,16 +627,46 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
           <div className="wiki-demo-content">
             <StatusLed status="online" />
             <strong>All systems operational</strong>
+            {demoFrameExpanded ? (
+              <span className="mono-data">12 / 12 CHECKS PASSED</span>
+            ) : null}
           </div>
         </DemoFrame>
       );
     case "WorkspaceToolbar":
       return (
         <WorkspaceToolbar>
-          <Button minimal icon="select" text="Select" />
-          <Button minimal icon="hand" text="Pan" />
+          <Button
+            active={tool === "Select"}
+            minimal
+            icon="select"
+            text="Select"
+            onClick={() => {
+              setTool("Select");
+              setFeedback("Select tool active");
+            }}
+          />
+          <Button
+            active={tool === "Pan"}
+            minimal
+            icon="hand"
+            text="Pan"
+            onClick={() => {
+              setTool("Pan");
+              setFeedback("Pan tool active");
+            }}
+          />
           <span className="wiki-toolbar-spacer" />
-          <Button icon="plus" intent="primary" text="Add node" />
+          <span className="wiki-toolbar-readout mono-data">{tool}</span>
+          <Button
+            icon="plus"
+            intent="primary"
+            text={`Add node${createdProjects ? ` · ${createdProjects}` : ""}`}
+            onClick={() => {
+              setCreatedProjects((count) => count + 1);
+              setFeedback("Node added to workspace");
+            }}
+          />
         </WorkspaceToolbar>
       );
     case "WorkspaceBottomToolbar":
@@ -423,9 +674,25 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
         <WorkspaceBottomToolbar>
           <span className="mono-data">x: 1284.22&nbsp;&nbsp; y: 842.11</span>
           <span className="wiki-toolbar-spacer" />
-          <Button minimal icon="zoom-out" />
-          <span>100%</span>
-          <Button minimal icon="zoom-in" />
+          <Button
+            aria-label="Zoom out"
+            minimal
+            icon="zoom-out"
+            onClick={() => {
+              setZoom((value) => Math.max(25, value - 25));
+              setFeedback("Zoom decreased");
+            }}
+          />
+          <span className="mono-data">{zoom}%</span>
+          <Button
+            aria-label="Zoom in"
+            minimal
+            icon="zoom-in"
+            onClick={() => {
+              setZoom((value) => Math.min(200, value + 25));
+              setFeedback("Zoom increased");
+            }}
+          />
         </WorkspaceBottomToolbar>
       );
     case "InspectorWorkspace":
@@ -457,7 +724,13 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
       return (
         <SiteHero
           className="wiki-site-component"
-          actions={<Button intent="primary" text="Explore components" />}
+          actions={
+            <Button
+              intent="primary"
+              text="Explore components"
+              onClick={() => setFeedback("Component explorer opened")}
+            />
+          }
           description="A focused React system for expressive sites and dense workspaces."
           title="Build interfaces with a point of view."
         />
@@ -523,7 +796,13 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
       return (
         <CtaBar
           className="wiki-site-component"
-          actions={<Button rightIcon="arrow-right" text="Get started" />}
+          actions={
+            <Button
+              rightIcon="arrow-right"
+              text="Get started"
+              onClick={() => setFeedback("Getting-started flow opened")}
+            />
+          }
           description="Use the same system from landing page to workspace."
           title="Build the complete product."
         />
@@ -532,7 +811,7 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
       return (
         <SiteNavbar
           className="wiki-site-component"
-          currentPath="/components"
+          currentPath={sitePath}
           productName="Kantzen"
           navItems={[
             { href: "/product", label: "Product" },
@@ -542,7 +821,10 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
           actions={[
             { href: "/components", label: "Get started", intent: "primary" },
           ]}
-          onNavigate={() => undefined}
+          onNavigate={(href) => {
+            setSitePath(href);
+            setFeedback(`Navigated to ${href}`);
+          }}
         />
       );
     case "SiteFooter":
@@ -550,6 +832,7 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
         <SiteFooter
           className="wiki-site-component"
           productName="Kantzen"
+          onNavigate={(href) => setFeedback(`Footer link selected: ${href}`)}
           groups={[
             {
               label: "Product",
@@ -575,9 +858,18 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
             className="wiki-site-component"
             productName="Kantzen"
             navItems={[{ href: "/components", label: "Components" }]}
-            currentPath="/components"
+            actions={[
+              { href: "/start", label: "Get started", intent: "primary" },
+            ]}
+            currentPath={sitePath}
+            onNavigate={(href) => {
+              setSitePath(href);
+              setFeedback(`Shell navigated to ${href}`);
+            }}
           >
-            <div className="wiki-shell-page">PUBLIC PAGE CONTENT</div>
+            <div className="wiki-shell-page">
+              PUBLIC PAGE CONTENT / {sitePath.toUpperCase()}
+            </div>
           </SiteShell>
         </div>
       );
@@ -587,14 +879,35 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
           className="wiki-demo-workspace-navbar"
           left={
             <>
-              <Button minimal icon="menu" />
+              <Button
+                aria-label="Toggle navigation"
+                active={sidebarCollapsed}
+                minimal
+                icon="menu"
+                onClick={() => {
+                  setSidebarCollapsed((value) => !value);
+                  setFeedback("Workspace navigation toggled");
+                }}
+              />
               <strong>Projects</strong>
             </>
           }
           right={
             <>
-              <Button minimal icon="search" />
-              <Button intent="primary" text="New project" />
+              <Button
+                aria-label="Search projects"
+                minimal
+                icon="search"
+                onClick={() => setFeedback("Workspace search opened")}
+              />
+              <Button
+                intent="primary"
+                text="New project"
+                onClick={() => {
+                  setCreatedProjects((count) => count + 1);
+                  setFeedback("Workspace project created");
+                }}
+              />
             </>
           }
         />
@@ -603,27 +916,97 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
       return (
         <div className="wiki-sidebar-preview">
           <WorkspaceSidebar
-            currentPath="/components"
+            currentPath={sitePath}
+            isCollapsed={sidebarCollapsed}
             navGroups={workspaceNav}
-            onNavigate={() => undefined}
+            onExpandSidebar={() => setSidebarCollapsed((value) => !value)}
+            onNavigate={(href) => {
+              setSitePath(href);
+              setFeedback(`Workspace navigated to ${href}`);
+            }}
             productName="Kantzen"
             version="0.1.0"
           />
         </div>
       );
     case "WorkspaceShell":
-      return <ShellDiagram active="WORKSPACE CONTENT" />;
+      return (
+        <div className="wiki-workspace-shell-preview">
+          <WorkspaceShell
+            breadcrumb="Project / Components"
+            currentPath={sitePath}
+            navGroups={workspaceNav}
+            onNavigate={(href) => {
+              setSitePath(href);
+              setFeedback(`Shell navigated to ${href}`);
+            }}
+            onOpenCommandPalette={() => {
+              setPaletteOpen(true);
+              setFeedback("Command palette opened from shell");
+            }}
+            onToggleSidebar={() => setSidebarCollapsed((value) => !value)}
+            productName="Kantzen"
+            sidebarCollapsed={sidebarCollapsed}
+          >
+            <div className="wiki-shell-workspace-content">
+              <span className="mono-data">ACTIVE ROUTE</span>
+              <strong>{sitePath}</strong>
+            </div>
+          </WorkspaceShell>
+        </div>
+      );
     case "WorkspacePortal":
-      return <ShellDiagram active="NAMED PORTAL SLOTS" />;
+      return (
+        <div className="wiki-workspace-shell-preview">
+          <WorkspaceShell
+            breadcrumb="Portal slots"
+            currentPath={sitePath}
+            navGroups={workspaceNav}
+            onToggleSidebar={() => setSidebarCollapsed((value) => !value)}
+            productName="Kantzen"
+            sidebarCollapsed={sidebarCollapsed}
+          >
+            <WorkspacePortal slot="topbar">
+              <div className="wiki-portal-slot mono-data">
+                TOPBAR PORTAL / CONNECTED
+              </div>
+            </WorkspacePortal>
+            <WorkspacePortal slot="navbar-end">
+              <Button
+                small
+                intent="primary"
+                text="Portaled action"
+                onClick={() => setFeedback("Portaled navbar action pressed")}
+              />
+            </WorkspacePortal>
+            <div className="wiki-shell-workspace-content">
+              <span className="mono-data">NAMED SLOTS</span>
+              <strong>Content remains in the main region.</strong>
+            </div>
+          </WorkspaceShell>
+        </div>
+      );
     case "ErrorBoundary":
       return (
-        <ErrorBoundary>
-          <div className="wiki-boundary-ok">
-            <Icon icon="confirm" size={24} />
-            <strong>Feature mounted safely</strong>
-            <span>Errors stay contained inside this boundary.</span>
-          </div>
-        </ErrorBoundary>
+        <div className="wiki-error-demo">
+          <ErrorBoundary
+            actionLabel="Recover preview"
+            description="The requested preview failure stayed inside this frame."
+            onError={() => queueMicrotask(() => setFaultyPreview(false))}
+          >
+            <FaultyDemo shouldThrow={faultyPreview} />
+          </ErrorBoundary>
+          {!faultyPreview ? (
+            <Button
+              intent="danger"
+              text="Trigger preview error"
+              onClick={() => {
+                setFaultyPreview(true);
+                setFeedback("Error contained by boundary");
+              }}
+            />
+          ) : null}
+        </div>
       );
     case "CommandPaletteShell":
       return (
@@ -635,9 +1018,21 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
           />
           <CommandPaletteShell open={paletteOpen} onOpenChange={setPaletteOpen}>
             <Command.Group heading="Navigation">
-              <Command.Item>Browse components</Command.Item>
-              <Command.Item>Open workspace</Command.Item>
-              <Command.Item>View graph demo</Command.Item>
+              {[
+                "Browse components",
+                "Open workspace",
+                "View graph demo",
+              ].map((command) => (
+                <Command.Item
+                  key={command}
+                  onSelect={() => {
+                    setFeedback(`${command} selected`);
+                    setPaletteOpen(false);
+                  }}
+                >
+                  {command}
+                </Command.Item>
+              ))}
             </Command.Group>
           </CommandPaletteShell>
         </>
@@ -650,7 +1045,12 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
             edges={graphEdges}
             getInitialPosition={(node) => ({ x: node.x ?? 0, y: node.y ?? 0 })}
             nodes={graphNodes}
-            onSelectNode={setSelectedNode}
+            onSelectNode={(nodeId) => {
+              setSelectedNode(nodeId);
+              setFeedback(
+                nodeId ? `${nodeId} node selected` : "Graph selection cleared",
+              );
+            }}
             running={false}
             selectedNodeId={selectedNode}
           />
@@ -658,5 +1058,16 @@ export function ComponentPreview({ item }: ComponentPreviewProps) {
       );
     default:
       return <ShellDiagram active={item.exportName.toUpperCase()} />;
-  }
+    }
+  };
+
+  return (
+    <div className="wiki-preview-stage">
+      <div className="wiki-preview-content">{renderPreview()}</div>
+      <output className="wiki-demo-feedback" aria-live="polite">
+        <span>STATE</span>
+        {feedback}
+      </output>
+    </div>
+  );
 }

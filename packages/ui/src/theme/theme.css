@@ -13,11 +13,11 @@
 /* Dark Theme Only - Deep blacks with electric accents and consistent colors */
 :root,
 :root.dark {
-  --bp-surface-border-radius: 2px;
+  --bp-surface-border-radius: 0;
   /* Base colors - HIGH CONTRAST dark theme
    * Pure black backgrounds with white text for maximum contrast
    */
-  --background: 0 0% 9%; /* Dark gray #171717 */
+  --background: 0 0% 3%; /* Near-black #080808 */
   --foreground: 0 0% 100%; /* Pure white #FFFFFF */
 
   /* Primary - Softened blue */
@@ -54,10 +54,10 @@
   --sidebar-border: hsla(0, 0%, 100%, 0.08);
 
   /* Content area - HIGH CONTRAST */
-  --content-bg: #171717;
+  --content-bg: #080808;
   --navbar-bg: #060606;
-  --border-color: hsla(0, 0%, 100%, 0.1);
-  --card-bg: #242424;
+  --border-color: hsla(0, 0%, 100%, 0.16);
+  --card-bg: #0d0d0d;
 
   /* Status colors - Vibrant for dark bg (Blueprint GREEN3, ORANGE3, RED3) */
   --success: 152 69% 45%; /* ~Blueprint GREEN3 */
@@ -160,7 +160,7 @@ p {
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: none;
   transition: border-color 0.15s ease;
 }
 
@@ -205,7 +205,7 @@ p {
   background-color: hsla(0, 0%, 100%, 0.06);
   color: hsl(var(--foreground));
   border-color: var(--border-color);
-  border-radius: 1px !important;
+  border-radius: 0 !important;
 }
 
 .bp6-button:hover {
@@ -258,6 +258,7 @@ p {
   background-color: var(--card-bg);
   color: hsl(var(--foreground));
   font-size: 14px;
+  border-radius: 0;
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease;
@@ -285,35 +286,36 @@ p {
 .bp6-tag {
   font-weight: 500;
   letter-spacing: 0.01em;
-  border: none;
+  border: 1px solid var(--border-color);
+  border-radius: 0;
   background-color: hsla(0, 0%, 100%, 0.06);
   color: hsl(var(--foreground));
 }
 
 .bp6-tag.bp6-minimal {
   background-color: hsla(0, 0%, 100%, 0.06);
-  border: none;
+  border: 1px solid transparent;
 }
 
 .bp6-tag.bp6-intent-primary {
   background-color: hsl(var(--accent) / 0.12);
   color: hsl(var(--accent));
-  border: none;
+  border-color: hsl(var(--accent) / 0.32);
 }
 .bp6-tag.bp6-intent-success {
   background-color: hsl(var(--success) / 0.12);
   color: hsl(var(--success));
-  border: none;
+  border-color: hsl(var(--success) / 0.32);
 }
 .bp6-tag.bp6-intent-danger {
   background-color: hsl(var(--danger) / 0.12);
   color: hsl(var(--danger));
-  border: none;
+  border-color: hsl(var(--danger) / 0.32);
 }
 .bp6-tag.bp6-intent-warning {
   background-color: hsl(var(--warning) / 0.12);
   color: hsl(var(--warning));
-  border: none;
+  border-color: hsl(var(--warning) / 0.32);
 }
 
 /* Table enhancements */

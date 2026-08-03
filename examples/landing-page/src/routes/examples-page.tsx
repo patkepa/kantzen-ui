@@ -1,5 +1,6 @@
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useState, type FormEvent } from "react";
 import { Icon } from "@kantzen-ui/ui";
+import { useParams } from "react-router-dom";
 import {
   LandingFooter,
   LandingHeader,
@@ -7,147 +8,229 @@ import {
 } from "./landing-page";
 import "./examples-page.css";
 
-interface GalleryCaptionProps {
-  description: string;
-  index: string;
-  label: string;
-  onOpen: () => void;
-  title: string;
-}
+const examples = [
+  { id: "login", title: "User login" },
+  { id: "admin", title: "Admin dashboard" },
+  { id: "projects", title: "Project board" },
+] as const;
+
+type ExampleId = (typeof examples)[number]["id"];
 
 const adminRows = [
   ["Maya Chen", "maya@northstar.dev", "Admin", "Active"],
   ["Elliot Stone", "elliot@northstar.dev", "Editor", "Active"],
   ["Noah Williams", "noah@northstar.dev", "Viewer", "Invited"],
+  ["Ari Patel", "ari@northstar.dev", "Editor", "Active"],
 ] as const;
 
 const projectColumns = [
   {
     title: "To do",
-    count: 4,
     tasks: [
-      ["Audit analytics setup", "MC", "May 28", "2"],
-      ["Define IA for new site", "ES", "May 31", "1"],
-      ["Design system v2 tokens", "NW", "Jun 02", "3"],
+      ["Audit analytics setup", "MC", "May 28"],
+      ["Define IA for new site", "ES", "May 31"],
+      ["Design system v2 tokens", "NW", "Jun 02"],
     ],
   },
   {
     title: "In progress",
-    count: 3,
     tasks: [
-      ["Create homepage wireframes", "AP", "May 27", "2"],
-      ["Implement header component", "MC", "May 29", "4"],
-      ["Build pricing page", "ES", "Jun 03", "1"],
+      ["Create homepage wireframes", "AP", "May 27"],
+      ["Implement header component", "MC", "May 29"],
+      ["Build pricing page", "ES", "Jun 03"],
     ],
   },
   {
     title: "Done",
-    count: 3,
     tasks: [
-      ["Stakeholder kickoff", "NW", "May 10", "0"],
-      ["Competitive analysis", "AP", "May 14", "0"],
-      ["Old site content audit", "MC", "May 16", "0"],
+      ["Stakeholder kickoff", "NW", "May 10"],
+      ["Competitive analysis", "AP", "May 14"],
+      ["Old site content audit", "MC", "May 16"],
     ],
   },
 ] as const;
 
-function GalleryCaption({
-  description,
-  index,
-  label,
-  onOpen,
-  title,
-}: GalleryCaptionProps) {
+function KantzenWordmark() {
   return (
-    <div className="example-gallery-caption">
-      <div>
-        <span className="example-gallery-index">
-          {index} / {label}
-        </span>
-        <h2>{title}</h2>
-        <p>{description}</p>
+    <span className="example-wordmark">
+      <span>K</span>
+      <strong>Kantzen</strong>
+    </span>
+  );
+}
+
+function LoginThumbnail() {
+  return (
+    <div className="gallery-thumb gallery-thumb--login" aria-hidden="true">
+      <div className="gallery-login-card">
+        <span className="gallery-login-mark">K</span>
+        <strong>Welcome back</strong>
+        <span className="gallery-login-input" />
+        <span className="gallery-login-input" />
+        <span className="gallery-login-submit" />
       </div>
-      <button type="button" onClick={onOpen}>
-        Open example
-        <Icon icon="arrow-right" size={13} />
-      </button>
     </div>
   );
 }
 
-function PreviewNavItem({
-  active = false,
-  children,
-  icon,
-}: {
-  active?: boolean;
-  children: ReactNode;
-  icon: "grid-view" | "people" | "folder-open" | "credit-card" | "cog";
-}) {
+function AdminThumbnail() {
   return (
-    <button
-      className={active ? "is-active" : undefined}
-      tabIndex={-1}
-      type="button"
-    >
-      <Icon icon={icon} size={11} />
-      <span>{children}</span>
-    </button>
+    <div className="gallery-thumb gallery-thumb--app" aria-hidden="true">
+      <aside>
+        <span className="gallery-thumb-mark">K</span>
+        <i className="is-active" />
+        <i />
+        <i />
+        <i />
+      </aside>
+      <div className="gallery-admin-main">
+        <header>
+          <strong>Overview</strong>
+          <span />
+        </header>
+        <div className="gallery-admin-stats">
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="gallery-admin-chart">
+          <svg viewBox="0 0 240 60" preserveAspectRatio="none">
+            <path d="M0 54 28 43 54 46 82 27 110 34 138 19 168 25 198 8 240 14" />
+          </svg>
+        </div>
+        <div className="gallery-admin-rows">
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
+    </div>
   );
 }
 
-function LoginPreview() {
+function ProjectThumbnail() {
+  return (
+    <div className="gallery-thumb gallery-thumb--app" aria-hidden="true">
+      <aside>
+        <span className="gallery-thumb-mark">K</span>
+        <i className="is-active" />
+        <i />
+        <i />
+      </aside>
+      <div className="gallery-board-main">
+        <header>
+          <strong>Website redesign</strong>
+          <span />
+        </header>
+        <div className="gallery-board-columns">
+          {[0, 1, 2].map((column) => (
+            <section key={column}>
+              <i />
+              <span />
+              <span />
+              <span />
+            </section>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function GalleryThumbnail({ id }: { id: ExampleId }) {
+  if (id === "login") return <LoginThumbnail />;
+  if (id === "admin") return <AdminThumbnail />;
+  return <ProjectThumbnail />;
+}
+
+export function ExamplesPage({ onNavigate }: LandingPageProps) {
+  return (
+    <div className="landing-page examples-page">
+      <LandingHeader activeItem="examples" onNavigate={onNavigate} />
+      <main className="examples-main" id="top">
+        <header className="examples-intro">
+          <h1>Examples</h1>
+          <p>Three complete interfaces built with the same system.</p>
+        </header>
+
+        <section className="example-gallery" aria-label="Interface examples">
+          {examples.map((example) => (
+            <button
+              className="example-gallery-tile"
+              key={example.id}
+              type="button"
+              onClick={() => onNavigate(`/examples/${example.id}`)}
+            >
+              <GalleryThumbnail id={example.id} />
+              <span className="example-gallery-title">
+                <strong>{example.title}</strong>
+                <Icon icon="arrow-right" size={14} />
+              </span>
+            </button>
+          ))}
+        </section>
+      </main>
+      <LandingFooter />
+    </div>
+  );
+}
+
+function ExampleTopBar({ onBack }: { onBack: () => void }) {
+  return (
+    <header className="example-topbar">
+      <button type="button" onClick={onBack}>
+        <Icon icon="arrow-left" size={13} />
+        Back to examples
+      </button>
+    </header>
+  );
+}
+
+function LoginExample() {
   const [showPassword, setShowPassword] = useState(false);
   const [remembered, setRemembered] = useState(true);
-  const [submitted, setSubmitted] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmitted(true);
+    setSignedIn(true);
   };
 
   return (
-    <div className="example-preview example-login-preview">
-      <div className="login-demo">
-        <div className="login-demo-brand">
-          <span className="login-demo-mark">K</span>
-          <strong>Kantzen</strong>
-        </div>
-        <div className="login-demo-heading">
-          <h3>{submitted ? "You’re signed in." : "Welcome back"}</h3>
+    <main className="login-example-page">
+      <form className="login-example-form" onSubmit={handleSubmit}>
+        <KantzenWordmark />
+        <div className="login-example-heading">
+          <h1>{signedIn ? "Welcome, Jane." : "Welcome back"}</h1>
           <p>
-            {submitted
-              ? "Your workspace is ready."
+            {signedIn
+              ? "You are signed in to your workspace."
               : "Sign in to continue to your account."}
           </p>
         </div>
-        {submitted ? (
+
+        {signedIn ? (
           <button
-            className="login-demo-submit"
+            className="login-example-primary"
             type="button"
-            onClick={() => setSubmitted(false)}
+            onClick={() => setSignedIn(false)}
           >
-            Return to sign in
+            Sign out
           </button>
         ) : (
-          <form onSubmit={submit}>
+          <>
             <label>
               Email address
-              <span className="login-demo-input">
-                <Icon icon="envelope" size={13} />
-                <input
-                  aria-label="Example email address"
-                  defaultValue="jane@kantzen.dev"
-                  type="email"
-                />
+              <span className="login-example-input">
+                <Icon icon="envelope" size={15} />
+                <input defaultValue="jane@kantzen.dev" type="email" />
               </span>
             </label>
             <label>
               Password
-              <span className="login-demo-input">
-                <Icon icon="lock" size={13} />
+              <span className="login-example-input">
+                <Icon icon="lock" size={15} />
                 <input
-                  aria-label="Example password"
                   defaultValue="kantzen-demo"
                   type={showPassword ? "text" : "password"}
                 />
@@ -156,11 +239,11 @@ function LoginPreview() {
                   type="button"
                   onClick={() => setShowPassword((visible) => !visible)}
                 >
-                  <Icon icon="eye-open" size={13} />
+                  <Icon icon="eye-open" size={14} />
                 </button>
               </span>
             </label>
-            <div className="login-demo-options">
+            <div className="login-example-options">
               <label>
                 <input
                   checked={remembered}
@@ -168,65 +251,71 @@ function LoginPreview() {
                   onChange={(event) => setRemembered(event.target.checked)}
                 />
                 <span aria-hidden="true">
-                  {remembered ? <Icon icon="tick" size={9} /> : null}
+                  {remembered ? <Icon icon="tick" size={10} /> : null}
                 </span>
                 Remember me
               </label>
               <button type="button">Forgot password?</button>
             </div>
-            <button className="login-demo-submit" type="submit">
+            <button className="login-example-primary" type="submit">
               Sign in
             </button>
-            <div className="login-demo-divider">
+            <div className="login-example-divider">
               <span /> or continue with <span />
             </div>
-            <button className="login-demo-sso" type="button">
-              <span aria-hidden="true">GH</span>
+            <button className="login-example-secondary" type="button">
               Continue with GitHub
             </button>
-          </form>
+          </>
         )}
-        <p className="login-demo-footnote">
-          Don’t have an account? <button type="button">Create one</button>
-        </p>
-      </div>
-    </div>
+      </form>
+    </main>
   );
 }
 
-function AdminPreview() {
+function DashboardSidebar({ project = false }: { project?: boolean }) {
+  const labels = project
+    ? ["Projects", "My tasks", "Calendar", "Files", "Settings"]
+    : ["Overview", "Users", "Projects", "Billing", "Reports"];
+
+  return (
+    <aside className="example-app-sidebar">
+      <KantzenWordmark />
+      <nav aria-label={project ? "Project navigation" : "Admin navigation"}>
+        {labels.map((label, index) => (
+          <button
+            className={index === 0 ? "is-active" : undefined}
+            key={label}
+            type="button"
+          >
+            <span />
+            {label}
+          </button>
+        ))}
+      </nav>
+      <div className="example-app-user">
+        <span>JD</span>
+        <span>
+          Jane Doe<small>Administrator</small>
+        </span>
+      </div>
+    </aside>
+  );
+}
+
+function AdminExample() {
   const [range, setRange] = useState<"30d" | "90d">("30d");
 
   return (
-    <div className="example-preview admin-demo">
-      <aside className="preview-sidebar">
-        <div className="preview-sidebar-brand">
-          <span>K</span>
-          <strong>Kantzen</strong>
-        </div>
-        <nav aria-label="Admin preview navigation">
-          <PreviewNavItem active icon="grid-view">
-            Overview
-          </PreviewNavItem>
-          <PreviewNavItem icon="people">Users</PreviewNavItem>
-          <PreviewNavItem icon="folder-open">Projects</PreviewNavItem>
-          <PreviewNavItem icon="credit-card">Billing</PreviewNavItem>
-          <PreviewNavItem icon="cog">Settings</PreviewNavItem>
-        </nav>
-        <div className="preview-sidebar-user">
-          <span>JD</span>
-          <span>
-            Jane Doe<small>Administrator</small>
-          </span>
-        </div>
-      </aside>
-      <div className="admin-demo-main">
-        <header>
+    <main className="admin-example-page">
+      <DashboardSidebar />
+      <section className="admin-example-content">
+        <header className="example-app-heading">
           <div>
             <span>Operations</span>
-            <h3>Overview</h3>
+            <h1>Overview</h1>
           </div>
-          <div className="admin-demo-tools">
+          <div>
             <button
               className={range === "30d" ? "is-active" : undefined}
               type="button"
@@ -242,222 +331,182 @@ function AdminPreview() {
               90 days
             </button>
             <button aria-label="Notifications" type="button">
-              <Icon icon="notifications" size={12} />
+              <Icon icon="notifications" size={14} />
             </button>
           </div>
         </header>
-        <div className="admin-demo-stats">
-          <div>
-            <span>Total revenue</span>
-            <strong>{range === "30d" ? "$152,430" : "$428,912"}</strong>
-            <small>↑ 12.4%</small>
-          </div>
-          <div>
-            <span>Active users</span>
-            <strong>{range === "30d" ? "2,845" : "7,291"}</strong>
-            <small>↑ 8.7%</small>
-          </div>
-          <div>
-            <span>New signups</span>
-            <strong>{range === "30d" ? "342" : "918"}</strong>
-            <small>↑ 15.3%</small>
-          </div>
+
+        <div className="admin-example-stats">
+          {[
+            ["Total revenue", range === "30d" ? "$152,430" : "$428,912"],
+            ["Active users", range === "30d" ? "2,845" : "7,291"],
+            ["New signups", range === "30d" ? "342" : "918"],
+            ["MRR", range === "30d" ? "$48,920" : "$51,480"],
+          ].map(([label, value]) => (
+            <div key={label}>
+              <span>{label}</span>
+              <strong>{value}</strong>
+              <small>↑ 12.4% from last period</small>
+            </div>
+          ))}
         </div>
-        <div className="admin-demo-chart">
-          <div>
-            <strong>Revenue over time</strong>
-            <span>{range === "30d" ? "May 01–31" : "Mar 01–May 31"}</span>
-          </div>
+
+        <div className="admin-example-chart">
+          <header>
+            <div>
+              <strong>Revenue over time</strong>
+              <span>
+                {range === "30d" ? "May 01–31, 2026" : "Mar 01–May 31, 2026"}
+              </span>
+            </div>
+          </header>
           <svg
-            viewBox="0 0 520 115"
+            viewBox="0 0 900 250"
             preserveAspectRatio="none"
             aria-hidden="true"
           >
             <path
-              className="chart-grid"
-              d="M0 22.5H520M0 57.5H520M0 92.5H520"
+              className="example-chart-grid"
+              d="M0 45H900M0 105H900M0 165H900M0 225H900"
             />
             <path
-              className="chart-area"
-              d="M0 96 38 84 72 70 112 76 150 54 184 62 225 42 260 50 302 35 344 46 382 27 421 34 468 13 520 20V115H0Z"
+              className="example-chart-area"
+              d="M0 215 66 190 126 198 190 145 257 162 327 118 393 131 463 88 528 108 594 67 663 82 728 42 798 58 852 20 900 34V250H0Z"
             />
             <path
-              className="chart-line"
-              d="M0 96 38 84 72 70 112 76 150 54 184 62 225 42 260 50 302 35 344 46 382 27 421 34 468 13 520 20"
+              className="example-chart-line"
+              d="M0 215 66 190 126 198 190 145 257 162 327 118 393 131 463 88 528 108 594 67 663 82 728 42 798 58 852 20 900 34"
             />
           </svg>
         </div>
-        <div className="admin-demo-table">
-          <div className="admin-demo-table-title">
+
+        <section className="admin-example-table">
+          <header>
             <strong>Recent users</strong>
-            <button type="button">View all</button>
-          </div>
-          <div className="admin-demo-row is-header">
+            <button type="button">View all users</button>
+          </header>
+          <div className="admin-example-row is-header">
             <span>User</span>
             <span>Email</span>
             <span>Role</span>
             <span>Status</span>
           </div>
           {adminRows.map(([name, email, role, status], index) => (
-            <div className="admin-demo-row" key={email}>
+            <div className="admin-example-row" key={email}>
               <span>
-                <i>{["MC", "ES", "NW"][index]}</i>
+                <i>{["MC", "ES", "NW", "AP"][index]}</i>
                 {name}
               </span>
               <span>{email}</span>
               <span>{role}</span>
-              <span className={status === "Active" ? "is-online" : undefined}>
+              <span className={status === "Active" ? "is-active" : undefined}>
                 {status}
               </span>
             </div>
           ))}
-        </div>
-      </div>
-    </div>
+        </section>
+      </section>
+    </main>
   );
 }
 
-function ProjectBoardPreview() {
+function ProjectExample() {
   const [filtered, setFiltered] = useState(false);
 
   return (
-    <div className="example-preview project-demo">
-      <aside className="preview-sidebar project-demo-sidebar">
-        <div className="preview-sidebar-brand">
-          <span>K</span>
-          <strong>Kantzen</strong>
-        </div>
-        <span className="project-demo-workspace">WORKSPACE</span>
-        <strong className="project-demo-team">Team Northstar</strong>
-        <nav aria-label="Project board preview navigation">
-          <PreviewNavItem active icon="folder-open">
-            Projects
-          </PreviewNavItem>
-          <PreviewNavItem icon="grid-view">My tasks</PreviewNavItem>
-          <PreviewNavItem icon="people">Team</PreviewNavItem>
-          <PreviewNavItem icon="cog">Settings</PreviewNavItem>
-        </nav>
-      </aside>
-      <div className="project-demo-main">
-        <header>
+    <main className="project-example-page">
+      <DashboardSidebar project />
+      <section className="project-example-content">
+        <header className="example-app-heading project-example-heading">
           <div>
             <span>Project</span>
-            <h3>Website redesign</h3>
+            <h1>Website redesign</h1>
           </div>
-          <div className="project-demo-actions">
-            <span className="project-demo-avatars">MC&nbsp; ES&nbsp; +3</span>
+          <div>
             <button
               className={filtered ? "is-active" : undefined}
               type="button"
               onClick={() => setFiltered((active) => !active)}
             >
-              <Icon icon="filter" size={11} />
+              <Icon icon="filter" size={13} />
               {filtered ? "Filtered" : "Filter"}
             </button>
-            <button type="button">
-              <Icon icon="add" size={11} /> New task
+            <button className="is-primary" type="button">
+              <Icon icon="add" size={13} /> New task
             </button>
           </div>
         </header>
-        <div className="project-demo-tabs">
+
+        <nav className="project-example-tabs" aria-label="Project views">
           <button className="is-active" type="button">
             Board
           </button>
           <button type="button">List</button>
           <button type="button">Timeline</button>
           <button type="button">Files</button>
-        </div>
-        <div className="project-demo-board">
+        </nav>
+
+        <div className="project-example-board">
           {projectColumns.map((column, columnIndex) => (
             <section key={column.title}>
               <header>
                 <strong>{column.title}</strong>
-                <span>{column.count}</span>
+                <span>{column.tasks.length}</span>
                 <button
                   aria-label={`Add task to ${column.title}`}
                   type="button"
                 >
-                  <Icon icon="add" size={10} />
+                  <Icon icon="add" size={12} />
                 </button>
               </header>
               {column.tasks
-                .filter((_, taskIndex) => !filtered || taskIndex < 2)
-                .map(([title, owner, date, comments]) => (
+                .filter((_, index) => !filtered || index < 2)
+                .map(([title, owner, date]) => (
                   <article key={title}>
                     <strong>{title}</strong>
+                    <p>Prepare the next iteration for team review.</p>
                     <footer>
                       <i className={columnIndex === 2 ? "is-done" : undefined}>
                         {columnIndex === 2 ? (
-                          <Icon icon="tick" size={9} />
+                          <Icon icon="tick" size={10} />
                         ) : (
                           owner
                         )}
                       </i>
                       <span>{date}</span>
-                      <span>{comments} notes</span>
+                      <span>2 notes</span>
                     </footer>
                   </article>
                 ))}
-              <button className="project-demo-add" type="button">
-                <Icon icon="add" size={10} /> Add task
+              <button className="project-example-add" type="button">
+                <Icon icon="add" size={11} /> Add task
               </button>
             </section>
           ))}
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 
-export function ExamplesPage({ onNavigate }: LandingPageProps) {
+export function ExamplePage({ onNavigate }: LandingPageProps) {
+  const { exampleId } = useParams<{ exampleId: string }>();
+  const selected = examples.find((example) => example.id === exampleId);
+
   return (
-    <div className="landing-page examples-page">
-      <LandingHeader activeItem="examples" onNavigate={onNavigate} />
-      <main className="examples-main" id="top">
-        <header className="examples-intro">
-          <h1>Real interfaces. One system.</h1>
-          <p>
-            Three complete product surfaces, composed from the same components,
-            tokens, and interaction patterns.
-          </p>
-        </header>
-
-        <section className="example-gallery" aria-label="Interface examples">
-          <article className="example-gallery-item example-gallery-item--login">
-            <LoginPreview />
-            <GalleryCaption
-              description="A focused authentication flow with usable form states and keyboard-ready controls."
-              index="01"
-              label="ACCESS"
-              title="User login"
-              onOpen={() => onNavigate("/workspace")}
-            />
-          </article>
-
-          <article className="example-gallery-item example-gallery-item--admin">
-            <AdminPreview />
-            <GalleryCaption
-              description="Navigation, metrics, trends, and user management in one compact operational view."
-              index="02"
-              label="OPERATIONS"
-              title="Admin dashboard"
-              onOpen={() => onNavigate("/workspace")}
-            />
-          </article>
-
-          <article className="example-gallery-item example-gallery-item--project">
-            <ProjectBoardPreview />
-            <GalleryCaption
-              description="A dense planning surface for moving team work from backlog to shipped."
-              index="03"
-              label="PLANNING"
-              title="Project board"
-              onOpen={() => onNavigate("/workspace")}
-            />
-          </article>
-        </section>
-      </main>
-      <LandingFooter />
+    <div className="landing-page example-detail-page">
+      <ExampleTopBar onBack={() => onNavigate("/examples")} />
+      {selected?.id === "login" ? <LoginExample /> : null}
+      {selected?.id === "admin" ? <AdminExample /> : null}
+      {selected?.id === "projects" ? <ProjectExample /> : null}
+      {!selected ? (
+        <main className="example-not-found">
+          <h1>Example not found.</h1>
+          <button type="button" onClick={() => onNavigate("/examples")}>
+            Return to examples
+          </button>
+        </main>
+      ) : null}
     </div>
   );
 }

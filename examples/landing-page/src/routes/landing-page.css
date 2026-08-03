@@ -1352,6 +1352,7 @@
 }
 
 .landing-footer {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1.6fr;
   align-items: center;
@@ -1392,23 +1393,20 @@
 }
 
 .landing-footer nav {
-  display: grid;
-  grid-template-columns: 1fr;
-  border-top: 1px solid var(--landing-line);
+  position: absolute;
+  right: clamp(36px, 5vw, 78px);
+  bottom: 48px;
 }
 
-.landing-footer nav button,
 .landing-footer nav a {
-  justify-content: center;
-  min-height: 72px;
-  border-right: 1px solid var(--landing-line);
+  gap: 9px;
   font-family: "SFMono-Regular", Consolas, monospace;
   font-size: 12px;
 }
 
-.landing-footer nav a:last-child {
-  border-right: 0;
-  gap: 8px;
+.landing-footer nav svg {
+  width: 20px;
+  height: 20px;
 }
 
 @keyframes landing-rise {
@@ -1713,12 +1711,8 @@
   }
 
   .landing-footer nav {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .landing-footer nav button,
-  .landing-footer nav a {
-    border-bottom: 1px solid var(--landing-line);
+    right: 20px;
+    bottom: 50px;
   }
 }
 
