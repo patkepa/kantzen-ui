@@ -220,13 +220,26 @@ function DeploymentChart({
         </div>
       </header>
       <div className="workspace-chart-legend" aria-hidden="true">
-        <span><i /> Active deployments</span>
-        <span><i /> Rolling baseline</span>
+        <span>
+          <i /> Active deployments
+        </span>
+        <span>
+          <i /> Rolling baseline
+        </span>
       </div>
       <svg viewBox="0 0 812 176" role="img" aria-label="Deployment trend chart">
-        <path className="workspace-chart-grid" d="M16 24H796M16 68H796M16 112H796M16 156H796" />
-        <path className="workspace-chart-baseline" d="M16 128 L146 116 L276 104 L406 96 L536 88 L666 80 L796 74" />
-        <path className="workspace-chart-area" d={`${path} L796 156 L16 156 Z`} />
+        <path
+          className="workspace-chart-grid"
+          d="M16 24H796M16 68H796M16 112H796M16 156H796"
+        />
+        <path
+          className="workspace-chart-baseline"
+          d="M16 128 L146 116 L276 104 L406 96 L536 88 L666 80 L796 74"
+        />
+        <path
+          className="workspace-chart-area"
+          d={`${path} L796 156 L16 156 Z`}
+        />
         <path className="workspace-chart-line" d={path} />
         {[16, 146, 276, 406, 536, 666, 796].map((x, index) => (
           <circle
@@ -241,7 +254,9 @@ function DeploymentChart({
         {(range === "7d"
           ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
           : ["Jul 5", "Jul 10", "Jul 15", "Jul 20", "Jul 25", "Jul 30", "Aug 3"]
-        ).map((label) => <span key={label}>{label}</span>)}
+        ).map((label) => (
+          <span key={label}>{label}</span>
+        ))}
       </footer>
     </section>
   );
@@ -344,21 +359,29 @@ function ActivityView() {
           <Button icon="refresh" minimal small text="Refresh" />
         </header>
         <div className="workspace-activity-timeline">
-          {activityItems.concat(activityItems.slice(0, 2)).map((item, index) => (
-            <button key={`${item.id}-${index}`} type="button">
-              <span className={`workspace-event-icon is-${item.status}`}>
-                <Icon
-                  icon={item.status === "warning" ? "warning-sign" : item.status === "online" ? "tick" : "pulse"}
-                  size={13}
-                />
-              </span>
-              <span>
-                <strong>{item.title}</strong>
-                <small>{item.meta}</small>
-              </span>
-              <Icon icon="chevron-right" size={12} />
-            </button>
-          ))}
+          {activityItems
+            .concat(activityItems.slice(0, 2))
+            .map((item, index) => (
+              <button key={`${item.id}-${index}`} type="button">
+                <span className={`workspace-event-icon is-${item.status}`}>
+                  <Icon
+                    icon={
+                      item.status === "warning"
+                        ? "warning-sign"
+                        : item.status === "online"
+                          ? "tick"
+                          : "pulse"
+                    }
+                    size={13}
+                  />
+                </span>
+                <span>
+                  <strong>{item.title}</strong>
+                  <small>{item.meta}</small>
+                </span>
+                <Icon icon="chevron-right" size={12} />
+              </button>
+            ))}
         </div>
       </section>
       <aside>
@@ -366,9 +389,11 @@ function ActivityView() {
         <strong className="mono-data">1,248</strong>
         <p>87% automated · 13% human initiated</p>
         <div className="workspace-volume-bars" aria-hidden="true">
-          {[38, 54, 44, 68, 82, 61, 74, 92, 70, 84, 58, 76].map((height, index) => (
-            <i key={index} style={{ height: `${height}%` }} />
-          ))}
+          {[38, 54, 44, 68, 82, 61, 74, 92, 70, 84, 58, 76].map(
+            (height, index) => (
+              <i key={index} style={{ height: `${height}%` }} />
+            ),
+          )}
         </div>
       </aside>
     </div>
@@ -383,10 +408,17 @@ function HealthView() {
           <strong>System health</strong>
           <span>All production services · updated just now</span>
         </div>
-        <span className="workspace-health-overall"><StatusLed status="online" /> Operational</span>
+        <span className="workspace-health-overall">
+          <StatusLed status="online" /> Operational
+        </span>
       </header>
       <div className="workspace-health-table">
-        <div aria-hidden="true"><span>Service</span><span>Availability</span><span>Latency</span><span>Status</span></div>
+        <div aria-hidden="true">
+          <span>Service</span>
+          <span>Availability</span>
+          <span>Latency</span>
+          <span>Status</span>
+        </div>
         {healthServices.map(([service, availability, latency, status]) => (
           <button key={service} type="button">
             <strong>{service}</strong>
@@ -397,14 +429,23 @@ function HealthView() {
         ))}
       </div>
       <section className="workspace-region-health">
-        <header><strong>Regional availability</strong><span>Last 24 hours</span></header>
-        {["North America", "Europe", "Asia Pacific", "South America"].map((region, index) => (
-          <div key={region}>
-            <span>{region}</span>
-            <span className="workspace-uptime-track"><i style={{ width: `${[99, 96, 98, 91][index]}%` }} /></span>
-            <strong className="mono-data">{["99.99%", "99.96%", "99.98%", "99.91%"][index]}</strong>
-          </div>
-        ))}
+        <header>
+          <strong>Regional availability</strong>
+          <span>Last 24 hours</span>
+        </header>
+        {["North America", "Europe", "Asia Pacific", "South America"].map(
+          (region, index) => (
+            <div key={region}>
+              <span>{region}</span>
+              <span className="workspace-uptime-track">
+                <i style={{ width: `${[99, 96, 98, 91][index]}%` }} />
+              </span>
+              <strong className="mono-data">
+                {["99.99%", "99.96%", "99.98%", "99.91%"][index]}
+              </strong>
+            </div>
+          ),
+        )}
       </section>
     </div>
   );
@@ -412,27 +453,66 @@ function HealthView() {
 
 function DetailRail({ selected }: { selected: Workstream }) {
   return (
-    <aside className="workspace-detail-rail" aria-label={`${selected.name} details`}>
+    <aside
+      className="workspace-detail-rail"
+      aria-label={`${selected.name} details`}
+    >
       <header>
         <div>
           <span className="section-label">Selected workstream</span>
           <strong>{selected.name}</strong>
         </div>
-        <Button aria-label="More workstream actions" icon="more" minimal small />
+        <Button
+          aria-label="More workstream actions"
+          icon="more"
+          minimal
+          small
+        />
       </header>
       <dl>
-        <div><dt>Region</dt><dd>{selected.region}</dd></div>
-        <div><dt>Status</dt><dd><StatusLabel status={selected.status} /></dd></div>
-        <div><dt>Progress</dt><dd><ProgressBar value={selected.progress} /></dd></div>
-        <div><dt>Owner</dt><dd className="workspace-owner"><i>{selected.ownerInitials}</i>{selected.owner}</dd></div>
+        <div>
+          <dt>Region</dt>
+          <dd>{selected.region}</dd>
+        </div>
+        <div>
+          <dt>Status</dt>
+          <dd>
+            <StatusLabel status={selected.status} />
+          </dd>
+        </div>
+        <div>
+          <dt>Progress</dt>
+          <dd>
+            <ProgressBar value={selected.progress} />
+          </dd>
+        </div>
+        <div>
+          <dt>Owner</dt>
+          <dd className="workspace-owner">
+            <i>{selected.ownerInitials}</i>
+            {selected.owner}
+          </dd>
+        </div>
       </dl>
       <section>
         <span className="section-label">Latest event</span>
         <button className="workspace-latest-event" type="button">
           <span className={`workspace-event-icon is-${selected.status}`}>
-            <Icon icon={selected.status === "warning" ? "warning-sign" : selected.status === "offline" ? "error" : "tick"} size={13} />
+            <Icon
+              icon={
+                selected.status === "warning"
+                  ? "warning-sign"
+                  : selected.status === "offline"
+                    ? "error"
+                    : "tick"
+              }
+              size={13}
+            />
           </span>
-          <span><strong>{selected.latestEvent}</strong><small>Today at 10:24</small></span>
+          <span>
+            <strong>{selected.latestEvent}</strong>
+            <small>Today at 10:24</small>
+          </span>
           <Icon icon="chevron-right" size={12} />
         </button>
       </section>
@@ -441,11 +521,17 @@ function DetailRail({ selected }: { selected: Workstream }) {
         <p>{selected.description}</p>
       </section>
       <section className="workspace-rail-activity">
-        <div className="workspace-rail-heading"><span className="section-label">Recent activity</span><button type="button">View all</button></div>
+        <div className="workspace-rail-heading">
+          <span className="section-label">Recent activity</span>
+          <button type="button">View all</button>
+        </div>
         {activityItems.slice(0, 3).map((item) => (
           <button key={item.id} type="button">
             <StatusLed status={item.status} />
-            <span><strong>{item.title}</strong><small>{item.meta}</small></span>
+            <span>
+              <strong>{item.title}</strong>
+              <small>{item.meta}</small>
+            </span>
           </button>
         ))}
       </section>
@@ -472,10 +558,16 @@ function CreateDeploymentDialog({
     onCreate({
       id: `deployment-${Date.now()}`,
       name: safeName,
-      description: description.trim() || "New deployment ready for planning and assignment.",
+      description:
+        description.trim() ||
+        "New deployment ready for planning and assignment.",
       latestEvent: "Workstream created",
       owner,
-      ownerInitials: owner.split(" ").map((word) => word[0]).join("").slice(0, 2),
+      ownerInitials: owner
+        .split(" ")
+        .map((word) => word[0])
+        .join("")
+        .slice(0, 2),
       progress: 4,
       region,
       status: "online",
@@ -484,7 +576,11 @@ function CreateDeploymentDialog({
   };
 
   return (
-    <div className="workspace-dialog-backdrop" onMouseDown={onClose} role="presentation">
+    <div
+      className="workspace-dialog-backdrop"
+      onMouseDown={onClose}
+      role="presentation"
+    >
       <section
         aria-labelledby="new-deployment-title"
         aria-modal="true"
@@ -493,17 +589,72 @@ function CreateDeploymentDialog({
         role="dialog"
       >
         <header>
-          <div><span className="section-label">Create workstream</span><h2 id="new-deployment-title">New deployment</h2></div>
-          <Button aria-label="Close dialog" icon="cross" minimal onClick={onClose} />
+          <div>
+            <span className="section-label">Create workstream</span>
+            <h2 id="new-deployment-title">New deployment</h2>
+          </div>
+          <Button
+            aria-label="Close dialog"
+            icon="cross"
+            minimal
+            onClick={onClose}
+          />
         </header>
         <form onSubmit={handleSubmit}>
-          <label>Workstream name<input autoFocus onChange={(event) => setName(event.target.value)} placeholder="e.g. South region rollout" required value={name} /></label>
+          <label>
+            Workstream name
+            <input
+              autoFocus
+              onChange={(event) => setName(event.target.value)}
+              placeholder="e.g. South region rollout"
+              required
+              value={name}
+            />
+          </label>
           <div className="workspace-dialog-columns">
-            <label>Region<select onChange={(event) => setRegion(event.target.value)} value={region}><option>North America</option><option>Europe</option><option>APAC</option><option>South America</option></select></label>
-            <label>Owner<select onChange={(event) => setOwner(event.target.value)} value={owner}><option>Field Ops</option><option>Success</option><option>Network</option><option>Support</option></select></label>
+            <label>
+              Region
+              <select
+                onChange={(event) => setRegion(event.target.value)}
+                value={region}
+              >
+                <option>North America</option>
+                <option>Europe</option>
+                <option>APAC</option>
+                <option>South America</option>
+              </select>
+            </label>
+            <label>
+              Owner
+              <select
+                onChange={(event) => setOwner(event.target.value)}
+                value={owner}
+              >
+                <option>Field Ops</option>
+                <option>Success</option>
+                <option>Network</option>
+                <option>Support</option>
+              </select>
+            </label>
           </div>
-          <label>Description <span>(optional)</span><textarea onChange={(event) => setDescription(event.target.value)} placeholder="Add a short description" rows={4} value={description} /></label>
-          <footer><Button onClick={onClose} text="Cancel" /><Button intent="primary" icon="cloud-upload" text="Create deployment" type="submit" /></footer>
+          <label>
+            Description <span>(optional)</span>
+            <textarea
+              onChange={(event) => setDescription(event.target.value)}
+              placeholder="Add a short description"
+              rows={4}
+              value={description}
+            />
+          </label>
+          <footer>
+            <Button onClick={onClose} text="Cancel" />
+            <Button
+              intent="primary"
+              icon="cloud-upload"
+              text="Create deployment"
+              type="submit"
+            />
+          </footer>
         </form>
       </section>
     </div>
@@ -513,11 +664,19 @@ function CreateDeploymentDialog({
 function NotificationMenu({ onClose }: { onClose: () => void }) {
   return (
     <div className="workspace-notification-menu" role="menu">
-      <header><strong>Notifications</strong><button onClick={onClose} type="button">Mark all read</button></header>
+      <header>
+        <strong>Notifications</strong>
+        <button onClick={onClose} type="button">
+          Mark all read
+        </button>
+      </header>
       {activityItems.slice(0, 3).map((item) => (
         <button key={item.id} role="menuitem" type="button">
           <StatusLed status={item.status} />
-          <span><strong>{item.title}</strong><small>{item.meta}</small></span>
+          <span>
+            <strong>{item.title}</strong>
+            <small>{item.meta}</small>
+          </span>
         </button>
       ))}
     </div>
@@ -538,7 +697,9 @@ export const WorkspaceDemo = () => {
   const [filter, setFilter] = useState<WorkspaceFilter>("all");
   const [tab, setTab] = useState<WorkspaceTab>("overview");
   const [range, setRange] = useState<ChartRange>("7d");
-  const [workstreams, setWorkstreams] = useState<Workstream[]>(() => initialWorkstreams);
+  const [workstreams, setWorkstreams] = useState<Workstream[]>(
+    () => initialWorkstreams,
+  );
   const [selectedId, setSelectedId] = useState(initialWorkstreams[0]?.id ?? "");
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -547,24 +708,31 @@ export const WorkspaceDemo = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const counts = useMemo<Record<WorkspaceFilter, number>>(() => ({
-    all: workstreams.length,
-    online: workstreams.filter((row) => row.status === "online").length,
-    warning: workstreams.filter((row) => row.status === "warning").length,
-    offline: workstreams.filter((row) => row.status === "offline").length,
-  }), [workstreams]);
+  const counts = useMemo<Record<WorkspaceFilter, number>>(
+    () => ({
+      all: workstreams.length,
+      online: workstreams.filter((row) => row.status === "online").length,
+      warning: workstreams.filter((row) => row.status === "warning").length,
+      offline: workstreams.filter((row) => row.status === "offline").length,
+    }),
+    [workstreams],
+  );
 
   const filteredRows = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
     return workstreams.filter((row) => {
       const matchesStatus = filter === "all" || row.status === filter;
-      const matchesQuery = !normalizedQuery || [row.name, row.region, row.owner]
-        .some((value) => value.toLowerCase().includes(normalizedQuery));
+      const matchesQuery =
+        !normalizedQuery ||
+        [row.name, row.region, row.owner].some((value) =>
+          value.toLowerCase().includes(normalizedQuery),
+        );
       return matchesStatus && matchesQuery;
     });
   }, [filter, query, workstreams]);
 
-  const selected = workstreams.find((row) => row.id === selectedId) ?? workstreams[0];
+  const selected =
+    workstreams.find((row) => row.id === selectedId) ?? workstreams[0];
 
   const handleCreate = (workstream: Workstream) => {
     setWorkstreams((current) => [workstream, ...current]);
@@ -591,15 +759,28 @@ export const WorkspaceDemo = () => {
         sidebarCollapsed={sidebarCollapsed}
         onNavigate={navigate}
         onToggleSidebar={() => setSidebarCollapsed((collapsed) => !collapsed)}
-        breadcrumb={<><span className="breadcrumb-link">Workspace</span><span className="breadcrumb-sep">/</span><span>Overview</span></>}
-        navBadges={{ Deployments: { count: 12 }, Fleet: { status: "online" }, Alerts: { count: 3 } }}
+        breadcrumb={
+          <>
+            <span className="breadcrumb-link">Workspace</span>
+            <span className="breadcrumb-sep">/</span>
+            <span>Overview</span>
+          </>
+        }
+        navBadges={{
+          Deployments: { count: 12 },
+          Fleet: { status: "online" },
+          Alerts: { count: 3 },
+        }}
         projects={workspaceProjects}
         user={workspaceUser}
         version="v0.1.0"
         onOpenCommandPalette={() => searchRef.current?.focus()}
       >
         <WorkspacePortal slot="topbar">
-          <WorkspaceToolbar ariaLabel="Workspace overview controls" className="workspace-demo-toolbar">
+          <WorkspaceToolbar
+            ariaLabel="Workspace overview controls"
+            className="workspace-demo-toolbar"
+          >
             <SearchField
               ariaLabel="Search deployments, owners, or regions"
               inputRef={searchRef}
@@ -608,8 +789,17 @@ export const WorkspaceDemo = () => {
               value={query}
             />
             <div className="workspace-toolbar-actions">
-              <Button icon="filter" onClick={() => setFilter(filter === "all" ? "warning" : "all")} text={filter === "all" ? "Filter" : statusLabels[filter]} />
-              <Button intent="primary" icon="add" onClick={() => setIsCreateOpen(true)} text="New deployment" />
+              <Button
+                icon="filter"
+                onClick={() => setFilter(filter === "all" ? "warning" : "all")}
+                text={filter === "all" ? "Filter" : statusLabels[filter]}
+              />
+              <Button
+                intent="primary"
+                icon="add"
+                onClick={() => setIsCreateOpen(true)}
+                text="New deployment"
+              />
             </div>
           </WorkspaceToolbar>
         </WorkspacePortal>
@@ -623,31 +813,82 @@ export const WorkspaceDemo = () => {
               onClick={() => setNotificationsOpen((open) => !open)}
             />
             <span className="workspace-notification-badge">3</span>
-            {notificationsOpen ? <NotificationMenu onClose={() => setNotificationsOpen(false)} /> : null}
+            {notificationsOpen ? (
+              <NotificationMenu onClose={() => setNotificationsOpen(false)} />
+            ) : null}
           </div>
         </WorkspacePortal>
 
         <div className="workspace-demo-page">
           <header className="workspace-demo-heading">
-            <div><span className="section-label">Production environment</span><h1>Operations overview</h1><p>Monitor deployments, service health, and field activity from one place.</p></div>
-            <div className="workspace-live-indicator"><StatusLed status="online" /><span>Live</span><small>Updated just now</small></div>
+            <div>
+              <span className="section-label">Production environment</span>
+              <h1>Operations overview</h1>
+              <p>
+                Monitor deployments, service health, and field activity from one
+                place.
+              </p>
+            </div>
+            <div className="workspace-live-indicator">
+              <StatusLed status="online" />
+              <span>Live</span>
+              <small>Updated just now</small>
+            </div>
           </header>
 
-          <section className="workspace-demo-summary" aria-label="Operations summary">
-            <Metric icon="cloud" label="Active deployments" note="↑ 4 vs last 7 days" tone="blue" value="28" />
-            <Metric icon="warning-sign" label="Incidents" note="↑ 1 vs last 7 days" tone="red" value="03" />
-            <Metric icon="pulse" label="Signal quality" note="↑ 1.2% vs last 7 days" tone="green" value="98.7%" />
+          <section
+            className="workspace-demo-summary"
+            aria-label="Operations summary"
+          >
+            <Metric
+              icon="cloud"
+              label="Active deployments"
+              note="↑ 4 vs last 7 days"
+              tone="blue"
+              value="28"
+            />
+            <Metric
+              icon="warning-sign"
+              label="Incidents"
+              note="↑ 1 vs last 7 days"
+              tone="red"
+              value="03"
+            />
+            <Metric
+              icon="pulse"
+              label="Signal quality"
+              note="↑ 1.2% vs last 7 days"
+              tone="green"
+              value="98.7%"
+            />
           </section>
 
-          <Tabs ariaLabel="Workspace views" className="workspace-demo-tabs" items={tabItems} onChange={setTab} value={tab} />
+          <Tabs
+            ariaLabel="Workspace views"
+            className="workspace-demo-tabs"
+            items={tabItems}
+            onChange={setTab}
+            value={tab}
+          />
 
           <div className="workspace-demo-layout">
             <main className="workspace-demo-primary">
               {tab === "overview" ? (
                 <>
-                  <div className="workspace-overview-controls"><Filters active={filter} counts={counts} onChange={setFilter} /><span>{filteredRows.length} visible workstreams</span></div>
+                  <div className="workspace-overview-controls">
+                    <Filters
+                      active={filter}
+                      counts={counts}
+                      onChange={setFilter}
+                    />
+                    <span>{filteredRows.length} visible workstreams</span>
+                  </div>
                   <DeploymentChart onRangeChange={setRange} range={range} />
-                  <WorkstreamTable onSelect={setSelectedId} rows={filteredRows} selectedId={selected?.id ?? ""} />
+                  <WorkstreamTable
+                    onSelect={setSelectedId}
+                    rows={filteredRows}
+                    selectedId={selected?.id ?? ""}
+                  />
                 </>
               ) : null}
               {tab === "activity" ? <ActivityView /> : null}
@@ -657,8 +898,18 @@ export const WorkspaceDemo = () => {
           </div>
         </div>
 
-        {isCreateOpen ? <CreateDeploymentDialog onClose={() => setIsCreateOpen(false)} onCreate={handleCreate} /> : null}
-        {createdMessage ? <div className="workspace-toast" role="status"><Icon icon="tick" size={13} />{createdMessage}</div> : null}
+        {isCreateOpen ? (
+          <CreateDeploymentDialog
+            onClose={() => setIsCreateOpen(false)}
+            onCreate={handleCreate}
+          />
+        ) : null}
+        {createdMessage ? (
+          <div className="workspace-toast" role="status">
+            <Icon icon="tick" size={13} />
+            {createdMessage}
+          </div>
+        ) : null}
       </WorkspaceShell>
     </WorkspaceContent>
   );
