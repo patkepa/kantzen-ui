@@ -243,7 +243,9 @@
   border: 1px solid #30333a;
   color: #dce6f5;
   background: #111317;
-  font: 600 clamp(5px, 0.5vw, 8px) "SF Mono", monospace;
+  font:
+    600 clamp(5px, 0.5vw, 8px) "SF Mono",
+    monospace;
 }
 
 .gallery-workspace-stats i {

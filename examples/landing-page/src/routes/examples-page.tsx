@@ -83,9 +83,18 @@ function WorkspaceThumbnail() {
           <span />
         </header>
         <div className="gallery-workspace-stats">
-          <span><i />28</span>
-          <span><i />03</span>
-          <span><i />98.7%</span>
+          <span>
+            <i />
+            28
+          </span>
+          <span>
+            <i />
+            03
+          </span>
+          <span>
+            <i />
+            98.7%
+          </span>
         </div>
         <div className="gallery-workspace-chart">
           <svg viewBox="0 0 240 60" preserveAspectRatio="none">
@@ -93,7 +102,12 @@ function WorkspaceThumbnail() {
           </svg>
         </div>
         <div className="gallery-workspace-rows">
-          {[0, 1, 2, 3].map((row) => <span key={row}><i /><b /></span>)}
+          {[0, 1, 2, 3].map((row) => (
+            <span key={row}>
+              <i />
+              <b />
+            </span>
+          ))}
         </div>
       </div>
     </div>
