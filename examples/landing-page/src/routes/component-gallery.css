@@ -705,10 +705,6 @@
 }
 
 @media (max-width: 1120px) {
-  .component-wiki-header {
-    grid-template-columns: 268px 1fr 90px;
-  }
-
   .component-wiki-outline {
     display: none;
   }
@@ -716,44 +712,9 @@
   .component-wiki-main {
     right: 0;
   }
-
-  .component-wiki-header > nav a,
-  .component-wiki-header > nav button {
-    padding: 0 14px;
-  }
 }
 
 @media (max-width: 760px) {
-  .component-wiki-header {
-    grid-template-columns: 1fr auto;
-    height: 66px;
-  }
-
-  .component-wiki-brand {
-    border-right: 0;
-    font-size: 16px;
-  }
-
-  .component-wiki-brand-mark {
-    width: 34px;
-    height: 38px;
-  }
-
-  .component-wiki-header > nav,
-  .component-wiki-header-tools > .bp6-button:first-child {
-    display: none;
-  }
-
-  .component-wiki-header-tools {
-    padding-right: 10px;
-    border-left: 0;
-  }
-
-  .component-wiki-mobile-menu,
-  .component-wiki-mobile-search {
-    display: inline-flex !important;
-  }
-
   .component-wiki-sidebar {
     z-index: 80;
     top: 0;
@@ -778,11 +739,11 @@
 
   .component-wiki-main {
     position: relative;
-    top: 66px;
+    top: 62px;
     right: auto;
     bottom: auto;
     left: auto;
-    min-height: calc(100svh - 66px);
+    min-height: calc(100svh - 62px);
     overflow: visible;
   }
 
