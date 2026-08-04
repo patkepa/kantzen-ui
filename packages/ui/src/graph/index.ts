@@ -11,6 +11,13 @@ export {
   defaultPosition,
   simulateGraph,
 } from "./force-graph-simulation.js";
+export { findForceGraphNodeAt } from "./force-graph-hit-testing.js";
+export {
+  calculateFitViewTransform,
+  clampForceGraphScale,
+  MAX_FORCE_GRAPH_SCALE,
+  MIN_FORCE_GRAPH_SCALE,
+} from "./force-graph-view.js";
 export type {
   ForceGraphCanvasProps,
   ForceGraphCanvasSize,

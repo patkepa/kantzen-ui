@@ -3,6 +3,7 @@ import test from "node:test";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Alert, FilterPill, Popover, SearchField } from "../../dist/index.js";
+import { WorkspaceSidebar } from "../../dist/app-shell/index.js";
 import { getContextMenuPosition } from "../../dist/primitives/context-menu.js";
 
 test("renders open overlays safely during server rendering", () => {
@@ -18,6 +19,60 @@ test("renders open overlays safely during server rendering", () => {
       ),
     ),
   );
+});
+
+test("renders direct popover targets without an extra wrapper", () => {
+  const html = renderToStaticMarkup(
+    React.createElement(Popover, {
+      content: "Popover content",
+      renderTarget: ({ setTargetElement: _setTargetElement, ...props }) =>
+        React.createElement("button", { ...props, type: "button" }, "Open"),
+    }),
+  );
+
+  assert.match(html, /^<button/);
+  assert.doesNotMatch(html, /<span[^>]+kui-popover-target/);
+});
+
+test("renders sidebar navigation as semantic nested lists", () => {
+  const html = renderToStaticMarkup(
+    React.createElement(WorkspaceSidebar, {
+      currentPath: "/workspace/settings/members",
+      navGroups: [
+        {
+          label: "Workspace",
+          items: [
+            {
+              href: "/workspace",
+              icon: "home",
+              label: "Workspace",
+              children: [
+                {
+                  href: "/workspace/settings",
+                  icon: "settings",
+                  label: "Settings",
+                  children: [
+                    {
+                      href: "/workspace/settings/members",
+                      icon: "people",
+                      label: "Members",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      productName: "Kantzen",
+    }),
+  );
+
+  assert.match(html, /<ul[^>]*sidebar-menu[^>]*><li/);
+  assert.doesNotMatch(html, /<ul[^>]*>\s*<div/);
+  assert.doesNotMatch(html, /<span[^>]*>\s*<li/);
+  assert.match(html, /href="\/workspace\/settings\/members"/);
+  assert.match(html, /aria-current="page"/);
 });
 
 test("gives search controls accessible names", () => {

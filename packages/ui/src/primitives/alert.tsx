@@ -10,6 +10,7 @@ import type { IconName } from "@blueprintjs/icons";
 import { Icon } from "../icons/icon.js";
 import { Button } from "./button.js";
 import { classes, intentClass, type Intent } from "./classes.js";
+import { useDismissibleLayer } from "./use-dismissible-layer.js";
 
 export interface AlertProps {
   canEscapeKeyCancel?: boolean;
@@ -54,22 +55,24 @@ export function Alert({
     onClose?.(true);
   }, [onClose, onConfirm]);
 
+  useDismissibleLayer({
+    dismissOnEscape: canEscapeKeyCancel,
+    dismissOnOutsidePointer: false,
+    enabled: isOpen,
+    onDismiss: cancel,
+  });
+
   useEffect(() => {
     if (!isOpen) return;
     const previousFocus = document.activeElement as HTMLElement | null;
     const frame = window.requestAnimationFrame(() =>
       confirmRef.current?.focus(),
     );
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (canEscapeKeyCancel && event.key === "Escape") cancel();
-    };
-    document.addEventListener("keydown", handleKeyDown);
     return () => {
       window.cancelAnimationFrame(frame);
-      document.removeEventListener("keydown", handleKeyDown);
       previousFocus?.focus({ preventScroll: true });
     };
-  }, [canEscapeKeyCancel, cancel, isOpen]);
+  }, [isOpen]);
 
   if (!isOpen || typeof document === "undefined") return null;
   return createPortal(

@@ -42,7 +42,10 @@ styles in the correct order.
 - `@kantzen-ui/ui/command-palette` — `cmdk`-backed command palette composition
 - `@kantzen-ui/ui/graph` — force-directed graph canvas and simulation utilities
 - `@kantzen-ui/ui/styles.css` — complete default stylesheet
-- `@kantzen-ui/ui/theme.css` — theme tokens and global theme styles only
+- `@kantzen-ui/ui/theme.css` — tokens and Blueprint compatibility without a document reset
+- `@kantzen-ui/ui/tokens.css` — design tokens only
+- `@kantzen-ui/ui/reset.css` — optional document reset and global utilities
+- `@kantzen-ui/ui/blueprint-compat.css` — optional Blueprint-compatible theme overrides
 
 ```tsx
 import { useRovingFocus } from "@kantzen-ui/ui/interactions";

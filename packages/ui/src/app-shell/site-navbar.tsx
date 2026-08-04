@@ -10,8 +10,15 @@ import {
   Popover,
   PopoverInteractionKind,
   Position,
+  type PopoverModifiers,
 } from "../primitives/popover.js";
-import type { SiteNavAction, SiteNavItem } from "../navigation.js";
+import {
+  getNavigationItemKey,
+  isNavigationBranchActive,
+  isNavigationPathActive,
+  type SiteNavAction,
+  type SiteNavItem,
+} from "../navigation.js";
 import { WorkspaceNavbar } from "./workspace-navbar.js";
 
 export interface SiteNavbarProps {
@@ -31,11 +38,11 @@ type GroupedMenuSectionStyle = CSSProperties & {
   "--site-navbar-menu-section-items": number;
 };
 
-function isActiveHref(href: string, currentPath?: string) {
-  if (!currentPath) return false;
-  if (href === "/") return currentPath === "/";
-  return currentPath === href || currentPath.startsWith(`${href}/`);
-}
+const navbarMenuPopoverModifiers = {
+  offset: {
+    options: { offset: [0, -6] },
+  },
+} satisfies PopoverModifiers;
 
 function getLinkTarget(external?: boolean) {
   return external ? "_blank" : undefined;
@@ -98,22 +105,15 @@ export const SiteNavbar = ({
       onNavigate(href);
     };
 
-  function hasActiveChild(item: SiteNavItem): boolean {
-    return (
-      item.children?.some(
-        (child) =>
-          isActiveHref(child.href, currentPath) || hasActiveChild(child),
-      ) ?? false
-    );
-  }
+  const isActive = (item: SiteNavItem) =>
+    currentPath ? isNavigationBranchActive(item, currentPath) : false;
 
   const renderDesktopMenuLink = (child: SiteNavItem) => {
-    const active =
-      isActiveHref(child.href, currentPath) || hasActiveChild(child);
+    const active = isActive(child);
 
     return (
       <a
-        key={`${child.label}-${child.href}`}
+        key={getNavigationItemKey(child, "desktop-menu")}
         className={[
           "site-navbar-menu-item",
           active && "site-navbar-menu-item--active",
@@ -125,7 +125,9 @@ export const SiteNavbar = ({
         target={getLinkTarget(child.external)}
         rel={getLinkRel(child.external)}
         aria-current={
-          isActiveHref(child.href, currentPath) ? "page" : undefined
+          currentPath && isNavigationPathActive(child.href, currentPath)
+            ? "page"
+            : undefined
         }
         onClick={handleNavigate(child.href, child.external)}
       >
@@ -138,7 +140,7 @@ export const SiteNavbar = ({
   };
 
   const renderDesktopNavItem = (item: SiteNavItem) => {
-    const active = isActiveHref(item.href, currentPath) || hasActiveChild(item);
+    const active = isActive(item);
     const hasChildren = Boolean(item.children?.length);
 
     if (hasChildren) {
@@ -160,12 +162,13 @@ export const SiteNavbar = ({
 
       return (
         <Popover
-          key={item.label}
+          key={getNavigationItemKey(item, "desktop")}
           isOpen={openDesktopMenu === menuId}
           minimal
           interactionKind={PopoverInteractionKind.HOVER}
           hoverOpenDelay={45}
           hoverCloseDelay={140}
+          modifiers={navbarMenuPopoverModifiers}
           onInteraction={(nextOpenState) =>
             setOpenDesktopMenu(nextOpenState ? menuId : null)
           }
@@ -186,7 +189,7 @@ export const SiteNavbar = ({
               {item.children!.map((child) =>
                 child.children?.length ? (
                   <section
-                    key={`${child.label}-${child.href}`}
+                    key={getNavigationItemKey(child, item.href)}
                     className="site-navbar-menu-section"
                     style={getGroupedMenuSectionStyle(child.children.length)}
                     role="none"
@@ -223,7 +226,7 @@ export const SiteNavbar = ({
 
     return (
       <a
-        key={item.label}
+        key={getNavigationItemKey(item, "desktop")}
         className={["site-navbar-link", active && "site-navbar-link--active"]
           .filter(Boolean)
           .join(" ")}
@@ -238,14 +241,14 @@ export const SiteNavbar = ({
   };
 
   const renderMobileNavItem = (item: SiteNavItem) => {
-    const active = isActiveHref(item.href, currentPath) || hasActiveChild(item);
+    const active = isActive(item);
     const hasChildren = Boolean(item.children?.length);
 
     if (hasChildren) {
       return (
         <details
           className="site-mobile-nav-group"
-          key={item.label}
+          key={getNavigationItemKey(item, "mobile")}
           open={active || undefined}
         >
           <summary>{item.label}</summary>
@@ -258,7 +261,7 @@ export const SiteNavbar = ({
 
     return (
       <a
-        key={item.label}
+        key={getNavigationItemKey(item, "mobile")}
         className={[
           "site-mobile-nav-link",
           active && "site-mobile-nav-link--active",
@@ -277,7 +280,7 @@ export const SiteNavbar = ({
 
   const renderAction = (action: SiteNavAction, compact = false) => (
     <a
-      key={action.label}
+      key={action.id ?? `${action.label}-${action.href}`}
       className={[
         compact ? "site-mobile-action" : "site-navbar-action",
         action.intent === "primary" && "site-navbar-action--primary",

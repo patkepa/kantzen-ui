@@ -2,9 +2,12 @@ import {
   useCallback,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
   type CSSProperties,
+  type HTMLAttributes,
+  type ReactElement,
   type ReactNode,
   type SyntheticEvent,
 } from "react";
@@ -17,6 +20,7 @@ import {
   type PopoverModifiers,
   type PopoverPlacement,
 } from "./popover-positioning.js";
+import { useDismissibleLayer } from "./use-dismissible-layer.js";
 
 export { Position } from "./popover-positioning.js";
 export type {
@@ -35,7 +39,7 @@ export const PopoverInteractionKind = {
 export interface PopoverProps {
   arrow?: boolean;
   captureDismiss?: boolean;
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
   content?: ReactNode;
   defaultIsOpen?: boolean;
@@ -57,7 +61,12 @@ export interface PopoverProps {
   popoverClassName?: string;
   portalClassName?: string;
   position?: string;
+  renderTarget?: (props: PopoverTargetProps) => ReactElement;
   transitionDuration?: number;
+}
+
+export interface PopoverTargetProps extends HTMLAttributes<HTMLElement> {
+  setTargetElement: (element: HTMLElement | null) => void;
 }
 
 type PopoverTransitionStyle = CSSProperties & {
@@ -89,6 +98,7 @@ export function Popover({
   popoverClassName,
   portalClassName,
   position,
+  renderTarget,
   transitionDuration = 100,
 }: PopoverProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultIsOpen);
@@ -96,7 +106,7 @@ export function Popover({
     left: 0,
     top: 0,
   });
-  const targetRef = useRef<HTMLSpanElement>(null);
+  const targetRef = useRef<HTMLElement | null>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
   const openTimerRef = useRef<number>();
   const closeTimerRef = useRef<number>();
@@ -157,58 +167,66 @@ export function Popover({
     return () => window.cancelAnimationFrame(frame);
   }, [content, isOpen, updatePosition]);
 
+  const dismissibleRefs = useMemo(() => [targetRef, popoverRef] as const, []);
+  const dismissPopover = useCallback(() => changeOpen(false), [changeOpen]);
+
+  useDismissibleLayer({
+    dismissOnOutsidePointer: true,
+    enabled: isOpen,
+    insideRefs: dismissibleRefs,
+    onDismiss: dismissPopover,
+  });
+
   useEffect(() => {
     if (!isOpen) return;
-    const handlePointerDown = (event: PointerEvent) => {
-      const node = event.target as Node;
-      if (
-        targetRef.current?.contains(node) ||
-        popoverRef.current?.contains(node)
-      )
-        return;
-      changeOpen(false);
-    };
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") changeOpen(false);
-    };
     window.addEventListener("resize", updatePosition, { passive: true });
     window.addEventListener("scroll", updatePosition, {
       capture: true,
       passive: true,
     });
-    document.addEventListener("pointerdown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("resize", updatePosition);
       window.removeEventListener("scroll", updatePosition, { capture: true });
-      document.removeEventListener("pointerdown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [changeOpen, isOpen, updatePosition]);
+  }, [isOpen, updatePosition]);
 
   useEffect(() => clearTimers, [clearTimers]);
 
+  const targetProps: PopoverTargetProps = {
+    className: classes(
+      !renderTarget && "kui-popover-target",
+      !renderTarget && "bp6-popover-target",
+      fill && "bp6-fill",
+      isOpen && "bp6-popover-open",
+      className,
+    ),
+    onBlur:
+      isHover && !disabled && openOnTargetFocus ? scheduleClose : undefined,
+    onClick: (event) => {
+      if (!isHover) changeOpen(!isOpen, event);
+    },
+    onFocus:
+      isHover && !disabled && openOnTargetFocus ? scheduleOpen : undefined,
+    onMouseEnter: isHover && !disabled ? scheduleOpen : undefined,
+    onMouseLeave: isHover && !disabled ? scheduleClose : undefined,
+    setTargetElement: (element) => {
+      targetRef.current = element;
+    },
+  };
+  const { setTargetElement, ...targetElementProps } = targetProps;
+  const renderedTarget = renderTarget ? (
+    // The target receives a callback setter, never the mutable ref object.
+    // eslint-disable-next-line react-hooks/refs
+    renderTarget(targetProps)
+  ) : (
+    <span {...targetElementProps} ref={setTargetElement}>
+      {children}
+    </span>
+  );
+
   return (
     <>
-      <span
-        className={classes(
-          "kui-popover-target",
-          "bp6-popover-target",
-          fill && "bp6-fill",
-          isOpen && "bp6-popover-open",
-          className,
-        )}
-        onClick={(event) => {
-          if (!isHover) changeOpen(!isOpen, event);
-        }}
-        onFocus={isHover && openOnTargetFocus ? scheduleOpen : undefined}
-        onBlur={isHover && openOnTargetFocus ? scheduleClose : undefined}
-        onMouseEnter={isHover ? scheduleOpen : undefined}
-        onMouseLeave={isHover ? scheduleClose : undefined}
-        ref={targetRef}
-      >
-        {children}
-      </span>
+      {renderedTarget}
       {isOpen && content && canUseDOM
         ? createPortal(
             <div
@@ -302,7 +320,7 @@ export function Tooltip({ content, ...props }: TooltipProps) {
       interactionKind={PopoverInteractionKind.HOVER}
       minimal
       popoverClassName={classes("bp6-tooltip", props.popoverClassName)}
-      content={<div className="bp6-popover-content">{content}</div>}
+      content={content}
     />
   );
 }

@@ -45,7 +45,6 @@ export interface PopoverCoordinates {
   top: number;
 }
 
-const VIEWPORT_MARGIN = 8;
 const POPOVER_GAP = 6;
 
 export function normalizePlacement(placement?: string): PopoverPlacement {
@@ -68,6 +67,7 @@ export function getPopoverCoordinates(
   popover: DOMRect,
   placement: PopoverPlacement,
   modifiers?: PopoverModifiers,
+  viewportSize: ViewportSize = getViewportSize(),
 ): PopoverCoordinates {
   let left = target.left;
   let top = target.bottom + POPOVER_GAP;
@@ -117,20 +117,10 @@ export function getPopoverCoordinates(
     }
   }
 
-  return {
-    left: Math.min(
-      Math.max(left, VIEWPORT_MARGIN),
-      Math.max(
-        VIEWPORT_MARGIN,
-        window.innerWidth - popover.width - VIEWPORT_MARGIN,
-      ),
-    ),
-    top: Math.min(
-      Math.max(top, VIEWPORT_MARGIN),
-      Math.max(
-        VIEWPORT_MARGIN,
-        window.innerHeight - popover.height - VIEWPORT_MARGIN,
-      ),
-    ),
-  };
+  return clampOverlayToViewport({ left, top }, popover, viewportSize);
 }
+import {
+  clampOverlayToViewport,
+  getViewportSize,
+  type ViewportSize,
+} from "./overlay-positioning.js";

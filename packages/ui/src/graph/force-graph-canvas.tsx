@@ -9,12 +9,15 @@ import {
   type ForwardedRef,
 } from "react";
 import {
-  clamp,
   createAnchoredViewTransform,
   screenToGraph,
   type ViewTransform,
 } from "./force-graph-geometry.js";
 import { createSimulationNodes } from "./force-graph-simulation.js";
+import {
+  calculateFitViewTransform,
+  clampForceGraphScale,
+} from "./force-graph-view.js";
 import type {
   ForceGraphCanvasProps,
   ForceGraphCanvasSize,
@@ -149,43 +152,14 @@ function ForceGraphCanvasInner<
     );
     if (!visibleNodes.length || width <= 1 || height <= 1) return;
 
-    const bounds = visibleNodes.reduce(
-      (current, node) => ({
-        minX: Math.min(current.minX, node.x),
-        minY: Math.min(current.minY, node.y),
-        maxX: Math.max(current.maxX, node.x),
-        maxY: Math.max(current.maxY, node.y),
-      }),
-      {
-        minX: Number.POSITIVE_INFINITY,
-        minY: Number.POSITIVE_INFINITY,
-        maxX: Number.NEGATIVE_INFINITY,
-        maxY: Number.NEGATIVE_INFINITY,
-      },
-    );
     const padding = config.getFitPadding?.(sizeRef.current) ?? {};
-    const leftInset = padding.left ?? 44;
-    const rightInset = padding.right ?? 44;
-    const topInset = padding.top ?? 88;
-    const bottomInset = padding.bottom ?? 72;
-    const contentWidth = Math.max(240, width - leftInset - rightInset);
-    const contentHeight = Math.max(220, height - topInset - bottomInset);
-    const graphWidth = Math.max(240, bounds.maxX - bounds.minX + 110);
-    const graphHeight = Math.max(200, bounds.maxY - bounds.minY + 100);
-    const scale = clamp(
-      Math.min(contentWidth / graphWidth, contentHeight / graphHeight),
-      width < 640 ? 0.3 : 0.42,
-      1.6,
+    const nextView = calculateFitViewTransform(
+      visibleNodes,
+      sizeRef.current,
+      padding,
     );
-    const centerX = (bounds.minX + bounds.maxX) / 2;
-    const centerY = (bounds.minY + bounds.maxY) / 2;
-    const availableCenterX = leftInset + contentWidth / 2;
-    const availableCenterY = topInset + contentHeight / 2;
-    viewRef.current = {
-      x: availableCenterX - width / 2 - centerX * scale,
-      y: availableCenterY - height / 2 - centerY * scale,
-      scale,
-    };
+    if (!nextView) return;
+    viewRef.current = nextView;
     invalidateCanvas();
   }, [invalidateCanvas, nodesRef, propsRef]);
 
@@ -211,7 +185,7 @@ function ForceGraphCanvasInner<
       if (!canvasRef.current) return;
       const { width, height } = sizeRef.current;
       const view = viewRef.current;
-      const nextScale = clamp(view.scale * multiplier, 0.28, 3.2);
+      const nextScale = clampForceGraphScale(view.scale * multiplier);
       const point = clientPoint ?? { x: width / 2, y: height / 2 };
       const graphPoint = screenToGraph(point.x, point.y, view, width, height);
       viewRef.current = createAnchoredViewTransform(

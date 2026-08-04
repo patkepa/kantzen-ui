@@ -63,7 +63,10 @@
     },
     "./graph/styles.css": "./dist/graph/graph.css",
     "./styles.css": "./dist/styles.css",
-    "./theme.css": "./dist/theme/theme.css"
+    "./theme.css": "./dist/theme/theme.css",
+    "./tokens.css": "./dist/theme/tokens.css",
+    "./reset.css": "./dist/theme/reset.css",
+    "./blueprint-compat.css": "./dist/theme/blueprint-compat.css"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json && node ../../scripts/copy-package-css.mjs",

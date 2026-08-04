@@ -13,6 +13,13 @@ export type {
   WorkspaceNavGroup,
   WorkspaceNavItem,
 } from "./navigation.js";
+export {
+  collectActiveNavigationAncestorHrefs,
+  getNavigationItemKey,
+  isNavigationBranchActive,
+  isNavigationPathActive,
+  normalizeNavigationPath,
+} from "./navigation.js";
 
 export { WorkspaceBottomToolbar } from "./components/workspace-bottom-toolbar.js";
 export type { WorkspaceBottomToolbarProps } from "./components/workspace-bottom-toolbar.js";

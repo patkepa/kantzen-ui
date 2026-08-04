@@ -1,6 +1,8 @@
 import { useLayoutEffect, useRef, type ReactNode } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { classes } from "./classes.js";
+import { clampOverlayToViewport } from "./overlay-positioning.js";
+import { useDismissibleLayer } from "./use-dismissible-layer.js";
 
 export interface ContextMenuOptions {
   content: ReactNode;
@@ -10,29 +12,12 @@ export interface ContextMenuOptions {
   transitionDuration?: number;
 }
 
-const VIEWPORT_MARGIN = 8;
-
 export function getContextMenuPosition(
   targetOffset: ContextMenuOptions["targetOffset"],
   popoverSize: { height: number; width: number },
   viewportSize: { height: number; width: number },
 ) {
-  return {
-    left: Math.min(
-      Math.max(targetOffset.left, VIEWPORT_MARGIN),
-      Math.max(
-        VIEWPORT_MARGIN,
-        viewportSize.width - popoverSize.width - VIEWPORT_MARGIN,
-      ),
-    ),
-    top: Math.min(
-      Math.max(targetOffset.top, VIEWPORT_MARGIN),
-      Math.max(
-        VIEWPORT_MARGIN,
-        viewportSize.height - popoverSize.height - VIEWPORT_MARGIN,
-      ),
-    ),
-  };
+  return clampOverlayToViewport(targetOffset, popoverSize, viewportSize);
 }
 
 let contextMenuRoot: Root | null = null;
@@ -69,6 +54,12 @@ function ContextMenuOverlay({
   const popoverRef = useRef<HTMLDivElement>(null);
   const transitionRef = useRef<HTMLDivElement>(null);
 
+  useDismissibleLayer({
+    dismissOnOutsidePointer: false,
+    enabled: true,
+    onDismiss: hideContextMenu,
+  });
+
   useLayoutEffect(() => {
     const popover = popoverRef.current;
     const transition = transitionRef.current;
@@ -89,14 +80,6 @@ function ContextMenuOverlay({
     );
     firstItem?.focus({ preventScroll: true });
   }, [targetOffset.left, targetOffset.top]);
-
-  useLayoutEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") hideContextMenu();
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
 
   return (
     <div className="bp6-overlay bp6-overlay-open kui-context-menu-overlay">

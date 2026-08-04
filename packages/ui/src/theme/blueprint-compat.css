@@ -1,0 +1,134 @@
+/** Theme integration for Blueprint-compatible classes not owned by primitives. */
+.bp6-dark {
+  background-color: var(--content-bg);
+}
+
+.bp6-dark .bp6-overlay-backdrop {
+  background-color: rgb(0 0 0 / 0.7);
+}
+
+.bp6-dark .bp6-dialog,
+.bp6-dark .bp6-dialog-header,
+.bp6-dark .bp6-dialog-footer {
+  border-color: var(--border-color);
+  background-color: var(--card-bg);
+}
+
+.bp6-dark .bp6-dialog-header {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+.bp6-dark .bp6-dialog-footer {
+  border-top-style: solid;
+  border-top-width: 1px;
+}
+
+.bp6-html-table {
+  border: none;
+  color: hsl(var(--foreground));
+}
+
+.bp6-html-table thead th {
+  background-color: hsl(0 0% 100% / 0.03);
+  color: hsl(var(--muted));
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bp6-html-table tbody td {
+  border-top: 1px solid hsl(0 0% 100% / 0.05);
+  color: hsl(var(--foreground));
+}
+
+.bp6-html-table tbody tr:hover {
+  background-color: hsl(0 0% 100% / 0.03);
+}
+
+.bp6-drawer,
+.bp6-drawer-header {
+  background-color: var(--card-bg);
+}
+
+.bp6-drawer {
+  box-shadow: -4px 0 24px rgb(0 0 0 / 0.8);
+}
+
+.bp6-drawer-header {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.bp6-drawer-body,
+.bp6-drawer-header .bp6-heading,
+.bp6-callout,
+.bp6-form-content,
+.bp6-form-group label.bp6-label,
+.bp6-control.bp6-switch,
+.bp6-running-text {
+  color: hsl(var(--foreground));
+}
+
+.bp6-callout {
+  border-left-width: 4px;
+  background-color: hsl(0 0% 100% / 0.04);
+}
+
+.bp6-callout.bp6-intent-danger {
+  border-left-color: hsl(var(--danger));
+  background-color: hsl(var(--danger-light));
+}
+
+.bp6-callout.bp6-intent-warning {
+  border-left-color: hsl(var(--warning));
+  background-color: hsl(var(--warning-light));
+}
+
+.bp6-callout.bp6-intent-success {
+  border-left-color: hsl(var(--success));
+  background-color: hsl(var(--success-light));
+}
+
+.bp6-progress-bar,
+.bp6-progress-bar .bp6-progress-meter {
+  border-radius: 0 !important;
+}
+
+.bp6-divider {
+  border-color: var(--border-color);
+}
+
+.bp6-form-group label.bp6-label {
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.bp6-control.bp6-switch {
+  font-weight: 500;
+}
+
+.bp6-control.bp6-switch .bp6-control-indicator {
+  border: 1px solid var(--border-color);
+  background-color: hsl(0 0% 100% / 0.06);
+}
+
+.bp6-button-group .bp6-button.bp6-active {
+  background-color: hsl(var(--accent));
+  color: white;
+}
+
+.bp6-elevation-0 {
+  box-shadow: none;
+}
+
+.bp6-elevation-1,
+.bp6-elevation-2 {
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+}
+
+.bp6-text-muted {
+  color: hsl(var(--muted-foreground));
+}

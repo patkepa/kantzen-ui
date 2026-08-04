@@ -7,13 +7,21 @@ import {
   type WheelEvent as ReactWheelEvent,
 } from "react";
 import {
-  clamp,
   createAnchoredViewTransform,
   getDistance,
   getMidpoint,
   screenToGraph,
   type ViewTransform,
 } from "./force-graph-geometry.js";
+import { findForceGraphNodeAt } from "./force-graph-hit-testing.js";
+import {
+  continueInteractionAfterPinch,
+  createNodeInteraction,
+  createPanInteraction,
+  createPinchInteraction,
+  didPointerMove,
+  type ForceGraphInteraction,
+} from "./force-graph-interaction-state.js";
 import type {
   ForceGraphCanvasSize,
   ForceGraphEdge,
@@ -22,33 +30,7 @@ import type {
   ForceGraphSimulationNode,
   RuntimeConfig,
 } from "./force-graph-types.js";
-
-type CanvasInteraction =
-  | {
-      mode: "pan";
-      pointerId: number;
-      startX: number;
-      startY: number;
-      viewX: number;
-      viewY: number;
-      pointerType: string;
-      moved: boolean;
-    }
-  | {
-      mode: "node";
-      pointerId: number;
-      startX: number;
-      startY: number;
-      nodeId: string;
-      dragging: boolean;
-    }
-  | {
-      mode: "pinch";
-      pointerIds: [number, number];
-      startDistance: number;
-      startScale: number;
-      graphAnchor: ForceGraphPosition;
-    };
+import { clampForceGraphScale } from "./force-graph-view.js";
 
 const TOUCH_DRAG_THRESHOLD = 8;
 const TOUCH_HIT_SLOP = 18;
@@ -83,7 +65,7 @@ export function useForceGraphInteractions<
   viewRef,
   zoomAt,
 }: ForceGraphInteractionOptions<Node, Edge>) {
-  const interactionRef = useRef<CanvasInteraction | null>(null);
+  const interactionRef = useRef<ForceGraphInteraction | null>(null);
   const activePointersRef = useRef(new Map<number, ForceGraphPosition>());
 
   const getCanvasPoint = (clientX: number, clientY: number) => {
@@ -108,45 +90,15 @@ export function useForceGraphInteractions<
       width,
       height,
     );
-    const visibleIds = propsRef.current.visibleNodeIds;
-    let closest: ForceGraphSimulationNode<Node> | null = null;
-    let closestDistance = Number.POSITIVE_INFINITY;
-
-    for (const node of nodesRef.current.values()) {
-      if (!visibleIds.has(node.id)) continue;
-      const distance = Math.hypot(node.x - graphPoint.x, node.y - graphPoint.y);
-      const radius =
-        propsRef.current.getNodeRadius(node) *
-          propsRef.current.display.nodeSize +
-        hitSlop / viewRef.current.scale;
-      if (distance <= radius && distance < closestDistance) {
-        closest = node;
-        closestDistance = distance;
-      }
-    }
-    return closest;
-  };
-
-  const createPinchInteraction = (): CanvasInteraction | null => {
-    const pointers = Array.from(activePointersRef.current.entries());
-    if (pointers.length < 2) return null;
-    const [firstId, first] = pointers[0]!;
-    const [secondId, second] = pointers[1]!;
-    const midpoint = getMidpoint(first, second);
-    const { width, height } = sizeRef.current;
-    return {
-      mode: "pinch",
-      pointerIds: [firstId, secondId],
-      startDistance: Math.max(1, getDistance(first, second)),
-      startScale: viewRef.current.scale,
-      graphAnchor: screenToGraph(
-        midpoint.x,
-        midpoint.y,
-        viewRef.current,
-        width,
-        height,
-      ),
-    };
+    return findForceGraphNodeAt({
+      getNodeRadius: propsRef.current.getNodeRadius,
+      graphPoint,
+      hitSlop,
+      nodeSize: propsRef.current.display.nodeSize,
+      nodes: nodesRef.current.values(),
+      scale: viewRef.current.scale,
+      visibleNodeIds: propsRef.current.visibleNodeIds,
+    });
   };
 
   const handlePointerDown = (event: ReactPointerEvent<HTMLCanvasElement>) => {
@@ -156,7 +108,11 @@ export function useForceGraphInteractions<
     event.currentTarget.setPointerCapture(event.pointerId);
 
     if (activePointersRef.current.size >= 2) {
-      interactionRef.current = createPinchInteraction();
+      interactionRef.current = createPinchInteraction(
+        activePointersRef.current,
+        viewRef.current,
+        sizeRef.current,
+      );
       propsRef.current.onHoverNode(null);
       event.currentTarget.classList.remove(
         "is-dragging-node",
@@ -174,14 +130,12 @@ export function useForceGraphInteractions<
       touchLike ? TOUCH_HIT_SLOP : POINTER_HIT_SLOP,
     );
     if (node) {
-      interactionRef.current = {
-        mode: "node",
-        pointerId: event.pointerId,
-        startX: point.x,
-        startY: point.y,
-        nodeId: node.id,
-        dragging: !touchLike,
-      };
+      interactionRef.current = createNodeInteraction(
+        event.pointerId,
+        point,
+        node.id,
+        !touchLike,
+      );
       if (!touchLike) {
         propsRef.current.onSelectNode(node.id);
         node.fixed = true;
@@ -193,16 +147,12 @@ export function useForceGraphInteractions<
     }
 
     if (!touchLike) propsRef.current.onSelectNode(null);
-    interactionRef.current = {
-      mode: "pan",
-      pointerId: event.pointerId,
-      startX: point.x,
-      startY: point.y,
-      viewX: viewRef.current.x,
-      viewY: viewRef.current.y,
-      pointerType: event.pointerType,
-      moved: false,
-    };
+    interactionRef.current = createPanInteraction(
+      event.pointerId,
+      point,
+      viewRef.current,
+      event.pointerType,
+    );
     event.currentTarget.classList.add("is-panning");
   };
 
@@ -227,11 +177,9 @@ export function useForceGraphInteractions<
       const second = activePointersRef.current.get(secondId);
       if (!first || !second) return;
       const midpoint = getMidpoint(first, second);
-      const nextScale = clamp(
+      const nextScale = clampForceGraphScale(
         interaction.startScale *
           (getDistance(first, second) / interaction.startDistance),
-        0.28,
-        3.2,
       );
       const { width, height } = sizeRef.current;
       viewRef.current = createAnchoredViewTransform(
@@ -248,11 +196,11 @@ export function useForceGraphInteractions<
     if (interaction.pointerId !== event.pointerId) return;
     const point = getCanvasPoint(event.clientX, event.clientY);
     if (interaction.mode === "pan") {
-      interaction.moved ||=
-        Math.hypot(
-          point.x - interaction.startX,
-          point.y - interaction.startY,
-        ) >= TOUCH_DRAG_THRESHOLD;
+      interaction.moved ||= didPointerMove(
+        interaction,
+        point,
+        TOUCH_DRAG_THRESHOLD,
+      );
       viewRef.current.x = interaction.viewX + point.x - interaction.startX;
       viewRef.current.y = interaction.viewY + point.y - interaction.startY;
       invalidateCanvas();
@@ -262,11 +210,7 @@ export function useForceGraphInteractions<
     const node = nodesRef.current.get(interaction.nodeId);
     if (!node) return;
     if (!interaction.dragging) {
-      const moved = Math.hypot(
-        point.x - interaction.startX,
-        point.y - interaction.startY,
-      );
-      if (moved < TOUCH_DRAG_THRESHOLD) return;
+      if (!didPointerMove(interaction, point, TOUCH_DRAG_THRESHOLD)) return;
       interaction.dragging = true;
       propsRef.current.onSelectNode(node.id);
       node.fixed = true;
@@ -299,24 +243,15 @@ export function useForceGraphInteractions<
 
     const interaction = interactionRef.current;
     if (interaction?.mode === "pinch") {
-      if (activePointersRef.current.size >= 2) {
-        interactionRef.current = createPinchInteraction();
+      interactionRef.current = continueInteractionAfterPinch(
+        activePointersRef.current,
+        viewRef.current,
+        sizeRef.current,
+      );
+      if (interactionRef.current?.mode === "pinch") {
         return;
       }
-      const remaining = activePointersRef.current.entries().next().value as
-        [number, ForceGraphPosition] | undefined;
-      if (remaining) {
-        const [pointerId, point] = remaining;
-        interactionRef.current = {
-          mode: "pan",
-          pointerId,
-          startX: point.x,
-          startY: point.y,
-          viewX: viewRef.current.x,
-          viewY: viewRef.current.y,
-          pointerType: "touch",
-          moved: true,
-        };
+      if (interactionRef.current?.mode === "pan") {
         event.currentTarget.classList.remove("is-pinching");
         event.currentTarget.classList.add("is-panning");
         return;

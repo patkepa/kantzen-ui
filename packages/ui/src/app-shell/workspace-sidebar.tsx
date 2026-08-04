@@ -1,7 +1,6 @@
 import {
   useCallback,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -12,12 +11,14 @@ import {
   getDirectionalKey,
   shouldIgnorePageShortcut,
 } from "../interactions/keyboard.js";
-import type {
-  NavBadge,
-  NavGroup,
-  NavItem,
-  Project,
-  User,
+import {
+  collectActiveNavigationAncestorHrefs,
+  isNavigationPathActive,
+  type NavBadge,
+  type NavGroup,
+  type NavItem,
+  type Project,
+  type User,
 } from "../navigation.js";
 import { WorkspaceSidebarFooter } from "./workspace-sidebar-footer.js";
 import {
@@ -25,7 +26,6 @@ import {
   SIDEBAR_NAV_ITEM_SELECTOR,
   WorkspaceSidebarNavigation,
 } from "./workspace-sidebar-navigation.js";
-import { isWorkspacePathActive } from "./workspace-route-matching.js";
 
 export interface WorkspaceSidebarProps {
   isCollapsed?: boolean;
@@ -44,14 +44,6 @@ export interface WorkspaceSidebarProps {
   sidebarShortcutLabel?: string;
 }
 
-/** Check if any child route is currently active */
-const hasActiveChild = (item: NavItem, pathname: string): boolean => {
-  if (!item.children) return false;
-  return item.children.some((child) =>
-    isWorkspacePathActive(child.href, pathname),
-  );
-};
-
 export const WorkspaceSidebar = ({
   isCollapsed = false,
   productName,
@@ -69,38 +61,35 @@ export const WorkspaceSidebar = ({
   sidebarShortcutLabel = "⌘B",
 }: WorkspaceSidebarProps) => {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
-  const focusedNavLabelRef = useRef<string | null>(null);
-  const prevCollapsedRef = useRef(isCollapsed);
-  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
+  const [expandedItemHrefs, setExpandedItemHrefs] = useState<Set<string>>(
+    new Set(),
+  );
   const pathname =
     currentPath ??
     (typeof window === "undefined" ? "/" : window.location.pathname);
 
-  const activeParentLabels = useMemo(() => {
-    const labels = new Set<string>();
-    for (const group of navGroups) {
-      for (const item of group.items) {
-        if (item.children && hasActiveChild(item, pathname)) {
-          labels.add(item.label);
-        }
-      }
-    }
-    return labels;
-  }, [navGroups, pathname]);
+  const activeParentHrefs = useMemo(
+    () =>
+      collectActiveNavigationAncestorHrefs(
+        navGroups.flatMap((group) => group.items),
+        pathname,
+      ),
+    [navGroups, pathname],
+  );
 
-  const toggleExpanded = (label: string) => {
-    setExpandedItems((prev) => {
+  const toggleExpanded = (href: string) => {
+    setExpandedItemHrefs((prev) => {
       const next = new Set(prev);
-      if (next.has(label)) {
-        next.delete(label);
+      if (next.has(href)) {
+        next.delete(href);
       } else {
-        next.add(label);
+        next.add(href);
       }
       return next;
     });
   };
 
-  const isActive = (href: string) => isWorkspacePathActive(href, pathname);
+  const isActive = (href: string) => isNavigationPathActive(href, pathname);
 
   const handleNavigation = (href: string) => {
     if (onNavigate) {
@@ -117,7 +106,7 @@ export const WorkspaceSidebar = ({
       if (isCollapsed) {
         onExpandSidebar?.();
       }
-      toggleExpanded(item.label);
+      toggleExpanded(item.href);
     } else {
       handleNavigation(item.href);
     }
@@ -164,33 +153,6 @@ export const WorkspaceSidebar = ({
     return () => document.removeEventListener("keydown", handleDocumentKeyDown);
   }, [focusActiveOrFirstNavElement]);
 
-  // Restore focus when sidebar collapse state changes.
-  // DOM elements are recreated (Tooltip wrap/unwrap), which moves focus to body.
-  useLayoutEffect(() => {
-    if (prevCollapsedRef.current === isCollapsed) return;
-    prevCollapsedRef.current = isCollapsed;
-
-    // Only restore if focus was lost (removed element → focus moved to body)
-    const active = document.activeElement;
-    if (active !== document.body && active !== document.documentElement) return;
-
-    const label = focusedNavLabelRef.current;
-    if (!label) return;
-
-    if (label === "__sidebar__") {
-      sidebarRef.current?.focus();
-      return;
-    }
-
-    const navElements = getNavElements();
-    const match = navElements.find((el) => el.dataset.label === label);
-    if (match) {
-      match.focus();
-    } else {
-      focusActiveOrFirstNavElement();
-    }
-  }, [focusActiveOrFirstNavElement, getNavElements, isCollapsed]);
-
   const handleSidebarMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     clearKeyboardFocusRegions();
 
@@ -232,18 +194,7 @@ export const WorkspaceSidebar = ({
 
     if (isSidebarActivationKey(event.key)) {
       event.preventDefault();
-      const hasChildren = currentItem.dataset.hasChildren === "true";
-      const label = currentItem.dataset.label;
-      const href = currentItem.dataset.href;
-
-      if (hasChildren && label) {
-        if (isCollapsed) {
-          onExpandSidebar?.();
-        }
-        toggleExpanded(label);
-      } else if (href) {
-        handleNavigation(href);
-      }
+      currentItem.click();
       return;
     }
 
@@ -256,24 +207,24 @@ export const WorkspaceSidebar = ({
 
     const hasChildren = currentItem.dataset.hasChildren === "true";
     const isExpanded = currentItem.dataset.expanded === "true";
-    const label = currentItem.dataset.label;
+    const href = currentItem.dataset.href;
 
     if (direction === "right" && hasChildren && !isExpanded) {
       event.preventDefault();
       if (isCollapsed) {
         onExpandSidebar?.();
       }
-      if (label) {
-        setExpandedItems((prev) => new Set(prev).add(label));
+      if (href) {
+        setExpandedItemHrefs((prev) => new Set(prev).add(href));
       }
       return;
     }
 
-    if (direction === "left" && hasChildren && isExpanded && label) {
+    if (direction === "left" && hasChildren && isExpanded && href) {
       event.preventDefault();
-      setExpandedItems((prev) => {
+      setExpandedItemHrefs((prev) => {
         const next = new Set(prev);
-        next.delete(label);
+        next.delete(href);
         return next;
       });
       return;
@@ -299,14 +250,6 @@ export const WorkspaceSidebar = ({
       tabIndex={-1}
       onKeyDown={handleSidebarKeyDown}
       onMouseDown={handleSidebarMouseDown}
-      onFocusCapture={(e) => {
-        const navItem = (e.target as HTMLElement).closest<HTMLElement>(
-          SIDEBAR_NAV_ITEM_SELECTOR,
-        );
-        focusedNavLabelRef.current = navItem
-          ? (navItem.dataset.label ?? null)
-          : "__sidebar__";
-      }}
     >
       {/* Header */}
       <button
@@ -329,8 +272,8 @@ export const WorkspaceSidebar = ({
       </button>
 
       <WorkspaceSidebarNavigation
-        activeParentLabels={activeParentLabels}
-        expandedItems={expandedItems}
+        activeParentHrefs={activeParentHrefs}
+        expandedItemHrefs={expandedItemHrefs}
         isActive={isActive}
         isCollapsed={isCollapsed}
         navBadges={navBadges}
