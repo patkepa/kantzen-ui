@@ -188,11 +188,14 @@
 }
 
 .site-navbar-popover.bp6-popover {
+  border: 0;
   border-radius: 0;
+  background: transparent;
   box-shadow: none;
 }
 
-.site-navbar-popover .bp6-popover-content {
+.site-navbar-popover.bp6-popover > .bp6-popover-content {
+  position: relative;
   margin-top: 1px;
   overflow: hidden;
   border: 1px solid var(--site-navbar-border);
