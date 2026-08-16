@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import { Button, Icon, SelectableList, StatusLed } from "@kantzen-ui/ui";
-import { ForceGraphCanvas } from "@kantzen-ui/ui/graph";
+import { Button, Icon, SelectableList, StatusLed } from "@patkepa/kantzen-ui";
+import { ForceGraphCanvas } from "@patkepa/kantzen-ui/graph";
 import { HeroWorkspacePreview } from "./hero-workspace-preview.js";
 import { BrandMark } from "./landing-brand-mark.js";
 import { landingGraphEdges, landingGraphNodes } from "./landing-graph-data.js";
@@ -25,7 +25,7 @@ interface CommandItem {
   href: string;
 }
 
-const installCommand = "npm install @kantzen-ui/ui";
+const installCommand = "npm install @patkepa/kantzen-ui";
 
 const commandItems: readonly CommandItem[] = [
   {

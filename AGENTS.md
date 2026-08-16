@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This npm workspace publishes `packages/ui` as `@kantzen-ui/ui`; `examples/playground` is a private Vite app for visual development. Library code lives in `packages/ui/src`, grouped by responsibility: `primitives`, `components`, `theme`, `icons`, `site`, and bounded features such as `app-shell`, `command-palette`, `graph`, and `interactions`. Tests are under `packages/ui/test` and mirror those domains. Repository automation lives in `scripts/`, while design references belong in `design/`.
+This npm workspace publishes `packages/ui` as `@patkepa/kantzen-ui`; `examples/playground` is a private Vite app for visual development. Library code lives in `packages/ui/src`, grouped by responsibility: `primitives`, `components`, `theme`, `icons`, `site`, and bounded features such as `app-shell`, `command-palette`, `graph`, and `interactions`. Tests are under `packages/ui/test` and mirror those domains. Repository automation lives in `scripts/`, while design references belong in `design/`.
 
 Keep small components flat within their domain. Add a component directory only when it owns several implementation, style, or test files. Barrels are for public entry points; internal code should import concrete modules.
 

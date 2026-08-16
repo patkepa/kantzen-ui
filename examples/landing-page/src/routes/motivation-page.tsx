@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Icon } from "@kantzen-ui/ui";
+import { Button, Icon } from "@patkepa/kantzen-ui";
 import {
   BrandMark,
   CommandWorkbench,

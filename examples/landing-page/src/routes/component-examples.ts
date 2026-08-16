@@ -8,18 +8,18 @@ interface ExampleTemplate {
 }
 
 const importSourceByCategory: Record<ComponentCategory, string> = {
-  "App shell": "@kantzen-ui/ui/app-shell",
-  Command: "@kantzen-ui/ui/command-palette",
-  Components: "@kantzen-ui/ui",
-  Graph: "@kantzen-ui/ui/graph",
-  Primitives: "@kantzen-ui/ui",
-  Site: "@kantzen-ui/ui",
+  "App shell": "@patkepa/kantzen-ui/app-shell",
+  Command: "@patkepa/kantzen-ui/command-palette",
+  Components: "@patkepa/kantzen-ui",
+  Graph: "@patkepa/kantzen-ui/graph",
+  Primitives: "@patkepa/kantzen-ui",
+  Site: "@patkepa/kantzen-ui",
 };
 
 const importSourceByExport: Record<string, string> = {
-  SiteFooter: "@kantzen-ui/ui/app-shell",
-  SiteNavbar: "@kantzen-ui/ui/app-shell",
-  SiteShell: "@kantzen-ui/ui/app-shell",
+  SiteFooter: "@patkepa/kantzen-ui/app-shell",
+  SiteNavbar: "@patkepa/kantzen-ui/app-shell",
+  SiteShell: "@patkepa/kantzen-ui/app-shell",
 };
 
 const templates: Record<string, ExampleTemplate> = {

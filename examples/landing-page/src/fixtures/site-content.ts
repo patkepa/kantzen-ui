@@ -1,4 +1,4 @@
-import type { FeatureGridItem, MetricStripItem } from "@kantzen-ui/ui";
+import type { FeatureGridItem, MetricStripItem } from "@patkepa/kantzen-ui";
 
 export const productFeatures: FeatureGridItem[] = [
   {

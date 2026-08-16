@@ -1,4 +1,4 @@
-import type { NavGroup, Project, User } from "@kantzen-ui/ui/navigation";
+import type { NavGroup, Project, User } from "@patkepa/kantzen-ui/navigation";
 
 export const workspaceNavGroups: NavGroup[] = [
   {

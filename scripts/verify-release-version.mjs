@@ -18,10 +18,10 @@ const normalizedReleaseVersion = releaseVersion.startsWith("v")
 
 if (normalizedReleaseVersion !== packageManifest.version) {
   throw new Error(
-    `Release version ${releaseVersion} does not match @kantzen-ui/ui@${packageManifest.version}.`,
+    `Release version ${releaseVersion} does not match @patkepa/kantzen-ui@${packageManifest.version}.`,
   );
 }
 
 console.log(
-  `Release version verified: @kantzen-ui/ui@${packageManifest.version}`,
+  `Release version verified: @patkepa/kantzen-ui@${packageManifest.version}`,
 );

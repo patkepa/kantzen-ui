@@ -45,4 +45,4 @@ Feature stylesheets do not import it and must remain independently additive.
 The public package lives in `packages/ui`. The playground in
 `examples/landing-page` is private and should not be published.
 
-When preparing a release, bump the `@kantzen-ui/ui` package version.
+When preparing a release, bump the `@patkepa/kantzen-ui` package version.

@@ -1,4 +1,4 @@
-import type { IconName } from "@kantzen-ui/ui";
+import type { IconName } from "@patkepa/kantzen-ui";
 
 export type ComponentCategory =
   "Primitives" | "Components" | "Site" | "App shell" | "Command" | "Graph";

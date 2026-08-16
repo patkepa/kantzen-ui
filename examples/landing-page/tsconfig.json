@@ -4,16 +4,18 @@
     "baseUrl": ".",
     "noEmit": true,
     "paths": {
-      "@kantzen-ui/ui/app-shell": ["../../packages/ui/src/app-shell/index.ts"],
-      "@kantzen-ui/ui/command-palette": [
+      "@patkepa/kantzen-ui/app-shell": [
+        "../../packages/ui/src/app-shell/index.ts"
+      ],
+      "@patkepa/kantzen-ui/command-palette": [
         "../../packages/ui/src/command-palette/index.ts"
       ],
-      "@kantzen-ui/ui/graph": ["../../packages/ui/src/graph/index.ts"],
-      "@kantzen-ui/ui/interactions": [
+      "@patkepa/kantzen-ui/graph": ["../../packages/ui/src/graph/index.ts"],
+      "@patkepa/kantzen-ui/interactions": [
         "../../packages/ui/src/interactions/index.ts"
       ],
-      "@kantzen-ui/ui/navigation": ["../../packages/ui/src/navigation.ts"],
-      "@kantzen-ui/ui": ["../../packages/ui/src/index.ts"]
+      "@patkepa/kantzen-ui/navigation": ["../../packages/ui/src/navigation.ts"],
+      "@patkepa/kantzen-ui": ["../../packages/ui/src/index.ts"]
     },
     "types": ["node", "vite/client"]
   },

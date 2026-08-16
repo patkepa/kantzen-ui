@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { Button } from "@kantzen-ui/ui";
+import { Button } from "@patkepa/kantzen-ui";
 import {
   ErrorBoundary,
   WorkspaceNavbar,
   WorkspacePortal,
   WorkspaceShell,
   WorkspaceSidebar,
-} from "@kantzen-ui/ui/app-shell";
-import { Command, CommandPaletteShell } from "@kantzen-ui/ui/command-palette";
-import { ForceGraphCanvas } from "@kantzen-ui/ui/graph";
+} from "@patkepa/kantzen-ui/app-shell";
+import {
+  Command,
+  CommandPaletteShell,
+} from "@patkepa/kantzen-ui/command-palette";
+import { ForceGraphCanvas } from "@patkepa/kantzen-ui/graph";
 import {
   componentPreviewGraphEdges,
   componentPreviewGraphNodes,

@@ -1,5 +1,5 @@
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
-import { Button, Icon, InputGroup } from "@kantzen-ui/ui";
+import { Button, Icon, InputGroup } from "@patkepa/kantzen-ui";
 import {
   catalogGroups,
   catalogItems,

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Icon } from "@kantzen-ui/ui";
+import { Icon } from "@patkepa/kantzen-ui";
 
 export const componentPreviewListItems = [
   { id: "design", label: "Design system" },

@@ -8,8 +8,12 @@ import {
   SiteGrid,
   SiteHero,
   SiteSection,
-} from "@kantzen-ui/ui";
-import { SiteFooter, SiteNavbar, SiteShell } from "@kantzen-ui/ui/app-shell";
+} from "@patkepa/kantzen-ui";
+import {
+  SiteFooter,
+  SiteNavbar,
+  SiteShell,
+} from "@patkepa/kantzen-ui/app-shell";
 import type {
   ComponentDemoProps,
   ComponentDemoRegistry,

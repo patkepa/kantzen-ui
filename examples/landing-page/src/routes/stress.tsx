@@ -1,7 +1,12 @@
-import { Button } from "@kantzen-ui/ui";
-import { SiteFooter, SiteShell } from "@kantzen-ui/ui/app-shell";
-import { CtaBar, FeatureGrid, SiteHero, SiteSection } from "@kantzen-ui/ui";
-import type { SiteNavItem } from "@kantzen-ui/ui/navigation";
+import { Button } from "@patkepa/kantzen-ui";
+import { SiteFooter, SiteShell } from "@patkepa/kantzen-ui/app-shell";
+import {
+  CtaBar,
+  FeatureGrid,
+  SiteHero,
+  SiteSection,
+} from "@patkepa/kantzen-ui";
+import type { SiteNavItem } from "@patkepa/kantzen-ui/navigation";
 import { footerGroups, siteActions } from "../fixtures/site-nav";
 
 const longNavItems: SiteNavItem[] = [

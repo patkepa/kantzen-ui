@@ -2,7 +2,7 @@ import type {
   SiteNavAction,
   SiteNavGroup,
   SiteNavItem,
-} from "@kantzen-ui/ui/navigation";
+} from "@patkepa/kantzen-ui/navigation";
 
 export const siteNavItems: SiteNavItem[] = [
   {

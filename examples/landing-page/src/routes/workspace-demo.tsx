@@ -13,8 +13,8 @@ import {
   StatusLed,
   Tabs,
   WorkspaceToolbar,
-} from "@kantzen-ui/ui";
-import { WorkspacePortal, WorkspaceShell } from "@kantzen-ui/ui/app-shell";
+} from "@patkepa/kantzen-ui";
+import { WorkspacePortal, WorkspaceShell } from "@patkepa/kantzen-ui/app-shell";
 import {
   workspaceNavGroups,
   workspaceProjects,

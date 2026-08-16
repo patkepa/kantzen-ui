@@ -14,7 +14,7 @@ import {
   Tabs,
   WorkspaceBottomToolbar,
   WorkspaceToolbar,
-} from "@kantzen-ui/ui";
+} from "@patkepa/kantzen-ui";
 import {
   componentPreviewListItems,
   LabelledSample,

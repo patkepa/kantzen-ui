@@ -1,4 +1,4 @@
-import { StatusLed } from "@kantzen-ui/ui";
+import { StatusLed } from "@patkepa/kantzen-ui";
 
 const panelRows = [
   ["Edge router rollout", "online", "98%"],

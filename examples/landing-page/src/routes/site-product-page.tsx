@@ -1,5 +1,5 @@
-import { Button, Tag } from "@kantzen-ui/ui";
-import { SiteFooter, SiteShell } from "@kantzen-ui/ui/app-shell";
+import { Button, Tag } from "@patkepa/kantzen-ui";
+import { SiteFooter, SiteShell } from "@patkepa/kantzen-ui/app-shell";
 import {
   CtaBar,
   DemoFrame,
@@ -7,7 +7,7 @@ import {
   MetricStrip,
   SiteHero,
   SiteSection,
-} from "@kantzen-ui/ui";
+} from "@patkepa/kantzen-ui";
 import { footerGroups, siteActions, siteNavItems } from "../fixtures/site-nav";
 import { productFeatures, productMetrics } from "../fixtures/site-content";
 import { WorkspacePanelMock } from "../workspace-panel-mock";

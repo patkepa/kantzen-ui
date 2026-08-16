@@ -11,45 +11,45 @@ export default defineConfig({
   resolve: {
     alias: [
       {
-        find: "@kantzen-ui/ui/styles.css",
+        find: "@patkepa/kantzen-ui/styles.css",
         replacement: fromRoot("packages/ui/src/styles.css"),
       },
       {
-        find: "@kantzen-ui/ui/app-shell/styles.css",
+        find: "@patkepa/kantzen-ui/app-shell/styles.css",
         replacement: fromRoot("examples/landing-page/src/app-shell-source.css"),
       },
       {
-        find: "@kantzen-ui/ui/command-palette/styles.css",
+        find: "@patkepa/kantzen-ui/command-palette/styles.css",
         replacement: fromRoot(
           "packages/ui/src/command-palette/command-palette.css",
         ),
       },
       {
-        find: "@kantzen-ui/ui/graph/styles.css",
+        find: "@patkepa/kantzen-ui/graph/styles.css",
         replacement: fromRoot("packages/ui/src/graph/graph.css"),
       },
       {
-        find: "@kantzen-ui/ui/interactions",
+        find: "@patkepa/kantzen-ui/interactions",
         replacement: fromRoot("packages/ui/src/interactions/index.ts"),
       },
       {
-        find: "@kantzen-ui/ui/navigation",
+        find: "@patkepa/kantzen-ui/navigation",
         replacement: fromRoot("packages/ui/src/navigation.ts"),
       },
       {
-        find: "@kantzen-ui/ui/app-shell",
+        find: "@patkepa/kantzen-ui/app-shell",
         replacement: fromRoot("packages/ui/src/app-shell/index.ts"),
       },
       {
-        find: "@kantzen-ui/ui/command-palette",
+        find: "@patkepa/kantzen-ui/command-palette",
         replacement: fromRoot("packages/ui/src/command-palette/index.ts"),
       },
       {
-        find: "@kantzen-ui/ui/graph",
+        find: "@patkepa/kantzen-ui/graph",
         replacement: fromRoot("packages/ui/src/graph/index.ts"),
       },
       {
-        find: "@kantzen-ui/ui",
+        find: "@patkepa/kantzen-ui",
         replacement: fromRoot("packages/ui/src/index.ts"),
       },
     ],

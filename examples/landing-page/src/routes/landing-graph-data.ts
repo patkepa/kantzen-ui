@@ -1,4 +1,4 @@
-import type { ForceGraphEdge, ForceGraphNode } from "@kantzen-ui/ui/graph";
+import type { ForceGraphEdge, ForceGraphNode } from "@patkepa/kantzen-ui/graph";
 
 export interface LandingGraphNode extends ForceGraphNode {
   kind: "core" | "service";

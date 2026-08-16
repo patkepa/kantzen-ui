@@ -1,5 +1,5 @@
-import { SiteFooter, SiteShell } from "@kantzen-ui/ui/app-shell";
-import { SiteGrid, SiteHero, SiteSection } from "@kantzen-ui/ui";
+import { SiteFooter, SiteShell } from "@patkepa/kantzen-ui/app-shell";
+import { SiteGrid, SiteHero, SiteSection } from "@patkepa/kantzen-ui";
 import { articleCards } from "../fixtures/site-content";
 import { footerGroups, siteActions, siteNavItems } from "../fixtures/site-nav";
 

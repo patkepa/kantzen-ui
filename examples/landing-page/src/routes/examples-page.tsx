@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { Icon } from "@kantzen-ui/ui";
+import { Icon } from "@patkepa/kantzen-ui";
 import { useParams } from "react-router-dom";
 import {
   LandingFooter,

@@ -2,12 +2,12 @@
 
 Kantzen UI exposes one public npm package with feature-oriented subpaths:
 
-| Export path                      | Purpose                                                                                               |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `@kantzen-ui/ui`                 | Theme, icons, primitives, interactions, navigation contracts, and reusable workspace/site components. |
-| `@kantzen-ui/ui/app-shell`       | Router-agnostic workspace and public-site chrome.                                                     |
-| `@kantzen-ui/ui/command-palette` | Command palette frame and keyboard handling built around `cmdk`.                                      |
-| `@kantzen-ui/ui/graph`           | Data-agnostic force graph canvas, renderer, and simulation utilities.                                 |
+| Export path                           | Purpose                                                                                               |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `@patkepa/kantzen-ui`                 | Theme, icons, primitives, interactions, navigation contracts, and reusable workspace/site components. |
+| `@patkepa/kantzen-ui/app-shell`       | Router-agnostic workspace and public-site chrome.                                                     |
+| `@patkepa/kantzen-ui/command-palette` | Command palette frame and keyboard handling built around `cmdk`.                                      |
+| `@patkepa/kantzen-ui/graph`           | Data-agnostic force graph canvas, renderer, and simulation utilities.                                 |
 
 The package builds typed ESM into its ignored `dist` directory. The repository
 root and playground workspaces are private and cannot be published accidentally.
@@ -15,12 +15,12 @@ root and playground workspaces are private and cannot be published accidentally.
 ## Basic usage
 
 ```tsx
-import { WorkspaceShell } from "@kantzen-ui/ui/app-shell";
-import { ThemeProvider } from "@kantzen-ui/ui";
-import type { NavGroup } from "@kantzen-ui/ui/navigation";
+import { WorkspaceShell } from "@patkepa/kantzen-ui/app-shell";
+import { ThemeProvider } from "@patkepa/kantzen-ui";
+import type { NavGroup } from "@patkepa/kantzen-ui/navigation";
 
-import "@kantzen-ui/ui/styles.css";
-import "@kantzen-ui/ui/app-shell/styles.css";
+import "@patkepa/kantzen-ui/styles.css";
+import "@patkepa/kantzen-ui/app-shell/styles.css";
 
 const navGroups: NavGroup[] = [
   {
@@ -48,4 +48,4 @@ export function App() {
 ```
 
 Blueprint Core is not required. `@blueprintjs/icons` is an implementation
-dependency of `@kantzen-ui/ui`.
+dependency of `@patkepa/kantzen-ui`.

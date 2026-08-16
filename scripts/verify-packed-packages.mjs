@@ -65,11 +65,11 @@ function verifyReactVersion(reactVersion) {
 
   writeFileSync(
     resolve(consumerDir, "consumer.tsx"),
-    `import { WorkspaceShell } from "@kantzen-ui/ui/app-shell";
-import { CommandPaletteShell } from "@kantzen-ui/ui/command-palette";
-import { ForceGraphCanvas } from "@kantzen-ui/ui/graph";
-import { Button, Card, ThemeProvider } from "@kantzen-ui/ui";
-import type { NavGroup } from "@kantzen-ui/ui/navigation";
+    `import { WorkspaceShell } from "@patkepa/kantzen-ui/app-shell";
+import { CommandPaletteShell } from "@patkepa/kantzen-ui/command-palette";
+import { ForceGraphCanvas } from "@patkepa/kantzen-ui/graph";
+import { Button, Card, ThemeProvider } from "@patkepa/kantzen-ui";
+import type { NavGroup } from "@patkepa/kantzen-ui/navigation";
 
 const navGroups: NavGroup[] = [];
 void <ThemeProvider><Card><Button text="Create" /></Card></ThemeProvider>;
@@ -84,12 +84,12 @@ void ForceGraphCanvas;
     `import assert from "node:assert/strict";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { WorkspaceShell } from "@kantzen-ui/ui/app-shell";
-import { CommandPaletteShell } from "@kantzen-ui/ui/command-palette";
-import { ForceGraphCanvas } from "@kantzen-ui/ui/graph";
-import { Button, Card, ThemeProvider } from "@kantzen-ui/ui";
-import { Icon } from "@kantzen-ui/ui/icons";
-import { getLinearNavigationIndex } from "@kantzen-ui/ui/interactions";
+import { WorkspaceShell } from "@patkepa/kantzen-ui/app-shell";
+import { CommandPaletteShell } from "@patkepa/kantzen-ui/command-palette";
+import { ForceGraphCanvas } from "@patkepa/kantzen-ui/graph";
+import { Button, Card, ThemeProvider } from "@patkepa/kantzen-ui";
+import { Icon } from "@patkepa/kantzen-ui/icons";
+import { getLinearNavigationIndex } from "@patkepa/kantzen-ui/interactions";
 
 assert.equal(typeof WorkspaceShell, "function");
 assert.equal(typeof CommandPaletteShell, "function");
@@ -104,11 +104,11 @@ assert.match(html, /kui-card/);
 assert.match(html, /kui-button/);
 
 for (const stylesheet of [
-  "@kantzen-ui/ui/app-shell/styles.css",
-  "@kantzen-ui/ui/command-palette/styles.css",
-  "@kantzen-ui/ui/graph/styles.css",
-  "@kantzen-ui/ui/styles.css",
-  "@kantzen-ui/ui/theme.css",
+  "@patkepa/kantzen-ui/app-shell/styles.css",
+  "@patkepa/kantzen-ui/command-palette/styles.css",
+  "@patkepa/kantzen-ui/graph/styles.css",
+  "@patkepa/kantzen-ui/styles.css",
+  "@patkepa/kantzen-ui/theme.css",
 ]) {
   assert.match(import.meta.resolve(stylesheet), /^file:/);
 }

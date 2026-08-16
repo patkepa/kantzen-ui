@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Icon, StatusLed } from "@kantzen-ui/ui";
+import { Icon, StatusLed } from "@patkepa/kantzen-ui";
 import {
   ForceGraphCanvas,
   type ForceGraphEdge,
   type ForceGraphEdgeState,
   type ForceGraphNodeState,
-} from "@kantzen-ui/ui/graph";
+} from "@patkepa/kantzen-ui/graph";
 import { BrandMark } from "./landing-brand-mark.js";
 import {
   landingGraphEdges,

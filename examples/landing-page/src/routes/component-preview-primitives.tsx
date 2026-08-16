@@ -15,7 +15,7 @@ import {
   Popover,
   showContextMenu,
   Tag,
-} from "@kantzen-ui/ui";
+} from "@patkepa/kantzen-ui";
 import { LabelledSample } from "./component-preview-shared";
 import type {
   ComponentDemoProps,
