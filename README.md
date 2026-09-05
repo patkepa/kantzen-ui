@@ -50,6 +50,10 @@ npm run format:check
 Run `npm run dev:playground` for the visual component playground and
 `npm run pack:packages` to build the installable package tarball.
 
+The playground and published package use the experimental native Rust React
+Compiler. Package output targets React 18 through `react-compiler-runtime`, so
+the existing React 18 and React 19 peer range remains supported.
+
 ## GitHub Pages
 
 Every push to `main` builds and deploys the landing-page workspace with GitHub

@@ -196,11 +196,13 @@ export function useForceGraphInteractions<
     if (interaction.pointerId !== event.pointerId) return;
     const point = getCanvasPoint(event.clientX, event.clientY);
     if (interaction.mode === "pan") {
-      interaction.moved ||= didPointerMove(
-        interaction,
-        point,
-        TOUCH_DRAG_THRESHOLD,
-      );
+      if (!interaction.moved) {
+        interaction.moved = didPointerMove(
+          interaction,
+          point,
+          TOUCH_DRAG_THRESHOLD,
+        );
+      }
       viewRef.current.x = interaction.viewX + point.x - interaction.startX;
       viewRef.current.y = interaction.viewY + point.y - interaction.startY;
       invalidateCanvas();

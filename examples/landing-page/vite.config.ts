@@ -7,7 +7,7 @@ const fromRoot = (path: string) =>
 
 export default defineConfig({
   base: process.env.BASE_PATH ?? "/",
-  plugins: [react()],
+  plugins: [react({ compiler: true })],
   resolve: {
     alias: [
       {

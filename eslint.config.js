@@ -28,12 +28,6 @@ export default tseslint.config(
     plugins: { "react-hooks": reactHooks },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      // Downgrade React Compiler rules to warnings — existing code has violations
-      // that should be fixed incrementally, not block CI on day one
-      "react-hooks/purity": "warn",
-      "react-hooks/refs": "warn",
-      "react-hooks/set-state-in-effect": "warn",
-      "react-hooks/preserve-manual-memoization": "warn",
       "@typescript-eslint/no-unused-vars": [
         "error",
         {

@@ -108,8 +108,8 @@ export function Popover({
   });
   const targetRef = useRef<HTMLElement | null>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
-  const openTimerRef = useRef<number>();
-  const closeTimerRef = useRef<number>();
+  const openTimerRef = useRef<number | undefined>(undefined);
+  const closeTimerRef = useRef<number | undefined>(undefined);
   const isControlled = controlledOpen !== undefined;
   const isOpen = !disabled && (controlledOpen ?? uncontrolledOpen);
   const isHover = interactionKind.startsWith("hover");
@@ -215,7 +215,8 @@ export function Popover({
   };
   const { setTargetElement, ...targetElementProps } = targetProps;
   const renderedTarget = renderTarget ? (
-    // The target receives a callback setter, never the mutable ref object.
+    // Known false positive for forwarding refs through render props:
+    // https://github.com/facebook/react/issues/34954
     // eslint-disable-next-line react-hooks/refs
     renderTarget(targetProps)
   ) : (

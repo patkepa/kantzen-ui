@@ -69,7 +69,7 @@
     "./blueprint-compat.css": "./dist/theme/blueprint-compat.css"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json && node ../../scripts/copy-package-css.mjs",
+    "build": "tsc -p tsconfig.json && node ../../scripts/compile-react-package.mjs && node ../../scripts/copy-package-css.mjs",
     "test": "node --test"
   },
   "publishConfig": {
@@ -87,7 +87,8 @@
   },
   "dependencies": {
     "@blueprintjs/icons": "^6.2.0",
-    "cmdk": "^1.1.1"
+    "cmdk": "^1.1.1",
+    "react-compiler-runtime": "^1.0.0"
   },
   "peerDependencies": {
     "react": "^18.3.1 || ^19.0.0",
