@@ -126,6 +126,8 @@ starlight-theme-select {
 .page > header.header > .header {
   display: grid;
   grid-template-columns: var(--sl-sidebar-width) minmax(12rem, 1fr) auto;
+  grid-template-rows: minmax(0, 1fr);
+  align-content: stretch;
   gap: 0;
 }
 
@@ -147,6 +149,12 @@ starlight-theme-select {
   gap: 0;
   padding-inline: 1rem;
   border-left: 1px solid var(--kui-line);
+}
+
+.page
+  > header.header
+  .right-group:not(:has(.social-icons a, starlight-lang-select)) {
+  display: none;
 }
 
 .page > header.header .social-icons {

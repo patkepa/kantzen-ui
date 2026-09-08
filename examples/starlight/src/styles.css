@@ -1,0 +1,11 @@
+.site-title {
+  gap: 0.5rem;
+  color: var(--sl-color-white);
+  font-size: 0.875rem;
+}
+
+.site-title img {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
