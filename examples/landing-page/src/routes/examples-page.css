@@ -52,7 +52,7 @@
 .example-gallery {
   display: grid;
   max-width: 1460px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(20px, 2.4vw, 38px);
   margin: 0 auto;
 }
@@ -67,6 +67,7 @@
   text-align: left;
   background: transparent;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .gallery-thumb {
@@ -171,6 +172,96 @@
 .gallery-thumb--app {
   display: grid;
   grid-template-columns: 17% minmax(0, 1fr);
+}
+
+.gallery-thumb--starlight {
+  display: grid;
+  grid-template-columns: 24% minmax(0, 1fr);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    #080808;
+  background-size: 34px 34px;
+}
+
+.gallery-thumb--starlight > aside {
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  gap: 13px;
+  padding: 18px 8px;
+  border-right: 1px solid #292c31;
+  background: #060606;
+}
+
+.gallery-thumb--starlight > aside i {
+  width: 64%;
+  height: 4px;
+  background: #3b3f46;
+}
+
+.gallery-thumb--starlight > aside i.is-active {
+  background: var(--landing-blue);
+}
+
+.gallery-docs-main {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-width: 0;
+}
+
+.gallery-docs-main > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 42px;
+  padding: 0 13px;
+  border-bottom: 1px solid #292c31;
+  background: #060606;
+}
+
+.gallery-docs-main > header strong {
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.gallery-docs-main > header span {
+  width: 34%;
+  height: 12px;
+  border: 1px solid #35383e;
+  background: #0d0d0d;
+}
+
+.gallery-docs-main article {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  padding: 18px;
+}
+
+.gallery-docs-main article small {
+  color: #8bb4ff;
+  font-size: 6px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.gallery-docs-main article strong {
+  max-width: 15ch;
+  color: #f4f4f4;
+  font-size: clamp(10px, 1vw, 15px);
+  font-weight: 560;
+  line-height: 1.15;
+}
+
+.gallery-docs-main article > span {
+  width: 88%;
+  height: 4px;
+  background: #34383f;
+}
+
+.gallery-docs-main article > span:last-child {
+  width: 62%;
 }
 
 .gallery-thumb--app > aside {
@@ -857,7 +948,7 @@
 
 @media (max-width: 940px) {
   .example-gallery {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     max-width: 620px;
   }
 
@@ -915,6 +1006,7 @@
   }
 
   .example-gallery {
+    grid-template-columns: 1fr;
     gap: 34px;
   }
 

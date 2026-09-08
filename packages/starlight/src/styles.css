@@ -1,0 +1,822 @@
+@import "@patkepa/kantzen-ui/theme.css";
+
+/* Starlight adapter for the Kantzen UI design tokens. */
+
+:root,
+:root[data-theme="dark"],
+:root[data-theme="light"] {
+  --kui-accent: hsl(var(--accent));
+  --kui-accent-strong: #2e6dd7;
+  --kui-accent-bright: #8bb4ff;
+
+  --sl-color-white: var(--kui-text);
+  --sl-color-gray-1: #f4f4f4;
+  --sl-color-gray-2: var(--kui-text-secondary);
+  --sl-color-gray-3: var(--kui-text-muted);
+  --sl-color-gray-4: #6f6f6f;
+  --sl-color-gray-5: #2d2d2d;
+  --sl-color-gray-6: var(--kui-surface-raised);
+  --sl-color-gray-7: var(--kui-surface-hover);
+  --sl-color-black: var(--kui-surface-canvas);
+  --sl-color-accent-low: #10223e;
+  --sl-color-accent: var(--kui-accent);
+  --sl-color-accent-high: var(--kui-accent-bright);
+  --sl-color-text: var(--kui-text-secondary);
+  --sl-color-text-accent: var(--kui-accent-bright);
+  --sl-color-text-invert: #080808;
+  --sl-color-bg: var(--kui-surface-canvas);
+  --sl-color-bg-nav: var(--kui-surface-nav);
+  --sl-color-bg-sidebar: var(--kui-surface-nav);
+  --sl-color-bg-inline-code: var(--kui-surface-active);
+  --sl-color-bg-accent: var(--kui-accent);
+  --sl-color-hairline-light: var(--kui-line-soft);
+  --sl-color-hairline: var(--kui-line);
+  --sl-color-hairline-shade: var(--kui-line);
+  --sl-color-backdrop-overlay: rgb(0 0 0 / 0.78);
+  --sl-shadow-sm: none;
+  --sl-shadow-md: none;
+  --sl-shadow-lg: var(--kui-overlay-shadow);
+
+  --sl-nav-height: 3rem;
+  --sl-nav-pad-x: 1rem;
+  --sl-nav-pad-y: 0;
+  --sl-nav-gap: 1rem;
+  --sl-sidebar-width: 16.25rem;
+  --sl-sidebar-pad-x: 0.5rem;
+  --sl-content-width: 48rem;
+  --sl-content-pad-x: clamp(1rem, 3vw, 2rem);
+  --sl-content-gap-y: 1rem;
+  --sl-text-body: 0.9375rem;
+  --sl-text-body-sm: 0.8125rem;
+  --sl-text-code: 0.8125rem;
+  --sl-text-code-sm: 0.8125rem;
+  --sl-text-h1: clamp(2rem, 4vw, 2.75rem);
+  --sl-text-h2: 1.75rem;
+  --sl-text-h3: 1.3125rem;
+  --sl-text-h4: 1.0625rem;
+  --sl-text-h5: 0.9375rem;
+  --sl-line-height: 1.68;
+  --sl-line-height-headings: 1.12;
+  --sl-font: Inter, "Helvetica Neue", Arial, sans-serif;
+  --sl-font-mono: "SF Mono", Monaco, Inconsolata, "Roboto Mono", monospace;
+}
+
+html {
+  background: var(--kui-surface-canvas);
+  color-scheme: dark;
+}
+
+body {
+  background:
+    linear-gradient(rgb(255 255 255 / 0.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.012) 1px, transparent 1px),
+    var(--kui-surface-canvas);
+  background-size: 72px 72px;
+  color: var(--kui-text-secondary);
+  font-size: var(--sl-text-body);
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgb(91 143 223 / 0.28);
+  color: var(--kui-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--kui-accent-bright);
+  outline-offset: 2px;
+}
+
+* {
+  scrollbar-color: var(--kui-line) transparent;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 0;
+  background: var(--kui-line);
+  background-clip: padding-box;
+}
+
+/* Kantzen ships as a dark-only theme. Keep Starlight's automatic picker out of
+ * the chrome so it does not promise an unsupported light palette. */
+starlight-theme-select {
+  display: none;
+}
+
+/* Application chrome */
+.page > header.header {
+  border-bottom-color: var(--kui-line);
+  padding: 0;
+  background: rgb(6 6 6 / 0.94);
+  backdrop-filter: blur(18px);
+}
+
+.page > header.header > .header {
+  display: grid;
+  grid-template-columns: var(--sl-sidebar-width) minmax(12rem, 1fr) auto;
+  grid-template-rows: minmax(0, 1fr);
+  align-content: stretch;
+  gap: 0;
+}
+
+.page > header.header .title-wrapper {
+  align-self: stretch;
+  align-items: center;
+  margin: 0;
+  padding: 0 1rem;
+  border-right: 1px solid var(--kui-line);
+}
+
+.page > header.header > .header > :nth-child(2) {
+  align-items: center;
+  padding-inline: 1rem;
+}
+
+.page > header.header .right-group {
+  align-self: stretch;
+  gap: 0;
+  padding-inline: 1rem;
+  border-left: 1px solid var(--kui-line);
+}
+
+.page
+  > header.header
+  .right-group:not(:has(.social-icons a, starlight-lang-select)) {
+  display: none;
+}
+
+.page > header.header .social-icons {
+  gap: 0.75rem;
+}
+
+.page > header.header .social-icons::after {
+  display: none;
+}
+
+site-search button[data-open-modal] {
+  height: var(--kui-control-height);
+  max-width: 28rem;
+  border: 1px solid var(--kui-line);
+  border-radius: 0;
+  background: var(--kui-surface-panel);
+  color: var(--kui-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+site-search button[data-open-modal]:hover {
+  border-color: var(--kui-line-strong);
+  background: var(--kui-surface-hover);
+  color: var(--kui-text);
+}
+
+site-search button[data-open-modal] > kbd {
+  border: 1px solid var(--kui-line-soft);
+  border-radius: 0;
+  background: var(--kui-surface-raised);
+  font-size: 0.625rem;
+}
+
+site-search dialog,
+site-search .pagefind-ui__search-input,
+site-search .pagefind-ui__result-link {
+  border-radius: 0 !important;
+}
+
+.sidebar-pane {
+  border-right: 1px solid var(--kui-line) !important;
+  background: var(--kui-surface-nav) !important;
+}
+
+.sidebar-content {
+  gap: 0.5rem !important;
+  padding: 0.5rem !important;
+}
+
+.starlight-sidebar-topics {
+  padding-bottom: 0.5rem !important;
+  border-bottom: 1px solid var(--kui-line) !important;
+}
+
+.starlight-sidebar-topics::after {
+  display: none !important;
+}
+
+.starlight-sidebar-topics li + li {
+  margin-top: 1px !important;
+}
+
+.starlight-sidebar-topics a {
+  min-height: 2.25rem;
+  gap: 0.625rem !important;
+  padding: 0.375rem 0.625rem !important;
+  border-left: 2px solid transparent;
+  color: var(--kui-text-muted) !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.starlight-sidebar-topics a:hover,
+.starlight-sidebar-topics a:focus-visible {
+  background: rgb(255 255 255 / 0.04);
+  color: var(--kui-text) !important;
+}
+
+.starlight-sidebar-topics a.starlight-sidebar-topics-current {
+  border-left-color: var(--kui-accent);
+  background: rgb(255 255 255 / 0.08);
+  color: var(--kui-text) !important;
+}
+
+.starlight-sidebar-topics .starlight-sidebar-topics-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: currentColor !important;
+}
+
+sl-sidebar-state-persist > ul.top-level {
+  padding: 0 0.25rem 1rem;
+}
+
+sl-sidebar-state-persist ul {
+  --sl-sidebar-item-padding-inline: 0.625rem;
+}
+
+sl-sidebar-state-persist .top-level > li + li {
+  margin-top: 0.5rem;
+}
+
+sl-sidebar-state-persist summary {
+  min-height: 1.875rem;
+  padding-block: 0.25rem;
+  color: var(--kui-text-muted);
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+
+sl-sidebar-state-persist summary:hover {
+  color: var(--kui-text);
+}
+
+sl-sidebar-state-persist .large {
+  color: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+sl-sidebar-state-persist ul ul li {
+  margin-inline-start: 0.625rem;
+  border-inline-start: 1px solid var(--kui-line-soft);
+  padding-inline-start: 0.25rem;
+}
+
+sl-sidebar-state-persist a {
+  position: relative;
+  min-height: 1.875rem;
+  padding: 0.375rem 0.625rem;
+  border-left: 2px solid transparent;
+  border-radius: 0;
+  color: var(--kui-text-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+sl-sidebar-state-persist a:hover,
+sl-sidebar-state-persist a:focus-visible {
+  background: rgb(255 255 255 / 0.04);
+  color: var(--kui-text);
+}
+
+sl-sidebar-state-persist a[aria-current="page"] {
+  border-left-color: var(--kui-accent);
+  background: rgb(255 255 255 / 0.08);
+  color: var(--kui-text);
+  font-weight: 600;
+}
+
+.right-sidebar {
+  border-inline-start-color: var(--kui-line) !important;
+  background: var(--kui-surface-panel);
+}
+
+.right-sidebar-panel {
+  padding-top: 1.5rem !important;
+}
+
+.right-sidebar-panel h2 {
+  margin-bottom: 0.75rem !important;
+  color: var(--kui-text-muted) !important;
+  font-size: 0.625rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.right-sidebar-panel a {
+  padding-block: 0.25rem;
+  color: var(--kui-text-muted) !important;
+  font-size: 0.75rem !important;
+}
+
+.right-sidebar-panel a:hover,
+.right-sidebar-panel a[aria-current="true"] {
+  color: var(--kui-text) !important;
+}
+
+/* Documentation content */
+.main-frame,
+.main-pane,
+main {
+  background: transparent;
+}
+
+.content-panel {
+  padding-block: 2rem !important;
+}
+
+.content-panel + .content-panel {
+  border-top-color: var(--kui-line) !important;
+}
+
+main h1,
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+.sl-markdown-content h4,
+.sl-markdown-content h5,
+.sl-markdown-content h6 {
+  letter-spacing: -0.035em;
+}
+
+main > .content-panel:first-child h1 {
+  margin-top: 0 !important;
+}
+
+.sl-markdown-content p,
+.sl-markdown-content li {
+  color: var(--kui-text-secondary);
+}
+
+.sl-markdown-content a {
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+.sl-markdown-content :not(pre) > code {
+  border: 1px solid var(--kui-line-soft);
+  border-radius: 0;
+  color: #cfe0ff;
+}
+
+.sl-markdown-content pre,
+.expressive-code .frame,
+.expressive-code pre {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.expressive-code .frame {
+  border: 1px solid var(--ec-brdCol) !important;
+  background: var(--ec-codeBg);
+}
+
+.sl-markdown-content blockquote {
+  border-inline-start: 2px solid var(--kui-accent);
+  background: var(--kui-surface-panel);
+  padding: 1rem;
+}
+
+.sl-markdown-content table {
+  width: 100%;
+  border: 1px solid var(--kui-line);
+  background: var(--kui-surface-panel);
+  font-size: 0.8125rem;
+}
+
+.sl-markdown-content th,
+.sl-markdown-content td {
+  padding: 0.625rem 0.75rem !important;
+  border-right: 1px solid var(--kui-line-soft);
+  border-bottom-color: var(--kui-line) !important;
+}
+
+.sl-markdown-content th {
+  background: var(--kui-surface-raised);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sl-markdown-content tr:last-child td {
+  border-bottom: 0 !important;
+}
+
+.sl-markdown-content img {
+  border: 1px solid var(--kui-line);
+  border-radius: 0;
+}
+
+.starlight-aside {
+  border-radius: 0 !important;
+}
+
+.pagination-links {
+  gap: 0.75rem !important;
+}
+
+.pagination-links a {
+  min-height: 5rem;
+  border-color: var(--kui-line) !important;
+  border-radius: 0 !important;
+  background: var(--kui-surface-panel);
+  box-shadow: none !important;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
+
+.pagination-links a:hover {
+  border-color: var(--kui-line-strong) !important;
+  background: var(--kui-surface-hover);
+}
+
+.pagination-links .link-title {
+  font-size: 0.9375rem !important;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+
+/* Landing page */
+[data-has-hero] {
+  --sl-content-width: 74rem;
+}
+
+[data-has-hero] main > .content-panel {
+  padding-top: 0 !important;
+}
+
+[data-has-hero] .hero {
+  position: relative;
+  grid-template-columns: minmax(0, 1fr);
+  padding-block: clamp(4rem, 8vw, 6.5rem);
+  border-bottom: 1px solid var(--kui-line);
+}
+
+[data-has-hero] .hero::before {
+  position: absolute;
+  inset: 0 calc(50% - 50vw);
+  z-index: -1;
+  content: "";
+  background:
+    linear-gradient(rgb(255 255 255 / 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.018) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, #000, transparent 92%);
+}
+
+[data-has-hero] .hero .stack {
+  align-items: flex-start;
+  min-width: 0;
+  gap: 2rem;
+  text-align: left;
+}
+
+[data-has-hero] .hero .copy {
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+[data-has-hero] .hero h1 {
+  max-width: none;
+  font-family: var(--sl-font);
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+[data-has-hero] .hero .tagline {
+  max-width: 50ch;
+  color: #b4b5b9;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+}
+
+[data-has-hero] .hero .actions {
+  gap: 0.75rem;
+  justify-content: flex-start;
+}
+
+.sl-link-button {
+  min-height: 2.75rem;
+  padding: 0.625rem 1rem !important;
+  border-radius: 0 !important;
+  font-size: 0.8125rem !important;
+  font-weight: 650;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.sl-link-button.primary {
+  border-color: var(--kui-accent-strong) !important;
+  background: var(--kui-accent-strong) !important;
+  color: #fff !important;
+}
+
+.sl-link-button.primary:hover {
+  background: var(--kui-accent) !important;
+}
+
+.sl-link-button.secondary {
+  border-color: var(--kui-line-strong) !important;
+  background: var(--kui-surface-panel);
+}
+
+.docs-dashboard {
+  display: grid;
+  gap: 5rem;
+  padding-block: 3rem 5rem;
+}
+
+.docs-dashboard section {
+  position: relative;
+}
+
+.docs-dashboard h2 {
+  margin: 0;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 560;
+}
+
+.docs-dashboard .section-lede {
+  max-width: 44rem;
+  margin-top: 0.75rem;
+  color: var(--kui-text-muted);
+  font-size: 0.9375rem;
+}
+
+.quick-links {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.32fr) 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.quick-links h2 {
+  padding-top: 0.75rem;
+}
+
+.quick-link-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--kui-line);
+  border-left: 1px solid var(--kui-line);
+}
+
+.quick-link-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 3.25rem;
+  margin: 0 !important;
+  padding: 0 1rem;
+  border-right: 1px solid var(--kui-line);
+  border-bottom: 1px solid var(--kui-line);
+  color: var(--kui-text-secondary) !important;
+  background: var(--kui-surface-panel);
+  font-size: 0.75rem;
+  font-weight: 650;
+  text-decoration: none !important;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.quick-link-button span {
+  color: var(--kui-accent-bright);
+  font-family: var(--__sl-font-mono);
+  transition: transform 150ms ease;
+}
+
+.quick-link-button:hover {
+  background: var(--kui-surface-hover);
+  color: var(--kui-text) !important;
+}
+
+.quick-link-button:hover span {
+  transform: translateX(0.2rem);
+}
+
+.docs-dashboard .card-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 1.75rem;
+  border-top: 1px solid var(--kui-line);
+  border-left: 1px solid var(--kui-line);
+}
+
+.docs-dashboard .sl-link-card {
+  min-height: 9rem;
+  margin: 0;
+  padding: 1.25rem;
+  border: 0;
+  border-right: 1px solid var(--kui-line);
+  border-bottom: 1px solid var(--kui-line);
+  border-radius: 0;
+  background: var(--kui-surface-panel);
+  box-shadow: none;
+  transition: background-color 150ms ease;
+}
+
+.docs-dashboard .sl-link-card:hover {
+  background: var(--kui-surface-hover);
+}
+
+.docs-dashboard .sl-link-card .title {
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+
+.docs-dashboard .sl-link-card .description {
+  color: var(--kui-text-muted);
+  font-size: 0.75rem;
+}
+
+.docs-dashboard .sl-link-card .icon {
+  color: var(--kui-accent-bright);
+}
+
+.docs-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 1.75rem 0 0;
+  padding: 0;
+  border: 1px solid var(--kui-line);
+  background: var(--kui-surface-nav);
+  list-style: none;
+}
+
+.docs-metrics li {
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
+  min-height: 9rem;
+  margin: 0 !important;
+  padding: 1.25rem;
+  border-right: 1px solid var(--kui-line);
+}
+
+.docs-metrics li:last-child {
+  border-right: 0;
+}
+
+.docs-metrics strong {
+  color: var(--kui-text);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.docs-metrics span {
+  color: var(--kui-text-muted);
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 71.99rem) {
+  .page > header.header > .header {
+    grid-template-columns: var(--sl-sidebar-width) minmax(10rem, 1fr) auto;
+  }
+
+  .docs-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .docs-metrics li:nth-child(2) {
+    border-right: 0;
+  }
+
+  .docs-metrics li:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--kui-line);
+  }
+}
+
+@media (max-width: 49.99rem) {
+  :root,
+  :root[data-theme="dark"],
+  :root[data-theme="light"] {
+    --sl-nav-height: 3.5rem;
+  }
+
+  .page > header.header {
+    padding-inline-end: 3.5rem;
+  }
+
+  .page > header.header > .header {
+    display: flex;
+  }
+
+  .page > header.header .title-wrapper {
+    flex: 1 1 auto;
+    border-right: 0;
+  }
+
+  .page > header.header > .header > :nth-child(2) {
+    padding-inline: 0.5rem;
+  }
+
+  .sl-menu-button {
+    border: 1px solid var(--kui-line) !important;
+    border-radius: 0 !important;
+    background: var(--kui-surface-raised) !important;
+    color: var(--kui-text) !important;
+    box-shadow: none !important;
+  }
+
+  .sidebar-pane {
+    border-right: 0 !important;
+  }
+
+  [data-has-hero] .hero {
+    padding-block: 3.5rem;
+  }
+
+  [data-has-hero] .hero h1 {
+    font-size: clamp(2rem, 6.5vw, 3rem);
+  }
+
+  .docs-dashboard {
+    gap: 3.5rem;
+    padding-bottom: 3rem;
+  }
+
+  .quick-links {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 36rem) {
+  .quick-link-actions,
+  .docs-dashboard .card-grid,
+  .docs-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .docs-metrics li,
+  .docs-metrics li:nth-child(2) {
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--kui-line);
+  }
+
+  .docs-metrics li:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

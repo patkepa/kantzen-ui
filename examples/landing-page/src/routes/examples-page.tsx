@@ -143,6 +143,33 @@ function ProjectThumbnail() {
   );
 }
 
+function StarlightThumbnail() {
+  return (
+    <div className="gallery-thumb gallery-thumb--starlight" aria-hidden="true">
+      <aside>
+        <span className="gallery-thumb-mark">K</span>
+        <i className="is-active" />
+        <i />
+        <i />
+        <i />
+      </aside>
+      <div className="gallery-docs-main">
+        <header>
+          <strong>Kantzen Docs</strong>
+          <span />
+        </header>
+        <article>
+          <small>DOCUMENTATION</small>
+          <strong>Build with a shared interface language.</strong>
+          <span />
+          <span />
+          <span />
+        </article>
+      </div>
+    </div>
+  );
+}
+
 function GalleryThumbnail({ id }: { id: ExampleId }) {
   if (id === "login") return <LoginThumbnail />;
   if (id === "workspace") return <WorkspaceThumbnail />;
@@ -174,6 +201,16 @@ export function ExamplesPage({ onNavigate }: LandingPageProps) {
               </span>
             </button>
           ))}
+          <a
+            className="example-gallery-tile"
+            href={`${import.meta.env.BASE_URL}starlight/`}
+          >
+            <StarlightThumbnail />
+            <span className="example-gallery-title">
+              <strong>Starlight documentation</strong>
+              <Icon icon="arrow-right" size={14} />
+            </span>
+          </a>
         </section>
       </main>
       <LandingFooter />

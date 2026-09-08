@@ -7,7 +7,7 @@ const scriptDir = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(scriptDir, "..");
 const packageDir = resolve(rootDir, "dist", "package-tarballs");
 const npmCacheDir = resolve(rootDir, "dist", ".npm-cache");
-const publicWorkspaces = ["@patkepa/kantzen-ui"];
+const publicWorkspaces = ["@patkepa/kantzen-ui", "@patkepa/kantzen-starlight"];
 
 function run(command, args) {
   const result = spawnSync(command, args, {

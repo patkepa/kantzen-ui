@@ -1,4 +1,5 @@
 node_modules/
 dist/
+examples/*/.astro/
 examples/*/dist/
 packages/*/dist/
