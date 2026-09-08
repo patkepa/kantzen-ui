@@ -1,6 +1,6 @@
 # Package
 
-Kantzen UI exposes one public npm package with feature-oriented subpaths:
+Kantzen UI exposes two public npm packages:
 
 | Export path                           | Purpose                                                                                               |
 | ------------------------------------- | ----------------------------------------------------------------------------------------------------- |
@@ -8,8 +8,9 @@ Kantzen UI exposes one public npm package with feature-oriented subpaths:
 | `@patkepa/kantzen-ui/app-shell`       | Router-agnostic workspace and public-site chrome.                                                     |
 | `@patkepa/kantzen-ui/command-palette` | Command palette frame and keyboard handling built around `cmdk`.                                      |
 | `@patkepa/kantzen-ui/graph`           | Data-agnostic force graph canvas, renderer, and simulation utilities.                                 |
+| `@patkepa/kantzen-starlight`          | Kantzen theme adapter and code presentation defaults for Astro Starlight.                             |
 
-The package builds typed ESM into its ignored `dist` directory. The repository
+The packages build typed ESM into their ignored `dist` directories. The repository
 root and playground workspaces are private and cannot be published accidentally.
 
 ## Basic usage

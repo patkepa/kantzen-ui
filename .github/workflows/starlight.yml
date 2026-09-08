@@ -1,0 +1,56 @@
+name: Validate Starlight Theme
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/starlight.yml"
+      - "examples/starlight/**"
+      - "packages/starlight/**"
+      - "packages/ui/src/theme/**"
+      - "scripts/assemble-pages.mjs"
+      - "package.json"
+      - "package-lock.json"
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/starlight.yml"
+      - "examples/starlight/**"
+      - "packages/starlight/**"
+      - "packages/ui/src/theme/**"
+      - "scripts/assemble-pages.mjs"
+      - "package.json"
+      - "package-lock.json"
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Build and test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build packages
+        run: npm run build:packages
+
+      - name: Test Starlight plugin
+        run: npm test --workspace @patkepa/kantzen-starlight
+
+      - name: Build Starlight showcase
+        run: npm run build:starlight
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint

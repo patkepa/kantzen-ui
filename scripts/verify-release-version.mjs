@@ -6,22 +6,32 @@ if (!releaseVersion) {
   throw new Error("Pass the release tag or version to verify.");
 }
 
-const packageManifest = JSON.parse(
-  readFileSync(
-    resolve(import.meta.dirname, "..", "packages/ui/package.json"),
-    "utf8",
-  ),
-);
 const normalizedReleaseVersion = releaseVersion.startsWith("v")
   ? releaseVersion.slice(1)
   : releaseVersion;
+const packageDirectories = ["ui", "starlight"];
 
-if (normalizedReleaseVersion !== packageManifest.version) {
-  throw new Error(
-    `Release version ${releaseVersion} does not match @patkepa/kantzen-ui@${packageManifest.version}.`,
+for (const packageDirectory of packageDirectories) {
+  const packageManifest = JSON.parse(
+    readFileSync(
+      resolve(
+        import.meta.dirname,
+        "..",
+        "packages",
+        packageDirectory,
+        "package.json",
+      ),
+      "utf8",
+    ),
+  );
+
+  if (normalizedReleaseVersion !== packageManifest.version) {
+    throw new Error(
+      `Release version ${releaseVersion} does not match ${packageManifest.name}@${packageManifest.version}.`,
+    );
+  }
+
+  console.log(
+    `Release version verified: ${packageManifest.name}@${packageManifest.version}`,
   );
 }
-
-console.log(
-  `Release version verified: @patkepa/kantzen-ui@${packageManifest.version}`,
-);

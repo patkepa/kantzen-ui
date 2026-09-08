@@ -16,6 +16,18 @@ const tarballs = readdirSync(tarballDir)
   .filter((file) => file.endsWith(".tgz"))
   .sort()
   .map((file) => resolve(tarballDir, file));
+const uiTarball = tarballs.find((file) =>
+  /patkepa-kantzen-ui-[^/]+\.tgz$/.test(file),
+);
+const starlightTarball = tarballs.find((file) =>
+  /patkepa-kantzen-starlight-[^/]+\.tgz$/.test(file),
+);
+
+if (tarballs.length !== 2 || !uiTarball || !starlightTarball) {
+  throw new Error(
+    `Expected Kantzen UI and Starlight package tarballs, found: ${tarballs.join(", ")}`,
+  );
+}
 
 function run(command, args, cwd, npmCacheDir) {
   const result = spawnSync(command, args, {
@@ -123,7 +135,7 @@ for (const stylesheet of [
         "--ignore-scripts",
         "--no-audit",
         "--no-fund",
-        ...tarballs,
+        uiTarball,
         `react@${reactVersion}`,
         `react-dom@${reactVersion}`,
         `@types/react@${reactMajor}`,
@@ -145,10 +157,86 @@ for (const stylesheet of [
   }
 }
 
-if (tarballs.length !== 1) {
-  throw new Error(`Expected 1 package tarball, found ${tarballs.length}`);
+function verifyStarlightPackage() {
+  const consumerDir = mkdtempSync(join(tmpdir(), "kantzen-starlight-"));
+  const npmCacheDir = resolve(consumerDir, ".npm-cache");
+
+  writeFileSync(
+    resolve(consumerDir, "package.json"),
+    `${JSON.stringify({ name: "kantzen-starlight-smoke", private: true, type: "module" }, null, 2)}\n`,
+  );
+  writeFileSync(
+    resolve(consumerDir, "tsconfig.json"),
+    `${JSON.stringify(
+      {
+        compilerOptions: {
+          module: "NodeNext",
+          moduleResolution: "NodeNext",
+          noEmit: true,
+          skipLibCheck: true,
+          strict: true,
+        },
+        include: ["consumer.ts"],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  writeFileSync(
+    resolve(consumerDir, "consumer.ts"),
+    `import kantzenStarlight from "@patkepa/kantzen-starlight";
+import type { KantzenStarlightOptions } from "@patkepa/kantzen-starlight";
+
+const options: KantzenStarlightOptions = { expressiveCode: true };
+void kantzenStarlight(options);
+`,
+  );
+  writeFileSync(
+    resolve(consumerDir, "smoke.mjs"),
+    `import assert from "node:assert/strict";
+import kantzenStarlight from "@patkepa/kantzen-starlight";
+
+assert.equal(typeof kantzenStarlight, "function");
+assert.match(
+  import.meta.resolve("@patkepa/kantzen-starlight/styles.css"),
+  /^file:/,
+);
+`,
+  );
+
+  try {
+    run(
+      "npm",
+      [
+        "install",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund",
+        uiTarball,
+        starlightTarball,
+        "@astrojs/starlight@^0.42.0",
+        "astro@^7.3.1",
+        "react@19",
+        "react-dom@19",
+      ],
+      consumerDir,
+      npmCacheDir,
+    );
+    run(
+      "node",
+      [typescriptBin, "-p", "tsconfig.json"],
+      consumerDir,
+      npmCacheDir,
+    );
+    run("node", ["smoke.mjs"], consumerDir, npmCacheDir);
+    console.log("Packed Starlight package smoke test passed.");
+  } finally {
+    rmSync(consumerDir, { recursive: true, force: true });
+  }
 }
 
 for (const reactVersion of ["18.3.1", "19"]) {
   verifyReactVersion(reactVersion);
 }
+
+verifyStarlightPackage();

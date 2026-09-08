@@ -1,0 +1,62 @@
+---
+title: Kantzen documentation
+description: Visual fixture for the reusable Kantzen Starlight theme.
+template: splash
+hero:
+  title: Documentation with the Kantzen interface language
+  tagline: A reusable Starlight theme for clear technical documentation across projects.
+  actions:
+    - text: Explore the reference
+      link: ./reference/
+      icon: right-arrow
+---
+
+import { CardGrid, LinkCard } from "@astrojs/starlight/components";
+
+<div class="docs-dashboard">
+
+<section class="quick-links" aria-labelledby="quick-links-title">
+  <h2 id="quick-links-title">Quick Links</h2>
+  <div class="quick-link-actions">
+    <a class="quick-link-button" href="./reference/">
+      Theme reference <span aria-hidden="true">-&gt;</span>
+    </a>
+    <a class="quick-link-button" href="https://starlight.astro.build/">
+      Starlight <span aria-hidden="true">-&gt;</span>
+    </a>
+  </div>
+</section>
+
+<section>
+  <h2>One theme, project-owned content</h2>
+  <p class="section-lede">The package supplies the shared interface while each documentation project retains its identity and structure.</p>
+
+<CardGrid>
+  <LinkCard title="Shared design tokens" href="./reference/" description="Colors and surfaces come from @patkepa/kantzen-ui." />
+  <LinkCard title="Starlight-native" href="./reference/" description="Markdown, search, navigation, and accessibility behavior remain available." />
+</CardGrid>
+</section>
+
+<section>
+  <h2>Theme coverage</h2>
+  <ul class="docs-metrics">
+    <li>
+      <strong>Chrome</strong>
+      <span>Header, search, sidebar, and table of contents.</span>
+    </li>
+    <li>
+      <strong>Content</strong>
+      <span>Typography, tables, asides, images, and pagination.</span>
+    </li>
+    <li>
+      <strong>Code</strong>
+      <span>Expressive Code colors, borders, and typography.</span>
+    </li>
+    <li>
+      <strong>Responsive</strong>
+      <span>Desktop, tablet, and mobile navigation layouts.</span>
+    </li>
+  </ul>
+</section>
+
+</div>
