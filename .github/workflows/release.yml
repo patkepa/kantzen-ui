@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
-          scope: "@kantzen-ui"
+          scope: "@patkepa"
           package-manager-cache: false
 
       - name: Install dependencies
