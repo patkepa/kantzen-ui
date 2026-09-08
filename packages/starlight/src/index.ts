@@ -50,7 +50,7 @@ export function kantzenStarlight(
       "config:setup"({ config, updateConfig }) {
         const customCss = config.customCss?.includes(stylesheet)
           ? config.customCss
-          : [...(config.customCss ?? []), stylesheet];
+          : [stylesheet, ...(config.customCss ?? [])];
 
         if (
           options.expressiveCode === false ||

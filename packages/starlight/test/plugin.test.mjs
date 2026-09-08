@@ -18,12 +18,12 @@ async function runSetup(config = {}, options) {
   return update;
 }
 
-test("adds the theme stylesheet and code theme", async () => {
+test("loads the theme before consumer styles and adds the code theme", async () => {
   const update = await runSetup({ customCss: ["./src/custom.css"] });
 
   assert.deepEqual(update.customCss, [
-    "./src/custom.css",
     "@patkepa/kantzen-starlight/styles.css",
+    "./src/custom.css",
   ]);
   assert.deepEqual(update.expressiveCode, kantzenExpressiveCode);
 });
@@ -53,5 +53,15 @@ test("does not register the stylesheet twice", async () => {
     customCss: ["@patkepa/kantzen-starlight/styles.css"],
   });
 
+  assert.deepEqual(update.customCss, ["@patkepa/kantzen-starlight/styles.css"]);
+});
+
+test("preserves code configuration when the plugin preset is disabled", async () => {
+  const update = await runSetup(
+    { expressiveCode: { themes: ["dracula"] } },
+    { expressiveCode: false },
+  );
+
+  assert.equal("expressiveCode" in update, false);
   assert.deepEqual(update.customCss, ["@patkepa/kantzen-starlight/styles.css"]);
 });
