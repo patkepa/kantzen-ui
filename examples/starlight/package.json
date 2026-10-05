@@ -11,12 +11,12 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
-    "typescript": "~5.9.3"
+    "typescript": "~7.0.2"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.42.0",
+    "@astrojs/starlight": "^0.42.5",
     "@patkepa/kantzen-starlight": "^0.1.0",
-    "astro": "^7.3.1",
-    "sharp": "^0.35.4"
+    "astro": "^7.3.5",
+    "sharp": "^0.35.5"
   }
 }
