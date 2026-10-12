@@ -86,7 +86,7 @@
     "url": "https://github.com/patkepa/kantzen-ui/issues"
   },
   "dependencies": {
-    "@blueprintjs/icons": "^6.2.0",
+    "@blueprintjs/icons": "^6.14.1",
     "cmdk": "^1.1.1",
     "react-compiler-runtime": "^1.0.0"
   },
